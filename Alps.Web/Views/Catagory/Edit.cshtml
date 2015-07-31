@@ -1,0 +1,65 @@
+﻿
+@model Alps.Domain.ProductMgr.Catagory
+@{
+	Layout=null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/Catagory/Edit">Catagory</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+						<div class="panel panel-lined mb30">
+					<div class="panel-heading"><i>Form Controls</i></div>
+					<div class="panel-body">
+						<form role="form">
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+
+        <h4>Catagory</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+
+
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", ng_model = "item.Name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.ParentID, "ParentID", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", ng_model = "item.ParentID" } })
+                @*Html.DropDownList("ParentID", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+</form>
+</div>
+</div>
+</div>

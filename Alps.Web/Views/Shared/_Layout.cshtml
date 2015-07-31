@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+
+    </head>
+    <body id="app" ng-app="Alps" ng-controller="RootCtrl" class="app">
+        <header class="site-head clearfix" id="site-head" ng-controller="HeaderCtrl" >
+            <!-- linked header (static) view -->
+            @Html.Partial("_header")
+        </header>
+
+        <div class="main-container clearfix">
+            <aside class="nav-wrap " id="site-nav" ng-controller="NavCtrl" custom-scrollbar>
+                @Html.Partial("_nav")
+            </aside>
+            <div class="content-container" id="content">
+                @RenderBody()
+            </div>
+            <footer id="site-foot" class="site-foot clearfix">
+                <p class="left">&copy; Copyright 2014 <strong>APPBOARD</strong>, All rights reserved.</p>
+                <p class="right">v1.1</p>
+            </footer>
+        </div>
+        @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("主页", "Index", "Home")</li>
+                        <li>@Html.ActionLink("关于", "About", "Home")</li>
+                        <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+            </footer>
+        </div>*@
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/angular")
+        <script src="~/app/controllers.js"></script>
+        @Scripts.Render("~/bundles/app")
+        @RenderSection("scripts", required: false)
+        </body>
+</html>

@@ -1,0 +1,14 @@
+﻿
+		function <#=navBarControllerName#>(<#=navBarControllerName#>){
+<#
+foreach (PropertyMetadata property in ModelMetadata.Properties) {
+    if (property.Scaffold && !property.IsAssociation) {
+ #>
+        this.<#= property.PropertyName#> = ko.observable(<#=navBarControllerName#>.<#=property.PropertyName#>);
+	<#
+    }
+}
+#>
+    };
+    
+	

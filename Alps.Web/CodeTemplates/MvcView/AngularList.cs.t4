@@ -1,0 +1,103 @@
+﻿<#@ template language="C#" HostSpecific="True" debug="true" #>
+<#@ output extension=".cshtml" #>
+<#@ include file="Imports.include.t4" #>
+@model IEnumerable<#= "<" + ViewDataTypeName + ">" #>
+@{
+	Layout=null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/<#=ViewDataTypeShortName#>/<#=ViewName#>"><#=ViewDataTypeShortName#></a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+
+   
+        
+<p>
+    <a href="#/<#= ViewDataTypeShortName#>/Create">新建</a>
+</p>
+<table class="table">
+    <tr>
+<#
+IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
+foreach (PropertyMetadata property in properties) {
+    if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey) {
+#>
+<#
+        // We do not want to show any association properties for which there is
+        // no associated foreign key.
+        if (property.IsAssociation && GetRelatedModelMetadata(property) == null) {
+            continue;
+        }
+#>
+		<th>
+            @Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+        </th>
+<#
+    }
+}
+#>
+        <th></th>
+    </tr>
+
+    <tr ng-repeat:"item in items">
+<#
+foreach (PropertyMetadata property in properties) {
+    if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey) {
+#>
+<#
+        // We do not want to show any association properties for which there is
+        // no associated foreign key.
+        if (property.IsAssociation && GetRelatedModelMetadata(property) == null) {
+            continue;
+        }
+#>
+        <td>
+			{{<#= "item." + GetValueExpression(property) #>}}
+        </td>
+<#
+    }
+}
+
+string pkName = GetPrimaryKeyName();
+if (pkName != null) {
+#>
+        <td>
+		 <a href="#/html/<#= ViewName#>/Edit/{{item.<#= pkName #>}}"></a>
+		 <a href="#/html/<#= ViewName#>/Delete/{{item.<#= pkName #>}}"></a>
+        </td>
+<#
+} else {
+#>
+        <td>
+         <a href="#/<#= ViewDataTypeShortName#>/Edit">编辑</a>
+		 <a href="#/<#= ViewDataTypeShortName#>/Delete">删除</a>
+        </td>
+<#
+}
+#>
+    </tr>
+
+</table>
+</div>
+    </div>
+
+</div>
+<#
+// The following code closes the tag used in the case of a view using a layout page and the body and html tags in the case of a regular view page
+#>
+<#
+if(!IsPartialView && !IsLayoutPageSelected) {
+    ClearIndent();
+#>
+
+</body>
+</html>
+<#
+}
+#>
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>
