@@ -21,5 +21,9 @@ namespace Alps.Web.Controllers
         {
             return View();
         }
+        public ActionResult Delete()
+        {
+            return View();
+        }
     }
 }

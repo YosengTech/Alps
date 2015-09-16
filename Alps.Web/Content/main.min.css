@@ -2413,6 +2413,8 @@ a.list-group-item {
 .table thead th>.th>.icon-down {
     bottom: -8px
 }
+
+/*
 .toast {
     position: fixed;
     z-index: 1050
@@ -2651,6 +2653,7 @@ a.list-group-item {
         left: 65px
     }
 }
+    */
 .text-angular-editor.ta-root .btn-toolbar .btn-group {
     margin-bottom: 10px
 }

@@ -1,0 +1,111 @@
+﻿<#@ template language="C#" HostSpecific="True" debug="true" #>
+<#@ output extension=".cshtml" #>
+<#@ include file="Imports.include.t4" #>
+@model <#= ViewDataTypeName#>
+<#
+string boolType = "System.Boolean";
+string dateTimeOffsetType = "System.DateTimeOffset";
+
+Version requiredMvcVersion = new Version("5.1.0.0");
+bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
+#>
+
+			<table class="table">
+				<tr>
+<#
+IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
+foreach (PropertyMetadata property in properties) {
+
+    if (property.Scaffold && !property.IsAssociation) {
+#>
+					<th>
+						@Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+					</th>
+<#
+    }
+}
+#>
+					<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+				</tr>
+				<tr ng-repeat="subItem in item.Items">
+<#
+foreach (PropertyMetadata property in properties) {
+    if (property.Scaffold && !property.IsAssociation) {
+#>
+					<td>
+<#
+if (property.IsPrimaryKey) {
+#>
+							<input type="hidden" ng-model="subItem.<#= property.PropertyName #>" />
+<#
+        } else if (!property.IsReadOnly) {
+            bool isCheckbox = property.TypeName.Equals(boolType);
+            if (property.IsForeignKey) {
+			    if (isControlHtmlAttributesSupported) {
+#>
+								<select name="<#= property.PropertyName #>" id="<#= property.PropertyName #>" class="form-control" ng-model="subItem.<#= property.PropertyName #>" ng-options="selectList.ID as selectList.Name for selectList in <#= property.PropertyName #>SelectList"></select>
+<#
+			    } 
+            } else  if (isControlHtmlAttributesSupported) {
+                if (isCheckbox) {
+#>
+								<div class="checkbox">
+<#
+                    PushIndent("    ");
+#>
+								@Html.EditorFor(model => model.<#= property.PropertyName #>)
+<#
+                } else if (property.IsEnum && !property.IsEnumFlags) {
+#>
+								@Html.EnumDropDownListFor(model => model.<#= property.PropertyName #>, htmlAttributes: new { @class = "form-control" })
+<#
+                } else {
+							if(property.TypeName.Equals(dateTimeOffsetType)){
+#>
+								<input name="<#= property.PropertyName #>" id="<#= property.PropertyName #>" type="text" class="form-control" ng-model="subItem.<#= property.PropertyName #>"  bs_datepicker  data_date_format = "yyyy-MM-dd">
+<#
+							                            }
+							else{
+#>
+								@Html.EditorFor(model => model.<#= property.PropertyName #>, new { htmlAttributes = new { @class = "form-control" , ng_model = "subItem.<#= property.PropertyName #>"} })
+<#
+                            }
+                }
+            } else {
+#>
+								<input type="text" class="form-control" ng-model="subItem.<#= property.PropertyName #>">
+<#
+            }
+#>
+<#
+            if (isCheckbox && isControlHtmlAttributesSupported) {
+                PopIndent();
+#>
+								</div>
+<#
+            }
+        }
+#>
+					</td>
+<#
+    }
+}
+
+string pkName = GetPrimaryKeyName();
+if (pkName != null) {
+#>
+					<td>
+						<a class="btn btn-default btn-sm" ng-click="deleteSubItem()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
+					</td>
+<#
+} else {
+#>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Edit"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>
+					</td>
+<#
+}
+#>
+				</tr>
+			</table>
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>

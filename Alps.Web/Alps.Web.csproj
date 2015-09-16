@@ -42,14 +42,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.OData, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.2.2\lib\net45\System.Web.Http.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -199,13 +215,16 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CatagoriesApiController.cs" />
     <Compile Include="Controllers\CatagoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TradeAccountsApiController.cs" />
+    <Compile Include="Controllers\TradeAccountApiController.cs" />
+    <Compile Include="Controllers\UnitApiController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Controllers\WarehouseVouchersApiController.cs" />
-    <Compile Include="Controllers\WarehouseVouchersController.cs" />
+    <Compile Include="Controllers\WarehouseVoucherApiController.cs" />
+    <Compile Include="Controllers\WarehouseVoucherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -255,13 +274,23 @@
     <Content Include="Appboard\views\todo.html" />
     <Content Include="Appboard\views\widgets.html" />
     <Content Include="Appboard\widgets.html" />
+    <Content Include="app\loading-bar.js" />
+    <Content Include="app\loading-bar.min.js" />
+    <Content Include="app\plugins.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\datepicker.css" />
+    <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\loading-bar.css" />
+    <Content Include="Content\loading-bar.min.css" />
     <Content Include="Content\main.min.css" />
+    <Content Include="Content\toaster.css" />
+    <Content Include="Content\toaster.min.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\ui-grid.css" />
     <Content Include="Content\ui-grid.min.css" />
     <Content Include="Content\ui-grid.svg" />
@@ -270,6 +299,165 @@
     <Content Include="fonts\ui-grid.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\admin.jpg" />
+    <Content Include="ng-admin-master\build\ng-admin-only.min.css" />
+    <Content Include="ng-admin-master\build\ng-admin-only.min.js" />
+    <Content Include="ng-admin-master\build\ng-admin.min.css" />
+    <Content Include="ng-admin-master\build\ng-admin.min.js" />
+    <Content Include="ng-admin-master\examples\blog\config.js" />
+    <Content Include="ng-admin-master\examples\blog\index.html" />
+    <Content Include="ng-admin-master\Gruntfile.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maBackButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maBatchDeleteButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maCreateButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maDeleteButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maEditButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maExportToCsvButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maFilteredListButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maListButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maShowButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\button\maViewBatchActions.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maBooleanColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maChoicesColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maDateColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maJsonColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maNumberColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maReferenceManyColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maReferenceManyLinkColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maStringColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maTemplateColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\column\maWysiwygColumn.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\config\factories.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\CrudModule.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\delete\batchDelete.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\delete\BatchDeleteController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\delete\delete.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\delete\DeleteController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\BooleanFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\ChoiceFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\ChoicesFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\DateFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\EmailFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\FieldViewConfiguration.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\FileFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\FloatFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\JsonFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\NumberFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\PasswordFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\ReferencedListFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\ReferenceFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\ReferenceManyFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\StringFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\TemplateFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\TextFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\fieldView\WysiwygFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\datepickerPopup.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maButtonField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maCheckboxField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maChoiceField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maChoicesField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maDateField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maFileField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maInputField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maJsonField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maReferenceField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maReferenceManyField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maTemplateField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maTextField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\maWysiwygField.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\field\uiSelectRequired.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\filter\maFilter.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\filter\maFilterButton.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\filter\maFilterController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\form\create.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\form\edit.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\form\FormController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\list.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\ListController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\listLayout.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\ListLayoutController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagrid.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridInfinitePagination.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridItemSelector.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridMultiSelector.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridPagination.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridPagination.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maDatagridPaginationController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\list\maListActions.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\Compile.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\EntryFormatter.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\PromisesResolver.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\RestWrapper.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\view-actions.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\misc\ViewActions.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\repository\ReadQueries.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\repository\ReferenceRefresher.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\repository\WriteQueries.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\routing.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\show\show.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\show\ShowController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Crud\validator\maJsonValidator.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\lib\polyfill\bind.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\lib\utils.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\controller\AppController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\controller\DashboardController.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\directive\maDashboardPanel.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\directive\maMenuBar.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\filter\OrderElement.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\filter\StripTags.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\component\provider\NgAdminConfiguration.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\config\http.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\config\routing.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\MainModule.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\run\ErrorHandler.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\run\Loader.js" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\view\404.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\view\dashboard.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\view\layout.html" />
+    <Content Include="ng-admin-master\src\javascripts\ng-admin\Main\view\menuBar.html" />
+    <Content Include="ng-admin-master\src\javascripts\test\app-test.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\DashboardSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\EditionViewSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\filterViewSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\ListViewSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\paginationSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\ShowViewSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\e2e\validationSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\function.bind.shim.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\karma.conf.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\mock\mixins.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\mock\PromisesResolver.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\mock\q.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\mock\Restangular.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\protractor.conf.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\column\maNumberColumnSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\fieldView\FloatFieldView.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maChoiceFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maChoicesFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maDateFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maInputFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maJsonFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maReferenceFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maReferenceManyFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\field\maTextFieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\list\DatagridControllerSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\list\maDatagridItemSelectorSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\list\maDatagridMultiSelectorSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\list\maDatagridPaginationSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\list\maDatagridSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\misc\EntryFormatterSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Crud\repository\ReferenceRefresherSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\directive\maDashboardPanelSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\filter\StripTagsSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\service\config\ApplicationSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\service\config\EntitySpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\service\config\FieldSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\test\unit\Main\component\service\config\view\ListViewSpec.js" />
+    <Content Include="ng-admin-master\src\javascripts\vendors.js" />
+    <Content Include="ng-admin-master\webpack.config.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -293,9 +481,85 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="app\navDirective.js" />
+    <Content Include="Scripts\angularstrap\angular-strap.js" />
+    <Content Include="Scripts\angularstrap\angular-strap.min.js" />
+    <Content Include="Scripts\angularstrap\angular-strap.tpl.js" />
+    <Content Include="Scripts\angularstrap\angular-strap.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\affix.js" />
+    <Content Include="Scripts\angularstrap\modules\affix.min.js" />
+    <Content Include="Scripts\angularstrap\modules\alert.js" />
+    <Content Include="Scripts\angularstrap\modules\alert.min.js" />
+    <Content Include="Scripts\angularstrap\modules\alert.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\alert.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\aside.js" />
+    <Content Include="Scripts\angularstrap\modules\aside.min.js" />
+    <Content Include="Scripts\angularstrap\modules\aside.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\aside.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\button.js" />
+    <Content Include="Scripts\angularstrap\modules\button.min.js" />
+    <Content Include="Scripts\angularstrap\modules\collapse.js" />
+    <Content Include="Scripts\angularstrap\modules\collapse.min.js" />
+    <Content Include="Scripts\angularstrap\modules\compiler.js" />
+    <Content Include="Scripts\angularstrap\modules\compiler.min.js" />
+    <Content Include="Scripts\angularstrap\modules\date-formatter.js" />
+    <Content Include="Scripts\angularstrap\modules\date-formatter.min.js" />
+    <Content Include="Scripts\angularstrap\modules\date-parser.js" />
+    <Content Include="Scripts\angularstrap\modules\date-parser.min.js" />
+    <Content Include="Scripts\angularstrap\modules\datepicker.js" />
+    <Content Include="Scripts\angularstrap\modules\datepicker.min.js" />
+    <Content Include="Scripts\angularstrap\modules\datepicker.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\datepicker.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\debounce.js" />
+    <Content Include="Scripts\angularstrap\modules\debounce.min.js" />
+    <Content Include="Scripts\angularstrap\modules\dimensions.js" />
+    <Content Include="Scripts\angularstrap\modules\dimensions.min.js" />
+    <Content Include="Scripts\angularstrap\modules\dropdown.js" />
+    <Content Include="Scripts\angularstrap\modules\dropdown.min.js" />
+    <Content Include="Scripts\angularstrap\modules\dropdown.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\dropdown.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\modal.js" />
+    <Content Include="Scripts\angularstrap\modules\modal.min.js" />
+    <Content Include="Scripts\angularstrap\modules\modal.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\modal.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\navbar.js" />
+    <Content Include="Scripts\angularstrap\modules\navbar.min.js" />
+    <Content Include="Scripts\angularstrap\modules\parse-options.js" />
+    <Content Include="Scripts\angularstrap\modules\parse-options.min.js" />
+    <Content Include="Scripts\angularstrap\modules\popover.js" />
+    <Content Include="Scripts\angularstrap\modules\popover.min.js" />
+    <Content Include="Scripts\angularstrap\modules\popover.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\popover.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\raf.js" />
+    <Content Include="Scripts\angularstrap\modules\raf.min.js" />
+    <Content Include="Scripts\angularstrap\modules\scrollspy.js" />
+    <Content Include="Scripts\angularstrap\modules\scrollspy.min.js" />
+    <Content Include="Scripts\angularstrap\modules\select.js" />
+    <Content Include="Scripts\angularstrap\modules\select.min.js" />
+    <Content Include="Scripts\angularstrap\modules\select.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\select.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\tab.js" />
+    <Content Include="Scripts\angularstrap\modules\tab.min.js" />
+    <Content Include="Scripts\angularstrap\modules\tab.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\tab.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\timepicker.js" />
+    <Content Include="Scripts\angularstrap\modules\timepicker.min.js" />
+    <Content Include="Scripts\angularstrap\modules\timepicker.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\timepicker.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\tooltip.js" />
+    <Content Include="Scripts\angularstrap\modules\tooltip.min.js" />
+    <Content Include="Scripts\angularstrap\modules\tooltip.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\tooltip.tpl.min.js" />
+    <Content Include="Scripts\angularstrap\modules\typeahead.js" />
+    <Content Include="Scripts\angularstrap\modules\typeahead.min.js" />
+    <Content Include="Scripts\angularstrap\modules\typeahead.tpl.js" />
+    <Content Include="Scripts\angularstrap\modules\typeahead.tpl.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -322,6 +586,8 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\datepicker\datepicker.js" />
+    <Content Include="Scripts\datepicker\datepicker.min.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -354,6 +620,75 @@
     <Content Include="Html\Catagories\List.html" />
     <Content Include="Html\Catagories\View.cshtml" />
     <Content Include="CodeTemplates\MvcView\AngularEdit.cs.t4" />
+    <Content Include="ng-admin-master\.bowerrc" />
+    <Content Include="ng-admin-master\.gitignore" />
+    <Content Include="ng-admin-master\.jshintrc" />
+    <Content Include="ng-admin-master\.travis.yml" />
+    <Content Include="ng-admin-master\bower.json" />
+    <Content Include="ng-admin-master\CHANGELOG.md" />
+    <Content Include="ng-admin-master\doc\API-mapping.md" />
+    <Content Include="ng-admin-master\doc\Custom-pages.md" />
+    <Content Include="ng-admin-master\doc\Custom-types.md" />
+    <Content Include="ng-admin-master\doc\Dashboard.md" />
+    <Content Include="ng-admin-master\doc\Theming.md" />
+    <Content Include="ng-admin-master\examples\blog\stub-server.json" />
+    <Content Include="ng-admin-master\LICENSE" />
+    <Content Include="ng-admin-master\Makefile" />
+    <Content Include="ng-admin-master\package.json" />
+    <Content Include="ng-admin-master\README.md" />
+    <Content Include="ng-admin-master\src\javascripts\test\.jshintrc" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\font-awesome.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_bordered-pulled.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_core.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_fixed-width.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_icons.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_larger.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_list.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_mixins.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_path.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_rotated-flipped.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_spinning.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_stacked.scss" />
+    <Content Include="ng-admin-master\src\sass\font-awesome\_variables.scss" />
+    <Content Include="ng-admin-master\src\sass\ng-admin.scss" />
+    <Content Include="ng-admin-master\src\sass\sb-admin.scss" />
+    <Content Include="ng-admin-master\UPGRADE-0.3.md" />
+    <Content Include="ng-admin-master\UPGRADE-0.4.md" />
+    <Content Include="ng-admin-master\UPGRADE-0.5.md" />
+    <Content Include="ng-admin-master\UPGRADE-0.6.md" />
+    <Content Include="ng-admin-master\UPGRADE-0.7.md" />
+    <Content Include="ng-admin-master\UPGRADE-0.8.md" />
+    <Content Include="CodeTemplates\MvcControllerWithContext\Controller.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularCrudController.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularCreate.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularDelete.cs.t4" />
+    <Content Include="Scripts\angularstrap\angular-strap.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\affix.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\alert.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\aside.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\button.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\collapse.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\compiler.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\date-formatter.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\date-parser.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\datepicker.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\debounce.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\dimensions.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\dropdown.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\modal.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\navbar.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\parse-options.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\popover.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\raf.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\scrollspy.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\select.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\tab.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\timepicker.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\tooltip.min.js.map" />
+    <Content Include="Scripts\angularstrap\modules\typeahead.min.js.map" />
+    <Content Include="CodeTemplates\MvcView\AngularEditListPartial.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularEditAssc.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularCrudControllerWithDetail.cs.t4" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1109,9 +1444,13 @@
     <Content Include="Scripts\plugins.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toaster.js" />
+    <Content Include="Scripts\toaster.min.js" />
     <Content Include="Scripts\ui-grid.js" />
     <Content Include="Scripts\ui-grid.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1133,13 +1472,34 @@
     <Content Include="Views\Home\Catagories.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Catagory\Index.cshtml" />
+    <Content Include="Views\Catagory\Index_.cshtml" />
     <Content Include="Views\Catagory\Create.cshtml" />
-    <Content Include="Views\Catagory\Edit.cshtml" />
     <Content Include="Views\WarehouseVouchers\Index.cshtml" />
+    <Content Include="Views\Catagory\Edi.cshtml" />
+    <Content Include="Views\Catagory\Edit.cshtml" />
+    <Content Include="Views\Catagory\Delete.cshtml" />
+    <Content Include="Views\Catagory\Index.cshtml" />
+    <Content Include="Views\Unit\Index.cshtml" />
+    <Content Include="Views\Unit\Edit.cshtml" />
+    <Content Include="Views\Unit\Create.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Index.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Create.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit_.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\ItemEdit1.cshtml" />
+    <Content Include="Views\WarehouseVoucher\ItemEdit2.cshtml" />
+    <Content Include="Views\WarehouseVoucher\ItemEdit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BaseCode.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Slider.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1149,9 +1509,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\alpsToaster.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\catagories.ts" />
+    <TypeScriptCompile Include="app\catagory.ts" />
     <TypeScriptCompile Include="app\controllers.ts" />
+    <TypeScriptCompile Include="app\unit.ts" />
+    <TypeScriptCompile Include="app\warehouseVoucher.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs-toaster\angularjs-toaster.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -1174,6 +1539,9 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />

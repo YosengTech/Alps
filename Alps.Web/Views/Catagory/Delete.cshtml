@@ -1,0 +1,46 @@
+﻿@model Alps.Domain.ProductMgr.Catagory
+@{
+    Layout = null;
+}
+<div class="page page-form-validation clearfix">
+    <ol class="breadcrumb breadcrumb-small">
+        <li>Forms</li>
+        <li class="active"><a href="#/Catagory">Catagory</a></li>
+        <li class="active"><a href="#/Catagory/Delete">Delete</a></li>
+    </ol>
+    <div class="page-wrap">
+        <div class="row">
+            <div class="panel panel-lined mb30">
+                <div class="panel-heading"><i>Catagory</i></div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        <h4>Catagory</h4>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Parent.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Parent.Name)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                        </dl>
+
+                        <div class="form-group  text-center">
+                            <a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+                            <a class="btn btn-default btn-sm" ng-click="saveCatagory()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

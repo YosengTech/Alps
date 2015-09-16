@@ -2,6 +2,9 @@
 <#@ assembly name="System.Data.Entity" #>
 <#@ assembly name="System.Data.Linq" #>
 <#@ assembly name="System.Data.Entity.Design" #>
+<#@ assembly name="$(TargetDir)Alps.Domain.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Reflection" #>
 <#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -20,6 +23,8 @@
 <#@ parameter type="System.String" name="JQueryVersion" #>
 <#@ parameter type="Microsoft.AspNet.Scaffolding.Core.Metadata.ModelMetadata" name="ModelMetadata" #>
 <#@ parameter type="System.Version" name="MvcVersion" #>
+
+
 <#
 	var viewName=ViewName;
 	switch(viewName)
@@ -50,23 +55,7 @@
 			break;
         }
     }
-	var navBarTitle=System.Data.Entity.Design.PluralizationServices.PluralizationService.CreateService(new System.Globalization.CultureInfo("en")).Pluralize(ViewDataTypeShortName) ;
+	var pService=System.Data.Entity.Design.PluralizationServices.PluralizationService.CreateService(new System.Globalization.CultureInfo("en"));
+	var navBarTitle=pService.Pluralize(ViewDataTypeShortName) ;
 	var navBarControllerName=navBarTitle;
-
-#>
-<#+
-    public string CamelCase(string identifier)
-    {
-        if (String.IsNullOrEmpty(identifier))
-        {
-            return identifier;
-        }
-
-        if (identifier.Length == 1)
-        {
-            return identifier[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
-        }
-
-        return identifier[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant() + identifier.Substring(1);
-    }
 #>

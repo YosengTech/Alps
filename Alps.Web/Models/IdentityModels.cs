@@ -36,5 +36,16 @@ namespace Alps.Web.Models
 
         public System.Data.Entity.DbSet<Alps.Domain.AccountingMgr.TradeAccount> TradeAccounts { get; set; }
 
+        public System.Data.Entity.DbSet<Alps.Domain.Common.Unit> Units { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.WarehouseVoucherItem> WarehouseVoucherItems { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Material> Materials { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Position> Positions { get; set; }
+
+
+        public System.Data.Entity.DbSet<Alps.Domain.PurchaseMgr.PurchaseOrderItem> PurchaseOrderItems { get; set; }
+
     }
 }

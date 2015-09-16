@@ -1,5 +1,5 @@
 ﻿<#@ template language="C#" HostSpecific="True" Debug="True" #>
-<#@ output extension="cs" #>
+<#@ output extension="ts" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Data.Linq" #>
 <#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>

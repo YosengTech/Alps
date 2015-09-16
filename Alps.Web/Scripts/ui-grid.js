@@ -10600,7 +10600,8 @@ module.service('gridUtil', ['$log', '$window', '$document', '$http', '$templateC
       var $animate;
       try {
         $animate = $injector.get('$animate');
-        $animate.enabled(false, element);
+          //$animate.enabled(false, element);
+        $animate.enabled(element,false);
       }
       catch (e) {}
     },
@@ -10609,7 +10610,7 @@ module.service('gridUtil', ['$log', '$window', '$document', '$http', '$templateC
       var $animate;
       try {
         $animate = $injector.get('$animate');
-        $animate.enabled(true, element);
+        $animate.enabled(element,true);
         return $animate;
       }
       catch (e) {}

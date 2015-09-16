@@ -14,8 +14,7 @@ namespace Alps.Domain.ProductMgr
        public string Creater { get; set; }
        [Display(Name = "制单时间")]
        [DisplayFormat(DataFormatString="yyyy/mm/dd")]
-       [DataType(DataType.Date)]
-       public DateTime CreateTime { get; set; }
+       public DateTimeOffset CreateTime { get; set; }
        [Display(Name = "来源")]
        public Guid SourceID { get; set; }
        [Display(Name = "去处")]

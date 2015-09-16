@@ -21,8 +21,9 @@ namespace Alps.Web
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css","~/content/css/font-awesome.min.css","~/content/ui-grid.min.css",
-                      "~/Content/main.min.css"));
+                      "~/Content/bootstrap.css",
+                      "~/content/css/font-awesome.min.css","~/content/ui-grid.min.css","~/content/loading-bar.css", "~/Content/main.min.css",
+                      "~/Content/toaster.css"));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js","~/scripts/ui-grid.js"));
             bundles.Add(new ScriptBundle("~/bundles/app").Include("~/scripts/plugins.js","~/app/navDirective.js","~/app/app.js"));
         }

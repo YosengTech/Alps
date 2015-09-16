@@ -13,15 +13,16 @@ using Alps.Web.Models;
 using Alps.Domain;
 namespace Alps.Web.Controllers
 {
-    public class CatagoriesApiController : ApiController
+    public class CatagoryApiController : ApiController
     {
         private AlpsContext db = new AlpsContext();
 
         // GET: api/CatagoriesApi
-        public IQueryable<Catagory> GetCatagories()
+        public IList<Catagory> GetCatagories()
         {
-            db.Configuration.ProxyCreationEnabled = false;
-            return db.Catagories;
+            IList<Catagory> list= db.Catagories.Include(p=>p.Parent).ToList();
+            //list = list.Select(p => new Catagory { ID = p.ID, ParentID = p.ParentID, Name = p.Name, Timestamp = p.Timestamp }).ToList(); 
+            return list;
         }
 
         // GET: api/CatagoriesApi/5

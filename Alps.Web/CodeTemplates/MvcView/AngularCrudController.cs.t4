@@ -1,0 +1,242 @@
+﻿<#@ template language="C#" HostSpecific="True" debug="true" #>
+<#@ output extension=".ts" #>
+<#@ include file="Imports.include.t4" #>
+module Alps.Controllers
+{
+    'use strict';
+	export class <#=ViewDataTypeShortName#>{
+<#
+List<PropertyMetadata> foreignKeyProperties=new List<PropertyMetadata>();
+Dictionary<string,string> foreignKeyPropertiesType=new Dictionary<string,string>();
+List<PropertyMetadata> datePropertiesList=new  List<PropertyMetadata>();
+IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
+foreach (PropertyMetadata property in properties) {
+	if(property.IsForeignKey){
+		foreignKeyProperties.Add(property);
+	}
+	if(property.Scaffold && property.IsAssociation)
+    {
+		RelatedModelMetadata propertyModel = GetRelatedModelMetadata(property);
+        if (propertyModel!= null  )
+        {
+			foreignKeyPropertiesType[propertyModel.AssociationPropertyName+"ID"]=propertyModel.ShortTypeName;
+        } 
+    }
+    if (property.Scaffold) {
+        if (property.IsAssociation ) {
+            continue;
+        }
+		if(property.IsComplexType){
+			continue;
+        }
+#>
+		<#=GetValueExpression(property) #>:<#=GetPropertyType(property)#>
+<#
+		if(GetPropertyType(property)=="Date" ){
+			datePropertiesList.Add(property);
+        }
+    }
+}
+#>
+	}
+	
+	export interface I<#=ViewDataTypeShortName#>ListScope{
+		items:<#=ViewDataTypeShortName#>[];
+		get<#=ViewDataTypeShortName#>List():void;
+
+	}
+	export class <#=ViewDataTypeShortName#>ListCtrl{
+		public static $inject=["$scope","$http","toaster"];
+		constructor(scope:I<#=ViewDataTypeShortName#>ListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
+			function get<#=ViewDataTypeShortName#>List(){
+				http.get("/api/<#=ViewDataTypeShortName#>").success(function(data:any[]){
+					scope.items=<<#=ViewDataTypeShortName#>[]>data;
+<#
+					if(datePropertiesList.Count>0){
+#>
+					for (var i = 0; i < scope.items.length; i++) {
+<#						foreach (PropertyMetadata property in datePropertiesList) {
+#>
+						scope.items[i].<#=GetValueExpression(property) #>=new Date(data[i].<#=GetValueExpression(property) #>);
+<#
+                        }
+#>
+	                }
+<#
+					}
+#>
+					toaster.success("提示","载入成功");
+				}).error(function(data){
+					toaster.error("错误",data.Message);
+				});
+			};
+            scope.get<#=ViewDataTypeShortName#>List = get<#=ViewDataTypeShortName#>List;
+            get<#=ViewDataTypeShortName#>List();
+		}
+	}
+	export interface I<#=ViewDataTypeShortName#>CreateScope{
+		item:<#=ViewDataTypeShortName#>;
+		create<#=ViewDataTypeShortName#>():void;
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+		<#=GetValueExpression(property) #>SelectList:any[];
+<#
+		}
+#>
+		goBack():void;
+	}
+	export class <#=ViewDataTypeShortName#>CreateCtrl{
+		public static $inject=["$scope","$http","toaster","$location"];
+		constructor(scope:I<#=ViewDataTypeShortName#>CreateScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService){
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+			function get<#=GetValueExpression(property) #>SelectList(){
+				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
+					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
+				}).error(function(err){
+					toaster.error("错误",err.Message);
+				});
+			}
+<#
+		}
+#>
+			function create<#=ViewDataTypeShortName#>(){
+				http.post("/api/<#=ViewDataTypeShortName#>",scope.item).success(function(data){
+					toaster.success("提示","创建成功");
+					locationService.path("/<#=ViewDataTypeShortName#>");
+				}).error(function(err){
+					var errMsg="";
+                    if (err.ModelState) {
+                        errMsg = "<ul>";
+                        for (var p in err.ModelState) {
+                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
+                        }
+                        errMsg = errMsg + "</ul>";
+                    }
+                    if (errMsg == "") {
+                        errMsg = err.Message;
+                    }
+                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+				});
+			};
+			function goBack() {
+                window.history.back();
+            }
+            scope.create<#=ViewDataTypeShortName#> = create<#=ViewDataTypeShortName#>;
+			scope.goBack = goBack;
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+				get<#=GetValueExpression(property) #>SelectList();
+<#
+		}
+#>
+		}
+	}
+	export interface I<#=ViewDataTypeShortName#>EditScope{
+		id:string;
+		item:<#=ViewDataTypeShortName#>;
+		get<#=ViewDataTypeShortName#>(string):void;
+		save<#=ViewDataTypeShortName#>():void;
+        delete<#=ViewDataTypeShortName#>(): void;
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+		<#=GetValueExpression(property) #>SelectList:any[];
+<#
+		}
+#>
+		goBack():void;
+	}
+	export class <#=ViewDataTypeShortName#>EditCtrl{
+		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
+		constructor(scope:I<#=ViewDataTypeShortName#>EditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+			function get<#=GetValueExpression(property) #>SelectList(){
+				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
+					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
+				}).error(function(err){
+					toaster.error("错误",err.Message);
+				});
+			}
+<#
+		}
+#>
+			function get<#=ViewDataTypeShortName#>(id){
+				http.get("/api/<#=ViewDataTypeShortName#>/"+id).success(function(data:any){
+					scope.item=<<#=ViewDataTypeShortName#>>data;
+<#
+					if(datePropertiesList.Count>0){
+						foreach (PropertyMetadata property in datePropertiesList) {
+#>
+					scope.item.<#=GetValueExpression(property) #>=new Date(data.<#=GetValueExpression(property) #>);
+<#
+                        }
+					}
+#>
+					toaster.success("提示","载入成功");
+				}).error(function(data){
+					toaster.error("错误",data.Message);
+				});
+			};
+			function save<#=ViewDataTypeShortName#>(){
+				http.put("/api/<#=ViewDataTypeShortName#>/"+id,scope.item).success(function(data){
+					toaster.success("提示","保存成功");
+					locationService.path("/<#=ViewDataTypeShortName#>");
+				}).error(function(err){
+					var errMsg="";
+                    if (err.ModelState) {
+                        errMsg = "<ul>";
+                        for (var p in err.ModelState) {
+                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
+                        }
+                        errMsg = errMsg + "</ul>";
+                    }
+                    if (errMsg == "") {
+                        errMsg = err.Message;
+                    }
+                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+				});
+			}
+			function delete<#=ViewDataTypeShortName#>() {
+			    if (confirm("确认要删除?")) {
+					http.delete("/api/<#=ViewDataTypeShortName#>/" + id).success(function (data) {
+						toaster.success("提示", "删除成功");
+						locationService.path("/<#=ViewDataTypeShortName#>");
+					}).error(function (err) {
+						toaster.error("错误", err.Message);
+					});
+				}
+            }
+			function goBack() {
+                window.history.back();
+            }
+            scope.get<#=ViewDataTypeShortName#> = get<#=ViewDataTypeShortName#>;
+			scope.save<#=ViewDataTypeShortName#> = save<#=ViewDataTypeShortName#>;
+			scope.delete<#=ViewDataTypeShortName#> = delete<#=ViewDataTypeShortName#>;
+			scope.goBack=goBack;
+			var id="";
+			if(routeParams["id"]){
+				id=routeParams["id"];
+<#
+		foreach (PropertyMetadata property in foreignKeyProperties) {
+#>
+				get<#=GetValueExpression(property) #>SelectList();
+<#
+		}
+#>
+				get<#=ViewDataTypeShortName#>(id);
+			}
+			else{
+				locationService.path("/<#=ViewDataTypeShortName#>");
+			}
+		}
+	}
+
+}
+
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>

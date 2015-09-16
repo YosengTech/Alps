@@ -1,22 +1,18 @@
-﻿
-@model IEnumerable<Alps.Domain.ProductMgr.Catagory>
+﻿@model IEnumerable<Alps.Domain.ProductMgr.Catagory>
 @{
-	Layout=null;
+    Layout = null;
 }
-<div class="page page-form-validation clearfix" ng-controller="CatagoryCtrl">
+<div class="page page-form-validation clearfix">
 
 
     <ol class="breadcrumb breadcrumb-small">
         <li>Forms</li>
-        <li class="active"><a href="#/Catagory/Index">Catagory</a></li>
+        <li class="active"><a href="#/Catagory">Catagory</a></li>
     </ol>
     <div class="page-wrap">
         <div class="row">
-
-
-
             <p>
-                <a href="#/Catagory/Create">新建</a>
+                <a class="btn btn-default btn-sm" href="#/Catagory/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
             </p>
             <table class="table">
                 <tr>
@@ -28,8 +24,7 @@
                     </th>
                     <th></th>
                 </tr>
-
-                <tr  ng-repeat="item in items">
+                <tr ng-repeat="item in items">
                     <td>
                         {{item.Parent.Name}}
                     </td>
@@ -37,13 +32,10 @@
                         {{item.Name}}
                     </td>
                     <td>
-                        <a href="#/Catagory/Edit/{{item.ID}}">编辑</a>
-                        <a href="#/Catagory/Delete/{{item.ID}}">删除</a>
+                        <a class="btn btn-default btn-sm" href="#/Catagory/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
                     </td>
                 </tr>
-
             </table>
         </div>
     </div>
-
 </div>

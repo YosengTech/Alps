@@ -3,28 +3,26 @@
 <#@ include file="Imports.include.t4" #>
 @model IEnumerable<#= "<" + ViewDataTypeName + ">" #>
 @{
-	Layout=null;
+	Layout = null;
 }
 <div class="page page-form-validation clearfix">
 
 
 	<ol class="breadcrumb breadcrumb-small">
 		<li>Forms</li>
-		<li class="active"><a href="#/<#=ViewDataTypeShortName#>/<#=ViewName#>"><#=ViewDataTypeShortName#></a></li>
+		<li class="active"><a href="#/<#=ViewDataTypeShortName#>"><#=ViewDataTypeShortName#></a></li>
 	</ol>
 	<div class="page-wrap">
 		<div class="row">
-
-   
-        
-<p>
-    <a href="#/<#= ViewDataTypeShortName#>/Create">新建</a>
-</p>
-<table class="table">
-    <tr>
+			<p>
+				<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
 <#
 IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
 foreach (PropertyMetadata property in properties) {
+
     if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey) {
 #>
 <#
@@ -34,17 +32,16 @@ foreach (PropertyMetadata property in properties) {
             continue;
         }
 #>
-		<th>
-            @Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
-        </th>
+					<th>
+						@Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+					</th>
 <#
     }
 }
 #>
-        <th></th>
-    </tr>
-
-    <tr ng-repeat:"item in items">
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
 <#
 foreach (PropertyMetadata property in properties) {
     if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey) {
@@ -56,9 +53,9 @@ foreach (PropertyMetadata property in properties) {
             continue;
         }
 #>
-        <td>
-			{{<#= "item." + GetValueExpression(property) #>}}
-        </td>
+					<td>
+						{{<#= "item." + GetValueExpression(property) #>}}
+					</td>
 <#
     }
 }
@@ -66,26 +63,22 @@ foreach (PropertyMetadata property in properties) {
 string pkName = GetPrimaryKeyName();
 if (pkName != null) {
 #>
-        <td>
-		 <a href="#/html/<#= ViewName#>/Edit/{{item.<#= pkName #>}}"></a>
-		 <a href="#/html/<#= ViewName#>/Delete/{{item.<#= pkName #>}}"></a>
-        </td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Edit/{{item.<#= pkName #>}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
 <#
 } else {
 #>
-        <td>
-         <a href="#/<#= ViewDataTypeShortName#>/Edit">编辑</a>
-		 <a href="#/<#= ViewDataTypeShortName#>/Delete">删除</a>
-        </td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Edit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
+					</td>
 <#
 }
 #>
-    </tr>
-
-</table>
-</div>
+				</tr>
+			</table>
+		</div>
     </div>
-
 </div>
 <#
 // The following code closes the tag used in the case of a view using a layout page and the body and html tags in the case of a regular view page

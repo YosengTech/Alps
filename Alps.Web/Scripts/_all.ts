@@ -8,4 +8,5 @@
 /// <reference path="typings/angularjs/angular.d.ts" />
 /// <reference path="typings/ui-grid/ui-grid.d.ts" />
 /// <reference path="../app/controllers.ts" />
+/// <reference path="typings/angularjs-toaster/angularjs-toaster.d.ts" />
  

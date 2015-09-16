@@ -15,7 +15,7 @@ RelatedModelMetadata GetRelatedModelMetadata(PropertyMetadata property){
         relatedProperties = new Dictionary<string, RelatedModelMetadata>();
     }
     relatedProperties.TryGetValue(property.PropertyName, out propertyModel);
-
+	
     return propertyModel;
 }
 
@@ -40,6 +40,61 @@ string GetPrimaryKeyName() {
 bool IsPropertyGuid(PropertyMetadata property) {
     return String.Equals("System.Guid", property.TypeName, StringComparison.OrdinalIgnoreCase);
 }
+string GetPropertyType(PropertyMetadata property) {
+	if(property.IsEnum){
+		return "number";
+	}
+	RelatedModelMetadata propertyModel = GetRelatedModelMetadata(property);
+	var orgTypeName="";
+    if( propertyModel != null){
+		orgTypeName=propertyModel.ShortTypeName;
+    }
+	else
+    {
+		orgTypeName=property.ShortTypeName;
+    };
+	switch (orgTypeName)
+    {
+		case "Guid":
+			orgTypeName= "string";
+			break;
+		case "int":
+			orgTypeName="number";
+			break;
+		case "DateTime":
+		case "DateTimeOffset":
+			orgTypeName="Date";
+			break;
 
+    }
+	return orgTypeName;
+}
+string GetAssociationNameFromForeignKey(PropertyMetadata foreignKey)
+{
+	return GetValueExpression(foreignKey).TrimEnd(("ID").ToCharArray());
+}
+    public string CamelCase(string identifier)
+    {
+        if (String.IsNullOrEmpty(identifier))
+        {
+            return identifier;
+        }
 
+        if (identifier.Length == 1)
+        {
+            return identifier[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant();
+        }
+
+        return identifier[0].ToString(CultureInfo.InvariantCulture).ToLowerInvariant() + identifier.Substring(1);
+    }
+/*
+string Pluralize(string str)
+{
+	return pService.Pluralize(str);
+}
+string  Singularize(string str)
+{
+	return pService.Singularize(str);
+}
+	*/
 #>

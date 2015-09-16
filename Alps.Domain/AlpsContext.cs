@@ -52,7 +52,6 @@ namespace Alps.Domain
         #region 初始化相关
         public static void Initial()
         {
-            
             Database.SetInitializer<AlpsContext>(new AlpsContextInitializer());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

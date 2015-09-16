@@ -17,7 +17,11 @@ namespace Alps.Domain.ProductMgr
         public Guid? ParentID { get; set; }
         [ForeignKey("ParentID")]
         public virtual ICollection<Catagory> Children { get; set; }
-
+        public Catagory()
+        {
+            Children = new HashSet<Catagory>();
+            Parent = null;
+        }
         /*protected Catagory() { }
         public static Catagory Create(string name, Catagory parent)
         {
