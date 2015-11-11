@@ -2,7 +2,6 @@
 <#@ assembly name="System.Data.Entity" #>
 <#@ assembly name="System.Data.Linq" #>
 <#@ assembly name="System.Data.Entity.Design" #>
-<#@ assembly name="$(TargetDir)Alps.Domain.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Reflection" #>
 <#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>

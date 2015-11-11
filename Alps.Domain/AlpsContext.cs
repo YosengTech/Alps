@@ -30,6 +30,7 @@ namespace Alps.Domain
         public DbSet<Position> Positions { get; set; }
         public DbSet<WarehouseVoucher> WarehouseVouchers { get; set; }
         public DbSet<WarehouseVoucherItem> WarehouseVoucherItems { get; set; }
+        public DbSet<Commodity> Commodities { get; set; }
         #endregion
 
         #region SaleMgr
@@ -91,16 +92,22 @@ namespace Alps.Domain
         public class AlpsContextInitializer ://DropCreateDatabaseAlways<AlpsContext>
             DropCreateDatabaseIfModelChanges<AlpsContext>
         {
+            Guid sourceID = Guid.Empty;
+            Guid destinationID = Guid.Empty;
+            Guid materialID = Guid.Empty;
+            Guid positionID = Guid.Empty;
             protected override void Seed(AlpsContext context)
             {
 
                 base.Seed(context);
                 ProductMgrSeed(context);
-                TradeAccount ta = new TradeAccount() { Name = "李祥镇", BankAccount = "TT" };
-                context.TradeAccounts.Add(ta);
-                ta = new TradeAccount() { Name = "陈媚", BankAccount = "235654" };
-                context.TradeAccounts.Add(ta);
+                TradeAccount sourceTradeAccount = new TradeAccount() { Name = "李祥镇", BankAccount = "TT" };
+                context.TradeAccounts.Add(sourceTradeAccount);
+                TradeAccount destinationTradeAccount = new TradeAccount() { Name = "陈媚", BankAccount = "235654" };
+                context.TradeAccounts.Add(destinationTradeAccount);
                 context.SaveChanges();
+                sourceID =sourceTradeAccount.ID;
+                destinationID = destinationTradeAccount.ID;
             }
             void ProductMgrSeed(AlpsContext context)
             {
@@ -111,11 +118,24 @@ namespace Alps.Domain
                 Material material = new Material() { Catagory = newCatagory, Name = "角4Kg", CatagoryID = newCatagory.ID };
                 context.Materials.Add(material);
                 context.SaveChanges();
+                materialID = material.ID;
                 context.Units.Add(new Unit() { Name = "吨" });
                 context.SaveChanges();
                 context.Positions.Add(new Position() { Name = "新建616", Number = "616", Warehouse = "新建仓库" });
-                context.Positions.Add(new Position() { Name = "小槽315", Number = "315", Warehouse = "小槽仓库" });
+                Position position=new Position() { Name = "小槽315", Number = "315", Warehouse = "小槽仓库" };
+                context.Positions.Add(position);
                 context.SaveChanges();
+                positionID = position.ID;
+           
+                WarehouseVoucher voucher = WarehouseVoucher.Create(sourceID,destinationID,"系统测试");
+                voucher.AddItem(materialID, 11, 12, "12345", positionID);
+                voucher.AddItem(materialID, 15, 15, "151515", positionID);
+                context.WarehouseVouchers.Add(voucher);
+                context.SaveChanges();
+                
+                //PurchaseOrder order =new PurchaseOrder();
+                //order.Creater = "Winsan";
+                //order.
             }
         }
         #endregion

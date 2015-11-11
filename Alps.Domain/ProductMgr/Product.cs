@@ -23,10 +23,10 @@ namespace Alps.Domain.ProductMgr
         public virtual Position Position { get; set; }
         public virtual TradeAccount Owner { get; set; }
         //protected Product() { }
-        public static Product Create(Material material, decimal count, decimal quantity, TradeAccount owner, Position position, string productNumber="")
+        public static Product Create(Material material, decimal count, decimal quantity, TradeAccount owner, Position position, string productNumber = "")
         {
-            return new Product() { Quantity = quantity, Material = material, Count = count,Position=position,Owner=owner,ProductNumber=productNumber };
+            return new Product() { Quantity = quantity, Material = material, Count = count, Position = position, Owner = owner, ProductNumber = productNumber };
         }
-        
+
     }
 }

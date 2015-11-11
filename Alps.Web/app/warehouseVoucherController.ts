@@ -1,4 +1,7 @@
-﻿module Alps.Controllers
+﻿
+/// <reference path="app.ts" />
+/// <reference path="../scripts/_all.ts" />
+module Alps.Controllers
 {
     'use strict';
 	export class WarehouseVoucher{
@@ -95,11 +98,15 @@
 		saveWarehouseVoucher():void;
         deleteWarehouseVoucher(): void;
 		SourceIDSelectList:any[];
-		DestinationIDSelectList:any[];
+        DestinationIDSelectList: any[];
+        MaterialIDSelectList: any[];
+        PositionIDSelectList: any[];
         goBack(): void;
         ///
         addSubItem(): void;
         deleteSubItem(index): void;
+        submitWarehouseVoucher(): void;
+        form: ng.IFormController;
 	}
 	export class WarehouseVoucherEditCtrl{
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
@@ -117,7 +124,21 @@
 				}).error(function(err){
 					toaster.error("错误",err.Message);
 				});
-			}
+            }
+            function getMaterialIDSelectList() {
+                http.get("/api/Material").success(function (data) {
+                    scope.MaterialIDSelectList = <any[]>data;
+                }).error(function (err) {
+                    toaster.error("错误", err.Message);
+                });
+            }
+            function getPositionIDSelectList() {
+                http.get("/api/Position").success(function (data) {
+                    scope.PositionIDSelectList = <any[]>data;
+                }).error(function (err) {
+                    toaster.error("错误", err.Message);
+                });
+            }
 			function getWarehouseVoucher(id){
 				http.get("/api/WarehouseVoucher/"+id).success(function(data:any){
 					scope.item=<WarehouseVoucher>data;
@@ -148,7 +169,30 @@
                     }
                     toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
 				});
-			}
+            }
+            function submitWarehouseVoucher() {
+                if (scope.form.$dirty) {
+                    alert("更改未保存");
+                    return;
+                }
+                http.post("/api/WarehouseVoucher/" + id + "/submit", {}).success(function (data) {
+                    toaster.success("提示", "保存成功");
+                    locationService.path("/WarehouseVoucher");
+                }).error(function (err) {
+                    var errMsg = "";
+                    if (err.ModelState) {
+                        errMsg = "<ul>";
+                        for (var p in err.ModelState) {
+                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
+                        }
+                        errMsg = errMsg + "</ul>";
+                    }
+                    if (errMsg == "") {
+                        errMsg =err.ExceptionMessage;
+                    }
+                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+                });
+            }
 			function deleteWarehouseVoucher() {
 			    if (confirm("确认要删除?")) {
 					http.delete("/api/WarehouseVoucher/" + id).success(function (data) {
@@ -163,7 +207,7 @@
                 window.history.back();
             }
             function addSubItem() {
-                scope.item.Items.push({});
+                scope.item.Items.push({ "WarehouseVoucherID":scope.item.ID});
             }
             function deleteSubItem($index) {
                 scope.item.Items.splice($index,1);
@@ -173,19 +217,23 @@
             scope.getWarehouseVoucher = getWarehouseVoucher;
 			scope.saveWarehouseVoucher = saveWarehouseVoucher;
 			scope.deleteWarehouseVoucher = deleteWarehouseVoucher;
-			scope.goBack=goBack;
+            scope.goBack = goBack;
+            scope.submitWarehouseVoucher = submitWarehouseVoucher;
 			var id="";
 			if(routeParams["id"]){
 				id=routeParams["id"];
 				getSourceIDSelectList();
-				getDestinationIDSelectList();
+                getDestinationIDSelectList();
+                getMaterialIDSelectList();
+                getPositionIDSelectList();
 				getWarehouseVoucher(id);
 			}
 			else{
 				locationService.path("/WarehouseVoucher");
 			}
 		}
-	}
-
+    }
+    //Alps.getApp().
+    //    controller("WarehouseVoucherListCtrl", Alps.Controllers.WarehouseVoucherListCtrl);
 }
 

@@ -103,20 +103,40 @@ var Alps;
     //            });
     //        });
     //    }
-    //}
-    angular.module("Alps.Controllers", []).controller("WarehouseVouchersCtrl", Alps.Controllers.WarehouseVouchersCtrl);
-    var app = angular.module("Alps", ["ngRoute", "Alps.directives", "ui.grid", "ui.grid.edit", "ui.grid.rowEdit", "ui.grid.selection", "Alps.Controllers", "angular-loading-bar", 'ngAnimate', 'toaster', 'mgcrea.ngStrap']);
+    //} 
+    var AlpsApp = (function () {
+        function AlpsApp() {
+        }
+        AlpsApp.getApp = function () {
+            return angular.module("Alps");
+        };
+        return AlpsApp;
+    })();
+    Alps.AlpsApp = AlpsApp;
+    function getApp() {
+        return angular.module("Alps");
+    }
+    Alps.getApp = getApp;
+    var app = angular.module("Alps.Controllers", []);
     app.controller("RootCtrl", RootCtrl).controller("ChildCtrl", ChildCtrl).controller("HeaderCtrl", HeaderCtrl).controller("NavCtrl", NavCtrl);
-    //app.controller("CatagoryCtrl", CatagoryCtrl);
-    app.controller("CatagoryEditCtrl", Alps.Controllers.CatagoryEditCtrl);
-    app.controller("CatagoryCtrl", Alps.Controllers.CatagoryListCtrl);
-    app.controller("CatagoryCreateCtrl", Alps.Controllers.CatagoryCreateCtrl);
-    app.controller("UnitListCtrl", Alps.Controllers.UnitListCtrl);
-    app.controller("UnitEditCtrl", Alps.Controllers.UnitEditCtrl);
-    app.controller("UnitCreateCtrl", Alps.Controllers.UnitCreateCtrl);
-    app.controller("WarehouseVoucherListCtrl", Alps.Controllers.WarehouseVoucherListCtrl);
-    app.controller("WarehouseVoucherCreateCtrl", Alps.Controllers.WarehouseVoucherCreateCtrl);
-    app.controller("WarehouseVoucherEditCtrl", Alps.Controllers.WarehouseVoucherEditCtrl);
+    RegisterControllers(app);
+    //app.controller("CatagoryEditCtrl", Alps.Controllers.CatagoryEditCtrl);
+    //app.controller("CatagoryCtrl", Alps.Controllers.CatagoryListCtrl);
+    //app.controller("CatagoryCreateCtrl", Alps.Controllers.CatagoryCreateCtrl);
+    //app.controller("UnitListCtrl", Alps.Controllers.UnitListCtrl);
+    //app.controller("UnitEditCtrl", Alps.Controllers.UnitEditCtrl);
+    //app.controller("UnitCreateCtrl", Alps.Controllers.UnitCreateCtrl);
+    //app.controller("WarehouseVoucherCreateCtrl", Alps.Controllers.WarehouseVoucherCreateCtrl);
+    //app.controller("WarehouseVoucherEditCtrl", Alps.Controllers.WarehouseVoucherEditCtrl);
+    //app.controller("StockInfoListCtrl", Alps.Controllers.StockInfoListCtrl);
+    var app = angular.module("Alps", ["ngRoute", "Alps.directives", "ui.grid", "ui.grid.edit", "ui.grid.rowEdit", "ui.grid.selection", "Alps.Controllers", "angular-loading-bar", 'ngAnimate', 'toaster', 'mgcrea.ngStrap']);
+    function RegisterControllers(app) {
+        for (var p in Alps.Controllers) {
+            if (p.substring(p.length - 4) == "Ctrl" && typeof (Alps.Controllers[p]) == "function") {
+                app.controller(p, Alps.Controllers[p]);
+            }
+        }
+    }
     ///路由配置
     function configRoute(routeProvider) {
         function setRoute(routeName) {
@@ -127,7 +147,7 @@ var Alps;
         }
         routeProvider.when("/", { templateUrl: "/home/dashboard" });
         //setRoute("Home/Test/:id")
-        routeProvider.when("/home/test/:id", { templateUrl: "/Home/Test" }).when("/Catagory", { redirectTo: "/Catagory/Index" }).when("/Catagory/Index", { templateUrl: "/catagory", controller: "CatagoryCtrl" }).when("/Catagory/Create", { templateUrl: "/catagory/Create", controller: "CatagoryCreateCtrl" }).when("/Catagory/Edit", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Edit/:id", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Delete/:id", { templateUrl: "/catagory/Delete", controller: "CatagoryDeleteCtrl" }).when("/WarehouseVouchers", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/WarehouseVouchers/Index", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/Unit", { redirectTo: "/Unit/Index" }).when("/Unit/Index", { templateUrl: "/Unit", controller: "UnitListCtrl" }).when("/Unit/Create", { templateUrl: "/Unit/Create", controller: "UnitCreateCtrl" }).when("/Unit/Edit/:id", { templateUrl: "/Unit/Edit", controller: "UnitEditCtrl" }).when("/WarehouseVoucher", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Index", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Create", { templateUrl: "/WarehouseVoucher/Create", controller: "WarehouseVoucherCreateCtrl" }).when("/WarehouseVoucher/Edit/:id", { templateUrl: "/WarehouseVoucher/Edit", controller: "WarehouseVoucherEditCtrl" }).otherwise({ redirectTo: "/" });
+        routeProvider.when("/home/test/:id", { templateUrl: "/Home/Test" }).when("/Catagory", { redirectTo: "/Catagory/Index" }).when("/Catagory/Index", { templateUrl: "/catagory", controller: "CatagoryListCtrl" }).when("/Catagory/Create", { templateUrl: "/catagory/Create", controller: "CatagoryCreateCtrl" }).when("/Catagory/Edit", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Edit/:id", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Delete/:id", { templateUrl: "/catagory/Delete", controller: "CatagoryDeleteCtrl" }).when("/WarehouseVouchers", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/WarehouseVouchers/Index", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/Unit", { redirectTo: "/Unit/Index" }).when("/Unit/Index", { templateUrl: "/Unit", controller: "UnitListCtrl" }).when("/Unit/Create", { templateUrl: "/Unit/Create", controller: "UnitCreateCtrl" }).when("/Unit/Edit/:id", { templateUrl: "/Unit/Edit", controller: "UnitEditCtrl" }).when("/WarehouseVoucher", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Index", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Create", { templateUrl: "/WarehouseVoucher/Create", controller: "WarehouseVoucherCreateCtrl" }).when("/WarehouseVoucher/Edit/:id", { templateUrl: "/WarehouseVoucher/Edit", controller: "WarehouseVoucherEditCtrl" }).when("/Material", { templateUrl: "/Material", controller: "MaterialListCtrl" }).when("/Material/Index", { templateUrl: "/Material", controller: "MaterialListCtrl" }).when("/Material/Create", { templateUrl: "/Material/Create", controller: "MaterialCreateCtrl" }).when("/Material/Edit/:id", { templateUrl: "/Material/Edit", controller: "MaterialEditCtrl" }).when("/StockInfo", { templateUrl: "/StockInfo", controller: "StockInfoListCtrl" }).when("/StockInfo/Index", { templateUrl: "/StockInfo", controller: "StockInfoListCtrl" }).otherwise({ redirectTo: "/" });
         setRoute("Home/About");
         //setRoute("Home/Catagories");
     }

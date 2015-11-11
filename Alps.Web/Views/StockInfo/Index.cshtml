@@ -1,0 +1,55 @@
+﻿
+
+@model IEnumerable<Alps.Web.Models.StockInfoViewModel>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/StockInfoViewModel">StockInfoViewModel</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/StockInfoViewModel/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.MaterialName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PositionName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Count)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Quantity)
+					</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.MaterialName}}
+					</td>
+					<td>
+						{{item.PositionName}}
+					</td>
+					<td>
+						{{item.Count}}
+					</td>
+					<td>
+						{{item.Quantity}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/StockInfoViewModel/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>

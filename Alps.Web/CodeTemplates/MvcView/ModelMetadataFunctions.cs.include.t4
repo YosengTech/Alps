@@ -59,6 +59,7 @@ string GetPropertyType(PropertyMetadata property) {
 			orgTypeName= "string";
 			break;
 		case "int":
+		case "decimal":
 			orgTypeName="number";
 			break;
 		case "DateTime":

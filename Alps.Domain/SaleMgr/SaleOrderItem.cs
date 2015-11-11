@@ -9,9 +9,11 @@ namespace Alps.Domain.SaleMgr
 {
     public class SaleOrderItem:EntityBase 
     {
-        public Material Material { get; set; }
-        public decimal Quantity { get; set; }
-        public Unit Unit { get; set; }
+        public Guid GoodsID { get; set; }
+        //public decimal Quantity { get; set; }
+        public Guid UnitID { get; set; }
+        public decimal Price { get; set; }
         public string Remark { get; set; }
+        public Quantity Quantity { get; set; }
     }
 }

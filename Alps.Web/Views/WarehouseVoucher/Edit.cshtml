@@ -13,8 +13,8 @@
 			<div class="panel panel-lined mb30">
 				<div class="panel-heading"><i>WarehouseVoucher</i></div>
 				<div class="panel-body">
-					@using (Html.BeginForm())
-					{
+					@*@using (Html.BeginForm())*@
+					<form name="form">
 						@Html.AntiForgeryToken()
 						<div class="-form-horizontal">
 							<h4>
@@ -59,9 +59,11 @@
 							<div class="form-group  text-center">
 								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
 								<a class="btn btn-primary btn-sm" ng-click="saveWarehouseVoucher()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+                                <a class="btn btn-primary btn-sm" ng-click="submitWarehouseVoucher()"><span class="glyphicon glyphicon-save"></span>&nbsp;提交</a>
+                                
 							</div>
 						</div>
-					}
+					</form>
 				</div>
 			</div>
 		</div>

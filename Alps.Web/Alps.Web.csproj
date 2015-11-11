@@ -219,6 +219,11 @@
     <Compile Include="Controllers\CatagoriesApiController.cs" />
     <Compile Include="Controllers\CatagoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MaterialApiController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\PositionApiController.cs" />
+    <Compile Include="Controllers\StockInfoApiController.cs" />
+    <Compile Include="Controllers\StockInfoController.cs" />
     <Compile Include="Controllers\TradeAccountApiController.cs" />
     <Compile Include="Controllers\UnitApiController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -231,6 +236,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\StockViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -1474,7 +1480,6 @@
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Catagory\Index_.cshtml" />
     <Content Include="Views\Catagory\Create.cshtml" />
-    <Content Include="Views\WarehouseVouchers\Index.cshtml" />
     <Content Include="Views\Catagory\Edi.cshtml" />
     <Content Include="Views\Catagory\Edit.cshtml" />
     <Content Include="Views\Catagory\Delete.cshtml" />
@@ -1494,6 +1499,11 @@
     <Content Include="Views\Shared\EditorTemplates\Slider.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Date.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\StockInfo\Index.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Material\Edit.cshtml" />
+    <Content Include="Views\Material\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1511,11 +1521,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\alpsToaster.ts" />
     <TypeScriptCompile Include="app\app.ts" />
+    <TypeScriptCompile Include="app\appConfig.ts" />
     <TypeScriptCompile Include="app\catagories.ts" />
-    <TypeScriptCompile Include="app\catagory.ts" />
+    <TypeScriptCompile Include="app\catagoryController.ts" />
     <TypeScriptCompile Include="app\controllers.ts" />
-    <TypeScriptCompile Include="app\unit.ts" />
-    <TypeScriptCompile Include="app\warehouseVoucher.ts" />
+    <TypeScriptCompile Include="app\MaterialController.ts" />
+    <TypeScriptCompile Include="app\StockInfoController.ts" />
+    <TypeScriptCompile Include="app\unitController.ts" />
+    <TypeScriptCompile Include="app\warehouseVoucherController.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs-toaster\angularjs-toaster.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -1529,6 +1542,10 @@
     <TypeScriptCompile Include="Scripts\_all.ts" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Alps.Domain.Service\Alps.Domain.Service.csproj">
+      <Project>{3e82405a-3b10-477f-b49b-92e495502605}</Project>
+      <Name>Alps.Domain.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Alps.Domain\Alps.Domain.csproj">
       <Project>{25c6d4b7-7ce8-4e0f-81de-2fe210606d31}</Project>
       <Name>Alps.Domain</Name>

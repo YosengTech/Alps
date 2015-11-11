@@ -25,7 +25,7 @@ namespace Alps.Web
                       "~/content/css/font-awesome.min.css","~/content/ui-grid.min.css","~/content/loading-bar.css", "~/Content/main.min.css",
                       "~/Content/toaster.css"));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js","~/scripts/ui-grid.js"));
-            bundles.Add(new ScriptBundle("~/bundles/app").Include("~/scripts/plugins.js","~/app/navDirective.js","~/app/app.js"));
+            bundles.Add(new ScriptBundle("~/bundles/app").Include("~/scripts/plugins.js","~/app/navDirective.js","~/app/*Controller.js","~/app/app.js"));
         }
     }
 }

@@ -2,12 +2,6 @@
 			<table class="table">
 				<tr>
 					<th>
-						@Html.DisplayNameFor(model => model.ID)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.WarehouseVoucherID)
-					</th>
-					<th>
 						@Html.DisplayNameFor(model => model.MaterialID)
 					</th>
 					<th>
@@ -26,12 +20,6 @@
 				</tr>
 				<tr ng-repeat="subItem in item.Items">
 					<td>
-							<input type="hidden" ng-model="subItem.ID" />
-					</td>
-					<td>
-								<select name="WarehouseVoucherID" id="WarehouseVoucherID" class="form-control" ng-model="subItem.WarehouseVoucherID" ng-options="selectList.ID as selectList.Name for selectList in WarehouseVoucherIDSelectList"></select>
-					</td>
-					<td>
 								<select name="MaterialID" id="MaterialID" class="form-control" ng-model="subItem.MaterialID" ng-options="selectList.ID as selectList.Name for selectList in MaterialIDSelectList"></select>
 					</td>
 					<td>
@@ -47,7 +35,7 @@
 								<select name="PositionID" id="PositionID" class="form-control" ng-model="subItem.PositionID" ng-options="selectList.ID as selectList.Name for selectList in PositionIDSelectList"></select>
 					</td>
 					<td>
-						<a class="btn btn-default btn-sm" ng-click="deleteSubItem()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
+						<a class="btn btn-default btn-sm" ng-click="deleteSubItem($index)"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
 					</td>
 				</tr>
 			</table>

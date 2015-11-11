@@ -9,6 +9,9 @@ namespace Alps.Domain.ProductMgr
 {
    public  class WarehouseVoucher:EntityBase 
     {
+       protected WarehouseVoucher()
+       {
+       }
        [Display(Name="制单人")]
        [MinLength(5,ErrorMessage="名字最少5个字母")]
        public string Creater { get; set; }
@@ -30,16 +33,16 @@ namespace Alps.Domain.ProductMgr
        [MinLength(6)]
        public string SubmitUser { get; set; }
        [Display(Name = "明细")]
-       public ICollection<WarehouseVoucherItem> Items { get; set; }
+       public virtual ICollection<WarehouseVoucherItem> Items { get; set; }
 
-       public static WarehouseVoucher Create(TradeAccount source,TradeAccount destination,string creater)
+       public static WarehouseVoucher Create(Guid sourceID,Guid destinationID,string creater)
        {
            WarehouseVoucher newWarehouseVoucher = new WarehouseVoucher();
            newWarehouseVoucher.State = WarehouseVoucherState.Unconfirmed;
            newWarehouseVoucher.Creater = creater;
            newWarehouseVoucher.CreateTime = DateTime.Now;
-           newWarehouseVoucher.Source = source;
-           newWarehouseVoucher.Destination = destination;
+           newWarehouseVoucher.SourceID = sourceID;
+           newWarehouseVoucher.DestinationID = destinationID;
            return newWarehouseVoucher;
        }
        public void Submit(string user)
@@ -59,6 +62,18 @@ namespace Alps.Domain.ProductMgr
            newWarehouseVoucherItem.ProductNumber = productNumber;
            newWarehouseVoucherItem.Position = position;
            newWarehouseVoucherItem.PositionID = position.ID;
+           Items.Add(newWarehouseVoucherItem);
+       }
+       public void AddItem(Guid materialID, decimal count, decimal quantity, string productNumber, Guid positionID)
+       {
+           if (this.Items.Count(p => p.ProductNumber == productNumber) > 0)
+               throw new DomainException("已存在同样产品编号");
+           WarehouseVoucherItem newWarehouseVoucherItem = new WarehouseVoucherItem();
+           newWarehouseVoucherItem.MaterialID = materialID;
+           newWarehouseVoucherItem.Count = count;
+           newWarehouseVoucherItem.Quantity = quantity;
+           newWarehouseVoucherItem.ProductNumber = productNumber;
+           newWarehouseVoucherItem.PositionID = positionID;
            Items.Add(newWarehouseVoucherItem);
        }
        public void RemoveItem(Guid itemID)
@@ -90,8 +105,11 @@ namespace Alps.Domain.ProductMgr
            var existingItems=this.Items.ToList();
            var updatedItems=this.Items.Where(p=>items.Any(k=>k.ID==p.ID)).ToList();
            var addedItems=items.Where(p=>!this.Items.Any(k=>k.ID==p.ID)).ToList();
-           var deletedItems=this.Items.Where(p=>items.Any(k=>k.ID==p.ID)).ToList();
+           var deletedItems=this.Items.Where(p=>!items.Any(k=>k.ID==p.ID)).ToList();
            deletedItems.ForEach(p=>this.Items.Remove(p));
+           addedItems.ForEach(p => this.AddItem(p.Material, p.Count, p.Quantity, p.ProductNumber, p.Position));
+           updatedItems.ForEach(p => this.UpdateItem(p.ID,p.Material,p.Count,p.Quantity,p.ProductNumber,p.Position));
+
 
        }
 

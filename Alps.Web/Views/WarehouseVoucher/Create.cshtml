@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.CreateTime, "CreateTime", htmlAttributes: new { @class = "text-uppercase small text-bold" })
-                                @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control", ng_model = "item.CreateTime", type = "date" } })
+                                <input name="CreateTime" id="CreateTime" type="text" class="form-control" ng-model="item.CreateTime" bs_datepicker data_date_format="yyyy-MM-dd">
                                 @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
