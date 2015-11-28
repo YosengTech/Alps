@@ -1498,8 +1498,6 @@
     <Content Include="Views\SaleOrder\Edit.cshtml" />
     <Content Include="Views\SaleOrder\Create.cshtml" />
     <Content Include="Views\SaleOrder\_ListEdit.cshtml" />
-    <None Include="Views\WarehouseVoucher\Create.cshtml_" />
-    <Content Include="Views\WarehouseVoucher\Edit_.cshtml" />
     <Content Include="Views\WarehouseVoucher\Edit2.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit1.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit2.cshtml" />
