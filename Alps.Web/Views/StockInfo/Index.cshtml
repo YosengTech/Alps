@@ -13,9 +13,6 @@
 	</ol>
 	<div class="page-wrap">
 		<div class="row">
-			<p>
-				<a class="btn btn-default btn-sm" href="#/StockInfoViewModel/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
-			</p>
 			<table class="table">
 				<tr>
 					<th>
@@ -30,7 +27,9 @@
 					<th>
 						@Html.DisplayNameFor(model => model.Quantity)
 					</th>
-					<th></th>
+					<th>
+						@Html.DisplayNameFor(model => model.Owner)
+					</th>
 				</tr>
 				<tr ng-repeat="item in items">
 					<td>
@@ -46,7 +45,7 @@
 						{{item.Quantity}}
 					</td>
 					<td>
-						<a class="btn btn-default btn-sm" href="#/StockInfoViewModel/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+						{{item.Owner}}
 					</td>
 				</tr>
 			</table>

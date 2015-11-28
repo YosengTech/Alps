@@ -55,6 +55,7 @@
     <Compile Include="Common\DomainException.cs" />
     <Compile Include="Common\Quantity.cs" />
     <Compile Include="Common\Unit.cs" />
+    <Compile Include="DistributionMgr\DistributionItem.cs" />
     <Compile Include="DistributionMgr\DistributionVoucher.cs" />
     <Compile Include="EntityBase\ValueObject.cs" />
     <Compile Include="ProductMgr\Catagory.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="SaleMgr\Customer.cs" />
     <Compile Include="SaleMgr\Goods.cs" />
     <Compile Include="SaleMgr\ListPrice.cs" />
+    <Compile Include="SaleMgr\PayInfo.cs" />
     <Compile Include="SaleMgr\SaleOrder.cs" />
     <Compile Include="SaleMgr\SaleOrderItem.cs" />
   </ItemGroup>

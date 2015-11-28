@@ -17,11 +17,25 @@ namespace Alps.Domain.Service
         {
             if (voucher.State == WarehouseVoucherState.Confirmed)
             {
-                foreach (WarehouseVoucherItem item in voucher.Items)
+                var source = db.TradeAccounts.Find(voucher.SourceID);
+                var destination = db.TradeAccounts.Find(voucher.DestinationID);
+                if (source.InventoryManagement)
                 {
-                    StockIn(voucher.DestinationID, item.MaterialID, item.Count, item.Quantity, item.PositionID, item.ProductNumber);
+                    foreach (WarehouseVoucherItem item in voucher.Items)
+                    {
+                        StockOut(voucher.SourceID, item.MaterialID, item.Count, item.Quantity, item.PositionID, item.ProductNumber);
+                    }
+                }
+                if (destination.InventoryManagement)
+                {
+                    foreach (WarehouseVoucherItem item in voucher.Items)
+                    {
+                        StockIn(voucher.DestinationID, item.MaterialID, item.Count, item.Quantity, item.PositionID, item.ProductNumber);
+                    }
                 }
             }
+            else
+                throw new DomainException("入库单未提交");
         }
         public void StockIn(Guid ownerID, Guid materialID, decimal count, decimal quantity, Guid positionID, string productNumber = "")
         {

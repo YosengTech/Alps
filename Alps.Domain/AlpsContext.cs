@@ -57,7 +57,7 @@ namespace Alps.Domain
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+
             //modelBuilder.Entity<WarehouseVoucher>().Property(p => p.Destination).IsRequired();//.HasRequired(p => p.Destination).WithRequiredPrincipal();
             //modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Destination).WithOptional().WillCascadeOnDelete(false);
             //modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Source).WithOptional().WillCascadeOnDelete(false);
@@ -72,12 +72,16 @@ namespace Alps.Domain
                     modelBuilder.Configurations.Add(o);
                 }
             }
+
             modelBuilder.Entity<WarehouseVoucher>().HasKey(p => p.ID);
             //modelBuilder.Entity<WarehouseVoucher>().Property(p => p.SourceID).IsRequired();
             modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Source).WithMany().WillCascadeOnDelete(false);
             //modelBuilder.Entity<WarehouseVoucher>().Property(p => p.DestinationID).IsRequired();
             modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Destination).WithMany().WillCascadeOnDelete(false);
-          
+
+            modelBuilder.Entity<WarehouseVoucherItem>().HasKey(p => new { p.ID, p.WarehouseVoucherID });
+
+            
 
         }
         public class AbstractEntityTypeConfiguration<T> : EntityTypeConfiguration<T> where T : EntityBase
@@ -89,8 +93,8 @@ namespace Alps.Domain
 
             }
         }
-        public class AlpsContextInitializer ://DropCreateDatabaseAlways<AlpsContext>
-            DropCreateDatabaseIfModelChanges<AlpsContext>
+        public class AlpsContextInitializer : DropCreateDatabaseAlways<AlpsContext>
+        //DropCreateDatabaseIfModelChanges<AlpsContext>
         {
             Guid sourceID = Guid.Empty;
             Guid destinationID = Guid.Empty;
@@ -100,14 +104,20 @@ namespace Alps.Domain
             {
 
                 base.Seed(context);
-                ProductMgrSeed(context);
-                TradeAccount sourceTradeAccount = new TradeAccount() { Name = "李祥镇", BankAccount = "TT" };
+
+                TradeAccount sourceTradeAccount = new TradeAccount() { Name = "供应商", BankAccount = "TT" };
                 context.TradeAccounts.Add(sourceTradeAccount);
-                TradeAccount destinationTradeAccount = new TradeAccount() { Name = "陈媚", BankAccount = "235654" };
+                TradeAccount destinationTradeAccount = new TradeAccount() { Name = "公司", BankAccount = "235654", InventoryManagement = true };
                 context.TradeAccounts.Add(destinationTradeAccount);
                 context.SaveChanges();
-                sourceID =sourceTradeAccount.ID;
+                sourceID = sourceTradeAccount.ID;
                 destinationID = destinationTradeAccount.ID;
+                destinationTradeAccount = new TradeAccount() { Name = "客户", BankAccount = "5555555" };
+                context.TradeAccounts.Add(destinationTradeAccount);
+                context.SaveChanges();
+
+                ProductMgrSeed(context);
+                SaleMgrSeed(context);
             }
             void ProductMgrSeed(AlpsContext context)
             {
@@ -115,27 +125,46 @@ namespace Alps.Domain
                 context.Catagories.Add(newCatagory);
                 newCatagory = new Catagory() { Name = "角" };
                 context.Catagories.Add(newCatagory);
-                Material material = new Material() { Catagory = newCatagory, Name = "角4Kg", CatagoryID = newCatagory.ID };
+                var childCatagory = new Catagory() { Name = "4#" };
+                newCatagory.Children.Add(childCatagory);
+                newCatagory.Children.Add(new Catagory() { Name = "5#" });
+
+                Material material = new Material() { Catagory = childCatagory, Name = "10Kg", CatagoryID = childCatagory.ID };
+                context.Materials.Add(material);
+                material = new Material() { Catagory = childCatagory, Name = "12Kg", CatagoryID = childCatagory.ID };
                 context.Materials.Add(material);
                 context.SaveChanges();
                 materialID = material.ID;
                 context.Units.Add(new Unit() { Name = "吨" });
                 context.SaveChanges();
                 context.Positions.Add(new Position() { Name = "新建616", Number = "616", Warehouse = "新建仓库" });
-                Position position=new Position() { Name = "小槽315", Number = "315", Warehouse = "小槽仓库" };
+                Position position = new Position() { Name = "小槽315", Number = "315", Warehouse = "小槽仓库" };
                 context.Positions.Add(position);
                 context.SaveChanges();
                 positionID = position.ID;
-           
-                WarehouseVoucher voucher = WarehouseVoucher.Create(sourceID,destinationID,"系统测试");
+
+                WarehouseVoucher voucher = WarehouseVoucher.Create(sourceID, destinationID, "系统初始化");
                 voucher.AddItem(materialID, 11, 12, "12345", positionID);
                 voucher.AddItem(materialID, 15, 15, "151515", positionID);
                 context.WarehouseVouchers.Add(voucher);
                 context.SaveChanges();
-                
+
+
+                context.Commodities.Add(Commodity.Create(materialID,1,2.4m,destinationID,positionID,"556677"));
+                context.Commodities.Add(Commodity.Create(materialID, 2, 3.5m, destinationID, positionID, "889900"));
+
+                context.SaveChanges();
                 //PurchaseOrder order =new PurchaseOrder();
                 //order.Creater = "Winsan";
                 //order.
+            }
+            void SaleMgrSeed(AlpsContext context)
+            {
+                var saleOrder = SaleOrder.Create(sourceID);
+                context.SaleOrders.Add(saleOrder);
+                saleOrder = SaleOrder.Create(destinationID,saleOrder);
+                context.SaleOrders.Add(saleOrder);
+                context.SaveChanges();
             }
         }
         #endregion

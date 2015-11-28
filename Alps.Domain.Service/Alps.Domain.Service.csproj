@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ProductMgrService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseMgrService.cs" />
     <Compile Include="StockService.cs" />
   </ItemGroup>
   <ItemGroup>

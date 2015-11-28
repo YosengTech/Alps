@@ -21,7 +21,8 @@ var Alps;
                         }
                         toaster.success("提示", "载入成功");
                     }).error(function (data) {
-                        toaster.error("错误", data.Message);
+                        //toaster.error("错误", data.Message);
+                        toaster.error("错误", Alps.phaseErr(data));
                     });
                 }
                 ;
@@ -38,7 +39,7 @@ var Alps;
                     http.get("/api/TradeAccount").success(function (data) {
                         scope.SourceIDSelectList = data;
                     }).error(function (err) {
-                        toaster.error("错误", err.Message);
+                        toaster.error(Alps.phaseErr(err));
                     });
                 }
                 function getDestinationIDSelectList() {

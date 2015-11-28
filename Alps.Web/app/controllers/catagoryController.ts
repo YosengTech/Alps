@@ -1,6 +1,7 @@
 ﻿module Alps.Controllers
 {
     'use strict';
+    
 	export class Catagory{
 		ID:string
 		Name:string
@@ -12,7 +13,7 @@
 		getCatagoryList():void;
 
 	}
-	export class CatagoryListCtrl{
+    export class CatagoryListCtrl{
 		public static $inject=["$scope","$http","toaster"];
 		constructor(scope:ICatagoryListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
 			function getCatagoryList(){

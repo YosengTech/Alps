@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Alps.Domain.SaleMgr.SaleOrder>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/SaleOrder">SaleOrder</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/SaleOrder/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.CustomerID)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.OrderTime)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.DeliveryAddress)
+					</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.CustomerID}}
+					</td>
+					<td>
+						{{item.OrderTime}}
+					</td>
+					<td>
+						{{item.DeliveryAddress}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/SaleOrder/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>

@@ -6,6 +6,7 @@
 // "form-control" attribute is only supported for all EditorFor() in System.Web.Mvc 5.1.0.0 or later versions, except for checkbox, which uses a div in Bootstrap
 string boolType = "System.Boolean";
 string dateTimeOffsetType = "System.DateTimeOffset";
+string dateTimeType="System.DateTime";
 Version requiredMvcVersion = new Version("5.1.0.0");
 bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
 // The following chained if-statement outputs the file header code and markup for a partial view, a view using a layout page, or a regular view.
@@ -56,11 +57,11 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 <#
             if (property.IsForeignKey) {
 #>
-								@Html.LabelFor(model => model.<#= property.PropertyName #>, "<#= GetAssociationName(property) #>", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.LabelFor(model => model.<#= property.PropertyName #>,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
 <#
             } else {
 #>
-								@Html.LabelFor(model => model.<#= property.PropertyName #>, "<#= GetAssociationName(property) #>", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.LabelFor(model => model.<#= property.PropertyName #>,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
 <#
             }
             bool isCheckbox = property.TypeName.Equals(boolType);
@@ -81,14 +82,14 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 <#
                     PushIndent("    ");
 #>
-								@Html.EditorFor(model => model.<#= property.PropertyName #>)
+								@Html.EditorFor(model => model.<#= property.PropertyName #>, new { htmlAttributes = new { ng_model = "item.<#= property.PropertyName #>"} })
 <#
                 } else if (property.IsEnum && !property.IsEnumFlags) {
 #>
 								@Html.EnumDropDownListFor(model => model.<#= property.PropertyName #>, htmlAttributes: new { @class = "form-control" })
 <#
                 } else {
-							if(property.TypeName.Equals(dateTimeOffsetType)){
+							if(property.TypeName.Equals(dateTimeOffsetType) || property.TypeName.Equals(dateTimeType)){
 #>
 								<input name="<#= property.PropertyName #>" id="<#= property.PropertyName #>" type="text" class="form-control" ng-model="item.<#= property.PropertyName #>"  bs_datepicker  data_date_format = "yyyy-MM-dd">
 <#

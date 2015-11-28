@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" HostSpecific="True" debug="true" #>
+<#@ output extension=".ts" #>
+<#@ include file="Imports.include.t4" #>
+
+<#
+List<PropertyMetadata> foreignKeyProperties=new List<PropertyMetadata>();
+Dictionary<string,string> foreignKeyPropertiesType=new Dictionary<string,string>();
+List<PropertyMetadata> datePropertiesList=new  List<PropertyMetadata>();
+IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
+
+foreach (PropertyMetadata property in properties) {
+	#>
+			<#=property.PropertyName#>,<#=property.TypeName#>
+			<#
+	if(property.IsForeignKey){
+		foreignKeyProperties.Add(property);
+	}
+	if(property.Scaffold && property.IsAssociation)
+    {
+			#>
+			<#=property.PropertyName#>,<#=property.TypeName #>
+			<#
+		RelatedModelMetadata propertyModel = GetRelatedModelMetadata(property);
+        if (propertyModel!= null  )
+        {
+			//foreignKeyPropertiesType[propertyModel.AssociationPropertyName+"ID"]=propertyModel.ShortTypeName;
+			#>
+			<#=propertyModel.AssociationPropertyName#>,<#=propertyModel.ShortTypeName#>
+			<#
+        } 
+    }
+    if (property.Scaffold) {
+        if (property.IsAssociation ) {
+            continue;
+        }
+		if(property.IsComplexType){
+			continue;
+        }
+#>
+		<#=GetValueExpression(property) #>: <#=GetPropertyType(property)#>
+<#
+		if(GetPropertyType(property)=="Date" ){
+			datePropertiesList.Add(property);
+        }
+    }
+}
+#>
+
+
+<#@ include file="ModelMetadataFunctions.cs.include.t4" #>

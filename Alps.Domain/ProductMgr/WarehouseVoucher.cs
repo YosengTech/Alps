@@ -11,9 +11,10 @@ namespace Alps.Domain.ProductMgr
     {
        protected WarehouseVoucher()
        {
+           Items = new HashSet<WarehouseVoucherItem>();
        }
        [Display(Name="制单人")]
-       [MinLength(5,ErrorMessage="名字最少5个字母")]
+       [MinLength(1,ErrorMessage="名字最少5个字母")]
        public string Creater { get; set; }
        [Display(Name = "制单时间")]
        [DisplayFormat(DataFormatString="yyyy/mm/dd")]
@@ -30,7 +31,7 @@ namespace Alps.Domain.ProductMgr
        public virtual WarehouseVoucherState State { get; set; }
        [Display(Name = "提交人")]
 
-       [MinLength(6)]
+       //[MinLength(6)]
        public string SubmitUser { get; set; }
        [Display(Name = "明细")]
        public virtual ICollection<WarehouseVoucherItem> Items { get; set; }
@@ -43,6 +44,7 @@ namespace Alps.Domain.ProductMgr
            newWarehouseVoucher.CreateTime = DateTime.Now;
            newWarehouseVoucher.SourceID = sourceID;
            newWarehouseVoucher.DestinationID = destinationID;
+           newWarehouseVoucher.SubmitUser = "";
            return newWarehouseVoucher;
        }
        public void Submit(string user)
@@ -55,6 +57,7 @@ namespace Alps.Domain.ProductMgr
            if (this.Items.Count(p => p.ProductNumber == productNumber) > 0)
                throw new DomainException("已存在同样产品编号");
            WarehouseVoucherItem newWarehouseVoucherItem = new WarehouseVoucherItem();
+           newWarehouseVoucherItem.WarehouseVoucherID = this.ID;
            newWarehouseVoucherItem.Material = material;
            newWarehouseVoucherItem.MaterialID = material.ID;
            newWarehouseVoucherItem.Count = count;
@@ -69,6 +72,7 @@ namespace Alps.Domain.ProductMgr
            if (this.Items.Count(p => p.ProductNumber == productNumber) > 0)
                throw new DomainException("已存在同样产品编号");
            WarehouseVoucherItem newWarehouseVoucherItem = new WarehouseVoucherItem();
+           newWarehouseVoucherItem.WarehouseVoucherID = this.ID;
            newWarehouseVoucherItem.MaterialID = materialID;
            newWarehouseVoucherItem.Count = count;
            newWarehouseVoucherItem.Quantity = quantity;

@@ -43,10 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Alps.Domain.Service\Alps.Domain.Service.csproj">
+      <Project>{3e82405a-3b10-477f-b49b-92e495502605}</Project>
+      <Name>Alps.Domain.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Alps.Domain\Alps.Domain.csproj">
+      <Project>{25c6d4b7-7ce8-4e0f-81de-2fe210606d31}</Project>
+      <Name>Alps.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

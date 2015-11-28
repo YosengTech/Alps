@@ -14,5 +14,6 @@ namespace Alps.Domain.ProductMgr
         public TradeAccount Destination { get; set; }
         public ICollection<DeliveryVoucherItem> Items { get; set; }
         public DeliveryVoucherState State { get; set; }
+        public DistributionMgr.DistributionVoucher DistributionVoucher { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alps.Domain.ProductMgr
 {
-    public class DeliveryVoucherItem
+    public class DeliveryVoucherItem:EntityBase
     {
         public virtual Material Material { get; set; }
         public Guid MaterialID { get; set; }

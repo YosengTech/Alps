@@ -1,0 +1,48 @@
+﻿@model Alps.Domain.SaleMgr.SaleOrder
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/SaleOrder">SaleOrder</a></li>
+		<li class="active"><a href="#/SaleOrder/Create">Create</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>SaleOrder</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						<div class="-form-horizontal">
+							<h4>SaleOrder</h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group">
+								@Html.LabelFor(model => model.CustomerID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="CustomerID" id="CustomerID" class="form-control" ng-model="item.CustomerID" ng-options="selectList.ID as selectList.Name for selectList in CustomerIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.OrderTime,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.OrderTime, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.OrderTime"} })
+								@Html.ValidationMessageFor(model => model.OrderTime, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.DeliveryAddress,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.DeliveryAddress, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.DeliveryAddress"} })
+								@Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="createSaleOrder()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

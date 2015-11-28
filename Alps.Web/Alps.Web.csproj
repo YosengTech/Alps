@@ -218,13 +218,17 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CatagoriesApiController.cs" />
     <Compile Include="Controllers\CatagoryController.cs" />
+    <Compile Include="Controllers\GoodsApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialApiController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\PositionApiController.cs" />
+    <Compile Include="Controllers\SaleOrderApiController.cs" />
+    <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\StockInfoApiController.cs" />
     <Compile Include="Controllers\StockInfoController.cs" />
     <Compile Include="Controllers\TradeAccountApiController.cs" />
+    <Compile Include="Controllers\TradeAccountController.cs" />
     <Compile Include="Controllers\UnitApiController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -612,7 +616,6 @@
     <Content Include="Content\ui-grid.eot" />
     <Content Include="Content\ui-grid.ttf" />
     <Content Include="Content\ui-grid.woff" />
-    <Content Include="CodeTemplates\MvcView\EF6.Utility.CS.ttinclude" />
     <Content Include="CodeTemplates\MvcView\Imports.include.t4" />
     <Content Include="CodeTemplates\MvcView\JSModel.include.t4" />
     <Content Include="CodeTemplates\MvcView\ModelMetadataFunctions.cs.include.t4" />
@@ -695,6 +698,8 @@
     <Content Include="CodeTemplates\MvcView\AngularEditListPartial.cs.t4" />
     <Content Include="CodeTemplates\MvcView\AngularEditAssc.cs.t4" />
     <Content Include="CodeTemplates\MvcView\AngularCrudControllerWithDetail.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularEditWithList.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\Test.cs.t4" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1489,11 +1494,16 @@
     <Content Include="Views\Unit\Create.cshtml" />
     <Content Include="Views\WarehouseVoucher\Index.cshtml" />
     <Content Include="Views\WarehouseVoucher\Create.cshtml" />
+    <Content Include="Views\SaleOrder\Index.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
+    <Content Include="Views\SaleOrder\Create.cshtml" />
+    <Content Include="Views\SaleOrder\_ListEdit.cshtml" />
+    <None Include="Views\WarehouseVoucher\Create.cshtml_" />
     <Content Include="Views\WarehouseVoucher\Edit_.cshtml" />
-    <Content Include="Views\WarehouseVoucher\Edit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit2.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit1.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit2.cshtml" />
-    <Content Include="Views\WarehouseVoucher\ItemEdit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\ItemEdit3.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\BaseCode.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Slider.cshtml" />
@@ -1504,6 +1514,10 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\Material\Create.cshtml" />
+    <Content Include="Views\TradeAccount\Index.cshtml" />
+    <Content Include="Views\TradeAccount\Edit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\ListEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1523,12 +1537,14 @@
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appConfig.ts" />
     <TypeScriptCompile Include="app\catagories.ts" />
-    <TypeScriptCompile Include="app\catagoryController.ts" />
+    <TypeScriptCompile Include="app\controllers\catagoryController.ts" />
     <TypeScriptCompile Include="app\controllers.ts" />
-    <TypeScriptCompile Include="app\MaterialController.ts" />
-    <TypeScriptCompile Include="app\StockInfoController.ts" />
-    <TypeScriptCompile Include="app\unitController.ts" />
-    <TypeScriptCompile Include="app\warehouseVoucherController.ts" />
+    <TypeScriptCompile Include="app\controllers\MaterialController.ts" />
+    <TypeScriptCompile Include="app\controllers\saleOrderController.ts" />
+    <TypeScriptCompile Include="app\controllers\StockInfoController.ts" />
+    <TypeScriptCompile Include="app\controllers\tradeAccountController.ts" />
+    <TypeScriptCompile Include="app\controllers\unitController.ts" />
+    <TypeScriptCompile Include="app\controllers\warehouseVoucherController.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs-toaster\angularjs-toaster.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -1550,6 +1566,9 @@
       <Project>{25c6d4b7-7ce8-4e0f-81de-2fe210606d31}</Project>
       <Name>Alps.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

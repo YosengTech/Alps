@@ -38,10 +38,13 @@ var Alps;
     })();
     Alps.RootCtrl = RootCtrl;
     var ChildCtrl = (function () {
-        function ChildCtrl(scope, routeParams) {
-            scope.tip = routeParams["id"];
+        function ChildCtrl(scope, routeParams, http) {
+            scope.tip = "初始化中....";
+            http.get("/api/unit").success(function (data) {
+                scope.tip = "完成初始化";
+            });
         }
-        ChildCtrl.$inject = ["$scope", "$routeParams"];
+        ChildCtrl.$inject = ["$scope", "$routeParams", "$http"];
         return ChildCtrl;
     })();
     Alps.ChildCtrl = ChildCtrl;
@@ -137,6 +140,29 @@ var Alps;
             }
         }
     }
+    function phaseErr(err) {
+        var msg = "";
+        if (err.ModelState) {
+            if (err.ModelState) {
+                msg = "<ul>";
+                for (var p in err.ModelState) {
+                    msg = msg + "<li>" + err.ModelState[p][0] + "</li>";
+                }
+                msg = msg + "</ul>";
+            }
+            if (msg == "") {
+                msg = err.Message;
+            }
+            return msg;
+        }
+        if (err.InnerException) {
+            msg = err.InnerException.ExceptionMessage;
+        }
+        if (err.ExceptionMessage)
+            msg = err.ExceptionMessage;
+        return msg;
+    }
+    Alps.phaseErr = phaseErr;
     ///路由配置
     function configRoute(routeProvider) {
         function setRoute(routeName) {
@@ -145,10 +171,22 @@ var Alps;
             routeProvider.when(urlPath, { templateUrl: urlPath });
             return routeProvider;
         }
-        routeProvider.when("/", { templateUrl: "/home/dashboard" });
-        //setRoute("Home/Test/:id")
-        routeProvider.when("/home/test/:id", { templateUrl: "/Home/Test" }).when("/Catagory", { redirectTo: "/Catagory/Index" }).when("/Catagory/Index", { templateUrl: "/catagory", controller: "CatagoryListCtrl" }).when("/Catagory/Create", { templateUrl: "/catagory/Create", controller: "CatagoryCreateCtrl" }).when("/Catagory/Edit", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Edit/:id", { templateUrl: "/catagory/Edit", controller: "CatagoryEditCtrl" }).when("/Catagory/Delete/:id", { templateUrl: "/catagory/Delete", controller: "CatagoryDeleteCtrl" }).when("/WarehouseVouchers", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/WarehouseVouchers/Index", { templateUrl: "/WarehouseVouchers", controller: "WarehouseVouchersCtrl" }).when("/Unit", { redirectTo: "/Unit/Index" }).when("/Unit/Index", { templateUrl: "/Unit", controller: "UnitListCtrl" }).when("/Unit/Create", { templateUrl: "/Unit/Create", controller: "UnitCreateCtrl" }).when("/Unit/Edit/:id", { templateUrl: "/Unit/Edit", controller: "UnitEditCtrl" }).when("/WarehouseVoucher", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Index", { templateUrl: "/WarehouseVoucher", controller: "WarehouseVoucherListCtrl" }).when("/WarehouseVoucher/Create", { templateUrl: "/WarehouseVoucher/Create", controller: "WarehouseVoucherCreateCtrl" }).when("/WarehouseVoucher/Edit/:id", { templateUrl: "/WarehouseVoucher/Edit", controller: "WarehouseVoucherEditCtrl" }).when("/Material", { templateUrl: "/Material", controller: "MaterialListCtrl" }).when("/Material/Index", { templateUrl: "/Material", controller: "MaterialListCtrl" }).when("/Material/Create", { templateUrl: "/Material/Create", controller: "MaterialCreateCtrl" }).when("/Material/Edit/:id", { templateUrl: "/Material/Edit", controller: "MaterialEditCtrl" }).when("/StockInfo", { templateUrl: "/StockInfo", controller: "StockInfoListCtrl" }).when("/StockInfo/Index", { templateUrl: "/StockInfo", controller: "StockInfoListCtrl" }).otherwise({ redirectTo: "/" });
-        setRoute("Home/About");
+        routeProvider.when("/", { templateUrl: "/home/dashboard", controller: "ChildCtrl" });
+        routeProvider.when("/home/test/:id", { templateUrl: "/Home/Test" }).otherwise({ redirectTo: "/" });
+        for (var p in Alps.Controllers) {
+            if (p.substring(p.length - 8) == "ListCtrl" && typeof (Alps.Controllers[p]) == "function") {
+                var path = p.substring(0, p.length - 8);
+                routeProvider.when("/" + path, { templateUrl: "/" + path, controller: p }).when("/" + path + "/Index", { templateUrl: "/" + path, controller: p });
+            }
+            if (p.substring(p.length - 8) == "EditCtrl" && typeof (Alps.Controllers[p]) == "function") {
+                var path = p.substring(0, p.length - 8);
+                routeProvider.when("/" + path + "/Edit/:id", { templateUrl: "/" + path + "/Edit", controller: p });
+            }
+            if (p.substring(p.length - 10) == "CreateCtrl" && typeof (Alps.Controllers[p]) == "function") {
+                var path = p.substring(0, p.length - 10);
+                routeProvider.when("/" + path + "/Create", { templateUrl: "/" + path + "/Create", controller: p });
+            }
+        }
         //setRoute("Home/Catagories");
     }
     app.config(["$routeProvider", configRoute]);

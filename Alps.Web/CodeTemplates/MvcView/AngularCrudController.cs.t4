@@ -66,8 +66,8 @@ foreach (PropertyMetadata property in properties) {
 					}
 #>
 					toaster.success("提示","载入成功");
-				}).error(function(data){
-					toaster.error("错误",data.Message);
+				}).error(function(err){
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			};
             scope.get<#=ViewDataTypeShortName#>List = get<#=ViewDataTypeShortName#>List;
@@ -96,7 +96,7 @@ foreach (PropertyMetadata property in properties) {
 				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
 					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
 				}).error(function(err){
-					toaster.error("错误",err.Message);
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			}
 <#
@@ -107,18 +107,8 @@ foreach (PropertyMetadata property in properties) {
 					toaster.success("提示","创建成功");
 					locationService.path("/<#=ViewDataTypeShortName#>");
 				}).error(function(err){
-					var errMsg="";
-                    if (err.ModelState) {
-                        errMsg = "<ul>";
-                        for (var p in err.ModelState) {
-                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
-                        }
-                        errMsg = errMsg + "</ul>";
-                    }
-                    if (errMsg == "") {
-                        errMsg = err.Message;
-                    }
-                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			};
 			function goBack() {
@@ -160,7 +150,7 @@ foreach (PropertyMetadata property in properties) {
 				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
 					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
 				}).error(function(err){
-					toaster.error("错误",err.Message);
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			}
 <#

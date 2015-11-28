@@ -51,49 +51,9 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest();
             }
-            var exitingWarehouseVoucher=db.WarehouseVouchers.Find(id);
-            //var items = db.WarehouseVoucherItems.Where(p => p.WarehouseVoucherID == id).ToList();
-            //var updateItems = warehouseVoucher.Items.Where(p => items.Any(l => l.ID == p.ID));
-            //var addItems = warehouseVoucher.Items.Where(p => !items.Any(l => l.ID == p.ID));
-            //var deleteItems = items.Where(p => !warehouseVoucher.Items.Any(l => l.ID == p.ID));
-            //foreach (WarehouseVoucherItem item in addItems)
-            //    db.WarehouseVoucherItems.Add(item);
-            //try
-            //{
-            //    foreach (WarehouseVoucherItem item in updateItems)
-            //    {
-            //        db.Entry(items.Find(p=>p.ID==item.ID)).CurrentValues.SetValues(item);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
 
-            //}
-            //foreach (WarehouseVoucherItem item in deleteItems)
-            //    db.WarehouseVoucherItems.Remove(item);
-            //db.Entry(warehouseVoucher).State = EntityState.Modified;
-            db.Entry(exitingWarehouseVoucher).CurrentValues.SetValues(warehouseVoucher);
-            WarehouseVoucherItem updatedItem = null;
-            foreach (WarehouseVoucherItem item in exitingWarehouseVoucher.Items.ToList())
-            {
-                updatedItem = warehouseVoucher.Items.FirstOrDefault(p => p.ID == item.ID);
-                if (updatedItem == null)
-                {
-                    exitingWarehouseVoucher.Items.Remove(item);
-                    db.WarehouseVoucherItems.Remove(item);
-                }
-                else
-                {
-                    db.Entry(item).CurrentValues.SetValues(updatedItem);
-                    warehouseVoucher.Items.Remove(updatedItem);
-                }
-            }
-            foreach (WarehouseVoucherItem item in warehouseVoucher.Items)
-            {
-                item.WarehouseVoucherID = exitingWarehouseVoucher.ID;
-                exitingWarehouseVoucher.Items.Add(item);
-                
-            }
+            new Alps.Domain.Service.ProductMgrService(db).UpdateWarehouseVoucher(id, warehouseVoucher);
+
 
             //exitingWarehouseVoucher.UpdateItem(warehouseVoucher.Items.ToList());
             
@@ -123,7 +83,7 @@ namespace Alps.Web.Controllers
             }
 
             var exitingWarehouseVoucher = db.WarehouseVouchers.Find(id);
-            Alps.Domain.Service.ProductMgrService pms = new Domain.Service.ProductMgrService(this.db);
+            Alps.Domain.Service.ProductMgrService pms = new Alps.Domain.Service.ProductMgrService(this.db);
             pms.SubmitVoucher(exitingWarehouseVoucher, "WinsanLee");
             //exitingWarehouseVoucher.Submit("LeeLee");
             //Alps.Domain.Service.StockService stockService = new Domain.Service.StockService(db);
@@ -153,7 +113,8 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            warehouseVoucher.Creater = this.User.Identity.Name;
+            warehouseVoucher.CreateTime = DateTime.Now;
             db.WarehouseVouchers.Add(warehouseVoucher);
 
             try

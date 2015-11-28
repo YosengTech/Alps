@@ -7,8 +7,9 @@ using Alps.Domain.ProductMgr;
 using Alps.Domain.Common;
 namespace Alps.Domain.SaleMgr
 {
-    public class SaleOrderItem:EntityBase 
+    public class SaleOrderItem : EntityBase
     {
+        public Goods Goods { get; set; }
         public Guid GoodsID { get; set; }
         //public decimal Quantity { get; set; }
         public Guid UnitID { get; set; }

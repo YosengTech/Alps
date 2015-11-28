@@ -23,8 +23,9 @@ namespace Alps.Web.Controllers
             var q=from c in db.Commodities
                   from m in db.Materials
                   from p in db.Positions
-                  where c.MaterialID==m.ID && c.PositionID==p.ID
-                  select new StockInfoViewModel{ID=c.ID,MaterialName=m.Name,PositionName=p.Name,Count=c.Count,Quantity=c.Quantity};
+                  from t in db.TradeAccounts
+                  where c.MaterialID==m.ID && c.PositionID==p.ID && c.OwnerID==t.ID
+                  select new StockInfoViewModel{ID=c.ID,MaterialName=m.Name,PositionName=p.Name,Count=c.Count,Quantity=c.Quantity,Owner=t.Name};
             return q;
         }
 

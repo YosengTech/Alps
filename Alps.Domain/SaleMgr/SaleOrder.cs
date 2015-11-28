@@ -4,16 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Alps.Domain.Common;
+using Alps.Domain.ProductMgr;
+using Alps.Domain.AccountingMgr;
+using System.ComponentModel.DataAnnotations;
 namespace Alps.Domain.SaleMgr
 {
     public class SaleOrder : EntityBase
     {
-        public Customer Customer { get; set; }
+        public TradeAccount Customer { get; set; }
+        [Display(Name="客户")]
+        public Guid CustomerID { get; set; }
         public DateTime OrderTime { get; set; }
-        public virtual ICollection<SaleOrderItem> Items { get; set; }
-        public Guid ParentSaleOrderID { get; set; }
+        public string DeliveryAddress { get; set; }
+        public  ICollection<SaleOrderItem> Items { get; set; }
+        public  ICollection<DeliveryVoucher> DeliveryVouchers { get; set; }
+        public SaleOrder ParentSaleOrder { get; set; }
+        public SaleOrder()
+        {
+            Items = new HashSet<SaleOrderItem>();
+            DeliveryVouchers = new HashSet<DeliveryVoucher>();
+        }
 
-        public void UpdateItems(Guid goodsID,decimal count, decimal weight, Guid unitID, decimal price)
+        public static SaleOrder Create(Guid customerID,SaleOrder parentSaleOrder = null)
+        {
+            SaleOrder saleOrder = new SaleOrder();
+            saleOrder.CustomerID = customerID;
+            saleOrder.Items = new HashSet<SaleOrderItem>();
+            saleOrder.OrderTime = DateTime.Now;
+            saleOrder.ParentSaleOrder = parentSaleOrder;
+            return saleOrder;
+        }
+
+        public void UpdateItems(Guid goodsID, decimal count, decimal weight, Guid unitID, decimal price)
         {
             SaleOrderItem existingItem = this.Items.FirstOrDefault(p => p.GoodsID == goodsID);
             if (existingItem == null)
@@ -22,7 +44,7 @@ namespace Alps.Domain.SaleMgr
                 this.Items.Add(existingItem);
             }
             existingItem.GoodsID = goodsID;
-            existingItem.Quantity += new Quantity(count,weight);
+            existingItem.Quantity += new Quantity(count, weight);
             existingItem.UnitID = unitID;
             existingItem.Price = price;
 

@@ -62,6 +62,9 @@ string GetPropertyType(PropertyMetadata property) {
 		case "decimal":
 			orgTypeName="number";
 			break;
+		case "bool":
+			orgTypeName="boolean";
+			break;
 		case "DateTime":
 		case "DateTimeOffset":
 			orgTypeName="Date";

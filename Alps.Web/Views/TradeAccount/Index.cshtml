@@ -1,0 +1,49 @@
+﻿
+
+@model IEnumerable<Alps.Domain.AccountingMgr.TradeAccount>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/TradeAccount">TradeAccount</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/TradeAccount/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.BankAccount)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.InventoryManagement)
+					</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.Name}}
+					</td>
+					<td>
+						{{item.BankAccount}}
+					</td>
+					<td>
+						{{item.InventoryManagement}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/TradeAccount/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>

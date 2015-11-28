@@ -13,5 +13,7 @@ namespace Alps.Domain.AccountingMgr
         public String Name { get; set; }
         [Display(Name = "银行账号")]
         public string BankAccount { get; set; }
+        [Display(Name="库存维护")]
+        public bool InventoryManagement { get; set; }
     }
 }

@@ -30,7 +30,7 @@ foreach (PropertyMetadata property in properties) {
 			continue;
         }
 #>
-		<#=GetValueExpression(property) #>:<#=GetPropertyType(property)#>
+		<#=GetValueExpression(property) #>: <#=GetPropertyType(property)#>
 <#
 		if(GetPropertyType(property)=="Date" ){
 			datePropertiesList.Add(property);
@@ -38,6 +38,7 @@ foreach (PropertyMetadata property in properties) {
     }
 }
 #>
+		Items: any[];
 	}
 	
 	export interface I<#=ViewDataTypeShortName#>ListScope{
@@ -66,8 +67,8 @@ foreach (PropertyMetadata property in properties) {
 					}
 #>
 					toaster.success("提示","载入成功");
-				}).error(function(data){
-					toaster.error("错误",data.Message);
+				}).error(function(err){
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			};
             scope.get<#=ViewDataTypeShortName#>List = get<#=ViewDataTypeShortName#>List;
@@ -96,7 +97,7 @@ foreach (PropertyMetadata property in properties) {
 				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
 					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
 				}).error(function(err){
-					toaster.error("错误",err.Message);
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			}
 <#
@@ -107,18 +108,7 @@ foreach (PropertyMetadata property in properties) {
 					toaster.success("提示","创建成功");
 					locationService.path("/<#=ViewDataTypeShortName#>");
 				}).error(function(err){
-					var errMsg="";
-                    if (err.ModelState) {
-                        errMsg = "<ul>";
-                        for (var p in err.ModelState) {
-                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
-                        }
-                        errMsg = errMsg + "</ul>";
-                    }
-                    if (errMsg == "") {
-                        errMsg = err.Message;
-                    }
-                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			};
 			function goBack() {
@@ -129,7 +119,7 @@ foreach (PropertyMetadata property in properties) {
 <#
 		foreach (PropertyMetadata property in foreignKeyProperties) {
 #>
-				get<#=GetValueExpression(property) #>SelectList();
+			get<#=GetValueExpression(property) #>SelectList();
 <#
 		}
 #>
@@ -149,6 +139,10 @@ foreach (PropertyMetadata property in properties) {
 		}
 #>
 		goBack():void;
+		addSubItem(): void;
+        deleteSubItem(index): void;
+        submit<#=ViewDataTypeShortName#>(): void;
+        form: ng.IFormController;
 	}
 	export class <#=ViewDataTypeShortName#>EditCtrl{
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
@@ -188,36 +182,46 @@ foreach (PropertyMetadata property in properties) {
 					toaster.success("提示","保存成功");
 					locationService.path("/<#=ViewDataTypeShortName#>");
 				}).error(function(err){
-					var errMsg="";
-                    if (err.ModelState) {
-                        errMsg = "<ul>";
-                        for (var p in err.ModelState) {
-                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
-                        }
-                        errMsg = errMsg + "</ul>";
-                    }
-                    if (errMsg == "") {
-                        errMsg = err.Message;
-                    }
-                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			}
+			function submit<#=ViewDataTypeShortName#>() {
+                if (scope.form.$dirty) {
+                    alert("更改未保存");
+                    return;
+                }
+                http.post("/api/<#=ViewDataTypeShortName#>/" + id + "/submit", {}).success(function (data) {
+                    toaster.success("提示", "保存成功");
+                    locationService.path("/<#=ViewDataTypeShortName#>");
+                }).error(function (err) {
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
+                });
+            }
 			function delete<#=ViewDataTypeShortName#>() {
 			    if (confirm("确认要删除?")) {
 					http.delete("/api/<#=ViewDataTypeShortName#>/" + id).success(function (data) {
 						toaster.success("提示", "删除成功");
 						locationService.path("/<#=ViewDataTypeShortName#>");
 					}).error(function (err) {
-						toaster.error("错误", err.Message);
+						toaster.error("错误", Alps.phaseErr(err));
 					});
 				}
             }
 			function goBack() {
                 window.history.back();
             }
+			function addSubItem() {
+                scope.item.Items.push({ "<#=ViewDataTypeShortName#>ID": scope.item.ID });
+            }
+            function deleteSubItem($index) {
+                scope.item.Items.splice($index, 1);
+            }
+			scope.addSubItem = addSubItem;
+            scope.deleteSubItem = deleteSubItem;
             scope.get<#=ViewDataTypeShortName#> = get<#=ViewDataTypeShortName#>;
 			scope.save<#=ViewDataTypeShortName#> = save<#=ViewDataTypeShortName#>;
 			scope.delete<#=ViewDataTypeShortName#> = delete<#=ViewDataTypeShortName#>;
+            scope.submit<#=ViewDataTypeShortName#> = submit<#=ViewDataTypeShortName#>;
 			scope.goBack=goBack;
 			var id="";
 			if(routeParams["id"]){

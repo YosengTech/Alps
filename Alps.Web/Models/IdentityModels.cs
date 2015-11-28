@@ -49,5 +49,11 @@ namespace Alps.Web.Models
 
         public System.Data.Entity.DbSet<Alps.Web.Models.StockInfoViewModel> StockInfoViewModels { get; set; }
 
+        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrder> SaleOrders { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrderItem> SaleOrderItems { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.Goods> Goods { get; set; }
+
     }
 }

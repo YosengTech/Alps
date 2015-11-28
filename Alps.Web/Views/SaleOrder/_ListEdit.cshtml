@@ -1,0 +1,47 @@
+﻿@model Alps.Domain.SaleMgr.SaleOrderItem
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ID)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.GoodsID)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.UnitID)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Price)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Remark)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Quantity)
+		</th>
+		<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+	</tr>
+	<tr ng-repeat="subItem in item.Items">
+		<td>
+			<input type="hidden" ng-model="subItem.ID" />
+		</td>
+		<td>
+			<select name="GoodsID" id="GoodsID" class="form-control" ng-model="subItem.GoodsID" ng-options="selectList.ID as selectList.Name for selectList in GoodsIDSelectList"></select>
+		</td>
+		<td>
+			@Html.EditorFor(model => model.UnitID, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.UnitID"} })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Price"} })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Remark"} })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Quantity"} })
+		</td>
+		<td>
+			<a class="btn btn-default btn-sm" ng-click="deleteSubItem()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
+		</td>
+	</tr>
+</table>

@@ -20,5 +20,30 @@ namespace Alps.Domain.Service
             StockService stockService = new StockService(db);
             stockService.UpdateStock(voucher);
         }
+
+        public void UpdateWarehouseVoucher(Guid id, WarehouseVoucher warehouseVoucher)
+        {
+            var exitingWarehouseVoucher = db.WarehouseVouchers.Find(id);
+            db.Entry(exitingWarehouseVoucher).CurrentValues.SetValues(warehouseVoucher);
+            WarehouseVoucherItem updatedItem = null;
+            foreach (WarehouseVoucherItem item in exitingWarehouseVoucher.Items.ToList())
+            {
+                updatedItem = warehouseVoucher.Items.FirstOrDefault(p => p.ID == item.ID);
+                if (updatedItem == null)
+                {
+                    exitingWarehouseVoucher.Items.Remove(item);
+                }
+                else
+                {
+                    db.Entry(item).CurrentValues.SetValues(updatedItem);
+                }
+            }
+            foreach (WarehouseVoucherItem item in warehouseVoucher.Items)
+            {
+                item.WarehouseVoucherID = exitingWarehouseVoucher.ID;
+                exitingWarehouseVoucher.Items.Add(item);
+
+            }
+        }
     }
 }
