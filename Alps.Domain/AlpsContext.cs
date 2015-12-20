@@ -30,13 +30,13 @@ namespace Alps.Domain
         public DbSet<Position> Positions { get; set; }
         public DbSet<WarehouseVoucher> WarehouseVouchers { get; set; }
         public DbSet<WarehouseVoucherItem> WarehouseVoucherItems { get; set; }
-        public DbSet<Commodity> Commodities { get; set; }
         #endregion
 
         #region SaleMgr
         public DbSet<Customer> Customer { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<SaleOrderItem> SaleOrderItems { get; set; }
+        public DbSet<Commodity> Commodities { get; set; }
         #endregion
 
         #region PurchaseMgr
@@ -100,6 +100,7 @@ namespace Alps.Domain
             Guid destinationID = Guid.Empty;
             Guid materialID = Guid.Empty;
             Guid positionID = Guid.Empty;
+            Guid unitID = Guid.Empty;
             protected override void Seed(AlpsContext context)
             {
 
@@ -135,7 +136,9 @@ namespace Alps.Domain
                 context.Materials.Add(material);
                 context.SaveChanges();
                 materialID = material.ID;
-                context.Units.Add(new Unit() { Name = "吨" });
+                Unit unit = new Unit() { Name = "吨" };
+                context.Units.Add(unit);
+                unitID = unit.ID;
                 context.SaveChanges();
                 context.Positions.Add(new Position() { Name = "新建616", Number = "616", Warehouse = "新建仓库" });
                 Position position = new Position() { Name = "小槽315", Number = "315", Warehouse = "小槽仓库" };
@@ -150,8 +153,8 @@ namespace Alps.Domain
                 context.SaveChanges();
 
 
-                context.Commodities.Add(Commodity.Create(materialID,1,2.4m,destinationID,positionID,"556677"));
-                context.Commodities.Add(Commodity.Create(materialID, 2, 3.5m, destinationID, positionID, "889900"));
+                context.Products.Add(Product.Create(materialID,1,2.4m,destinationID,positionID,"556677"));
+                context.Products.Add(Product.Create(materialID, 2, 3.5m, destinationID, positionID, "889900"));
 
                 context.SaveChanges();
                 //PurchaseOrder order =new PurchaseOrder();
@@ -160,10 +163,13 @@ namespace Alps.Domain
             }
             void SaleMgrSeed(AlpsContext context)
             {
+                var goods = Commodity.Create(materialID, "5#4Kg", "槽钢", 1700, 100);
+                context.Commodities.Add(goods);
                 var saleOrder = SaleOrder.Create(sourceID);
                 context.SaleOrders.Add(saleOrder);
                 saleOrder = SaleOrder.Create(destinationID,saleOrder);
                 context.SaleOrders.Add(saleOrder);
+                
                 context.SaveChanges();
             }
         }

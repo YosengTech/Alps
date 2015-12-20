@@ -77,10 +77,12 @@
         submitSaleOrder(): void;
         form: ng.IFormController;
         GoodsIDSelectList: any[];
+        CommodityIDSelectList: any[];
+        UnitIDSelectList: any[];
 	}
 	export class SaleOrderEditCtrl{
-		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
-		constructor(scope:ISaleOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
+		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window","SelectListService"];
+		constructor(scope:ISaleOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.SelectListService){
 			function getCustomerIDSelectList(){
 				http.get("/api/TradeAccount").success(function(data){
 					scope.CustomerIDSelectList=<any[]>data;
@@ -96,7 +98,14 @@
 				}).error(function(data){
 					toaster.error("错误",data.Message);
 				});
-			};
+            };
+            function getCommodityIDSelectList() {
+                http.get("/api/Commodity").success(function (data) {
+                    scope.CommodityIDSelectList = <any[]>data;
+                }).error(function (err) {
+                    toaster.error("错误", err.Message);
+                });
+            }
 			function saveSaleOrder(){
 				http.put("/api/SaleOrder/"+id,scope.item).success(function(data){
 					toaster.success("提示","保存成功");
@@ -155,6 +164,12 @@
 				id=routeParams["id"];
                 getCustomerIDSelectList();
                 getGoodsIDSelectList();
+                getCommodityIDSelectList();
+                scope.UnitIDSelectList = [1, 2];
+                selectListService.GetSelectList("Unit").success(function (data) {
+                    scope.UnitIDSelectList =<any[]> data;
+                });;
+                scope.UnitIDSelectList = [2, 2];
 				getSaleOrder(id);
 			}
 			else{

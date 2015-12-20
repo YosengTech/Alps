@@ -10,47 +10,48 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Alps.Domain.SaleMgr;
 using Alps.Web.Models;
+using Alps.Domain;
 
 namespace Alps.Web.Controllers
 {
-    public class GoodsApiController : ApiController
+    public class CommodityApiController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private AlpsContext db = new AlpsContext();
 
-        // GET: api/GoodsApi
-        public IQueryable<Goods> GetGoods()
+        // GET: api/CommodityApi
+        public IQueryable<Commodity> GetCommodity()
         {
-            return db.Goods;
+            return db.Commodities;
         }
 
-        // GET: api/GoodsApi/5
-        [ResponseType(typeof(Goods))]
-        public IHttpActionResult GetGoods(Guid id)
+        // GET: api/CommodityApi/5
+        [ResponseType(typeof(Commodity))]
+        public IHttpActionResult GetCommodity(Guid id)
         {
-            Goods goods = db.Goods.Find(id);
-            if (goods == null)
+            Commodity commodity = db.Commodities.Find(id);
+            if (commodity == null)
             {
                 return NotFound();
             }
 
-            return Ok(goods);
+            return Ok(commodity);
         }
 
-        // PUT: api/GoodsApi/5
+        // PUT: api/CommodityApi/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutGoods(Guid id, Goods goods)
+        public IHttpActionResult PutCommodity(Guid id, Commodity commodity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != goods.ID)
+            if (id != commodity.ID)
             {
                 return BadRequest();
             }
 
-            db.Entry(goods).State = EntityState.Modified;
+            db.Entry(commodity).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +59,7 @@ namespace Alps.Web.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GoodsExists(id))
+                if (!CommodityExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +72,16 @@ namespace Alps.Web.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/GoodsApi
-        [ResponseType(typeof(Goods))]
-        public IHttpActionResult PostGoods(Goods goods)
+        // POST: api/CommodityApi
+        [ResponseType(typeof(Commodity))]
+        public IHttpActionResult PostCommodity(Commodity commodity)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Goods.Add(goods);
+            db.Commodities.Add(commodity);
 
             try
             {
@@ -88,7 +89,7 @@ namespace Alps.Web.Controllers
             }
             catch (DbUpdateException)
             {
-                if (GoodsExists(goods.ID))
+                if (CommodityExists(commodity.ID))
                 {
                     return Conflict();
                 }
@@ -98,23 +99,23 @@ namespace Alps.Web.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = goods.ID }, goods);
+            return CreatedAtRoute("DefaultApi", new { id = commodity.ID }, commodity);
         }
 
-        // DELETE: api/GoodsApi/5
-        [ResponseType(typeof(Goods))]
-        public IHttpActionResult DeleteGoods(Guid id)
+        // DELETE: api/CommodityApi/5
+        [ResponseType(typeof(Commodity))]
+        public IHttpActionResult DeleteCommodity(Guid id)
         {
-            Goods goods = db.Goods.Find(id);
-            if (goods == null)
+            Commodity commodity = db.Commodities.Find(id);
+            if (commodity == null)
             {
                 return NotFound();
             }
 
-            db.Goods.Remove(goods);
+            db.Commodities.Remove(commodity);
             db.SaveChanges();
 
-            return Ok(goods);
+            return Ok(commodity);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +127,9 @@ namespace Alps.Web.Controllers
             base.Dispose(disposing);
         }
 
-        private bool GoodsExists(Guid id)
+        private bool CommodityExists(Guid id)
         {
-            return db.Goods.Count(e => e.ID == id) > 0;
+            return db.Commodities.Count(e => e.ID == id) > 0;
         }
     }
 }

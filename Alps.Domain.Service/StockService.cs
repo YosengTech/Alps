@@ -39,15 +39,15 @@ namespace Alps.Domain.Service
         }
         public void StockIn(Guid ownerID, Guid materialID, decimal count, decimal quantity, Guid positionID, string productNumber = "")
         {
-            Commodity existCommodity =null;
+            Product existCommodity =null;
             if (productNumber == string.Empty)
-                existCommodity = db.Commodities.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID);
+                existCommodity = db.Products.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID);
             else
-                existCommodity = db.Commodities.FirstOrDefault(p => p.ProductNumber == productNumber);
+                existCommodity = db.Products.FirstOrDefault(p => p.ProductNumber == productNumber);
             if (existCommodity == null)
             {
-                Commodity newCommodity = Commodity.Create(materialID, count, quantity, ownerID, positionID, productNumber);
-                db.Commodities.Add(newCommodity);
+                Product newCommodity = Product.Create(materialID, count, quantity, ownerID, positionID, productNumber);
+                db.Products.Add(newCommodity);
 
             }
             else
@@ -65,16 +65,16 @@ namespace Alps.Domain.Service
         }
         public void StockOut(string productNumber)
         {
-            Commodity commodity = db.Commodities.FirstOrDefault(p => p.ProductNumber == productNumber);
+            Product commodity = db.Products.FirstOrDefault(p => p.ProductNumber == productNumber);
             if (commodity == null)
             {
                 throw new DomainException("无此编码");
             }
-            db.Commodities.Remove(commodity);
+            db.Products.Remove(commodity);
         }
         public void StockOut(Guid ownerID, Guid materialID, decimal count, decimal quantity, Guid positionID, string productNumber = "")
         {
-            Commodity commodity = db.Commodities.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID && p.ProductNumber == productNumber);
+            Product commodity = db.Products.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID && p.ProductNumber == productNumber);
             if (commodity != null)
             {
                 if (productNumber == string.Empty)
@@ -91,7 +91,7 @@ namespace Alps.Domain.Service
                 {
                     if (commodity.Count == count && commodity.Quantity == quantity)
                     {
-                        db.Commodities.Remove(commodity);
+                        db.Products.Remove(commodity);
                     }
                     else
                         throw new DomainException("库存量已发生改变");

@@ -60,7 +60,7 @@ var Alps;
         })();
         Controllers.SaleOrderCreateCtrl = SaleOrderCreateCtrl;
         var SaleOrderEditCtrl = (function () {
-            function SaleOrderEditCtrl(scope, http, toaster, locationService, routeParams, window) {
+            function SaleOrderEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
                 function getCustomerIDSelectList() {
                     http.get("/api/TradeAccount").success(function (data) {
                         scope.CustomerIDSelectList = data;
@@ -78,6 +78,13 @@ var Alps;
                     });
                 }
                 ;
+                function getCommodityIDSelectList() {
+                    http.get("/api/Commodity").success(function (data) {
+                        scope.CommodityIDSelectList = data;
+                    }).error(function (err) {
+                        toaster.error("错误", err.Message);
+                    });
+                }
                 function saveSaleOrder() {
                     http.put("/api/SaleOrder/" + id, scope.item).success(function (data) {
                         toaster.success("提示", "保存成功");
@@ -136,13 +143,20 @@ var Alps;
                     id = routeParams["id"];
                     getCustomerIDSelectList();
                     getGoodsIDSelectList();
+                    getCommodityIDSelectList();
+                    scope.UnitIDSelectList = [1, 2];
+                    selectListService.GetSelectList("Unit").success(function (data) {
+                        scope.UnitIDSelectList = data;
+                    });
+                    ;
+                    scope.UnitIDSelectList = [2, 2];
                     getSaleOrder(id);
                 }
                 else {
                     locationService.path("/SaleOrder");
                 }
             }
-            SaleOrderEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
+            SaleOrderEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
             return SaleOrderEditCtrl;
         })();
         Controllers.SaleOrderEditCtrl = SaleOrderEditCtrl;

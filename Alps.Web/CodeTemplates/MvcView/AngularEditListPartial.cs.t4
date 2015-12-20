@@ -94,7 +94,7 @@ string pkName = GetPrimaryKeyName();
 if (pkName != null) {
 #>
 		<td>
-			<a class="btn btn-default btn-sm" ng-click="deleteSubItem()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
+			<a class="btn btn-default btn-sm" ng-click="deleteSubItem($index)"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
 		</td>
 <#
 } else {

@@ -19,14 +19,18 @@ namespace Alps.Domain.ProductMgr
         public string ProductNumber { get; set; }
         public Guid PositionID { get; set; }
         public Guid OwnerID { get; set; }
-        public virtual Material Material { get; set; }
-        public virtual Position Position { get; set; }
-        public virtual TradeAccount Owner { get; set; }
+        //public virtual Material Material { get; set; }
+        //public virtual Position Position { get; set; }
+        //public virtual TradeAccount Owner { get; set; }
         //protected Product() { }
-        public static Product Create(Material material, decimal count, decimal quantity, TradeAccount owner, Position position, string productNumber = "")
+        public static Product Create(Guid materialID, decimal count, decimal quantity, Guid ownerID, Guid positionID, string productNumber = "")
         {
-            return new Product() { Quantity = quantity, Material = material, Count = count, Position = position, Owner = owner, ProductNumber = productNumber };
+            return new Product() { Quantity = quantity, MaterialID = materialID, Count = count, PositionID = positionID, OwnerID = ownerID, ProductNumber = productNumber };
         }
-
+        public void MoveTo(Guid positionID)
+        {
+            this.PositionID = positionID;
+        }
+        
     }
 }

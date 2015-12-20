@@ -3,7 +3,7 @@ namespace Alps.Domain.SaleMgr
 {
     public class ListPrice : EntityBase
     {
-        public Goods Goods { get; set; }
+        public Commodity Commodity { get; set; }
         public decimal Price { get; set; }
 
     }

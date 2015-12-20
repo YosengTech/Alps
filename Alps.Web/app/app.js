@@ -70,43 +70,6 @@ var Alps;
         return SelectList;
     })();
     Alps.SelectList = SelectList;
-    //export interface ICatagoryEditScope {
-    //    item: any;
-    //    catagorySelectList: SelectList[];
-    //}
-    //export class CatagoryEditCtrl {
-    //    public static $inject = ["$scope", "$routeParams","$http","toaster","$location"];
-    //    vmScope: any;
-    //    constructor(scope: any, routeParams:ng.route.IRouteParamsService, http: ng.IHttpService,toaster,lo:ng.ILocationService) {
-    //        var self;
-    //        self = this;
-    //        this.vmScope = scope;
-    //        this.getcatagory(routeParams["id"]);
-    //        var currentId = routeParams["id"];
-    //        this.vmScope.save = function (event:Event) {
-    //            event.preventDefault();
-    //            http.put("/api/catagories/" + currentId, self.vmScope.item).success(function () {
-    //                toaster.pop('success', "更新", "成功保存");
-    //                lo.path("/Catagory");
-    //            });
-    //        }
-    //        this.vmScope.goBack = function () {
-    //        }
-    //    }
-    //    getcatagory(id: any) {
-    //        var self = this;
-    //        $.get("/api/catagories/" + id, function (data) {
-    //            self.vmScope.item = data;
-    //        });
-    //        $.get("/api/catagories", function (data) {
-    //            self.vmScope.catagorySelectList = [];
-    //            self.vmScope.catagorySelectList.push(new SelectList(null, '---请选择---'));
-    //            data.forEach(function (item) {
-    //                self.vmScope.catagorySelectList.push(new SelectList(item.ID, item.Name));
-    //            });
-    //        });
-    //    }
-    //} 
     var AlpsApp = (function () {
         function AlpsApp() {
         }

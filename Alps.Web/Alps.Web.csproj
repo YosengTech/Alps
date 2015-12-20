@@ -218,7 +218,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CatagoriesApiController.cs" />
     <Compile Include="Controllers\CatagoryController.cs" />
-    <Compile Include="Controllers\GoodsApiController.cs" />
+    <Compile Include="Controllers\CommodityApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialApiController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -1495,10 +1495,8 @@
     <Content Include="Views\WarehouseVoucher\Index.cshtml" />
     <Content Include="Views\WarehouseVoucher\Create.cshtml" />
     <Content Include="Views\SaleOrder\Index.cshtml" />
-    <Content Include="Views\SaleOrder\Edit.cshtml" />
     <Content Include="Views\SaleOrder\Create.cshtml" />
     <Content Include="Views\SaleOrder\_ListEdit.cshtml" />
-    <Content Include="Views\WarehouseVoucher\Edit2.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit1.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit2.cshtml" />
     <Content Include="Views\WarehouseVoucher\ItemEdit3.cshtml" />
@@ -1514,8 +1512,11 @@
     <Content Include="Views\Material\Create.cshtml" />
     <Content Include="Views\TradeAccount\Index.cshtml" />
     <Content Include="Views\TradeAccount\Edit.cshtml" />
-    <Content Include="Views\WarehouseVoucher\Edit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit_back.cshtml" />
     <Content Include="Views\WarehouseVoucher\ListEdit.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
+    <Content Include="Views\SaleOrder\ListEdit.cshtml" />
+    <Content Include="Views\WarehouseVoucher\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1534,6 +1535,7 @@
     <TypeScriptCompile Include="app\alpsToaster.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appConfig.ts" />
+    <TypeScriptCompile Include="app\appHelper.ts" />
     <TypeScriptCompile Include="app\catagories.ts" />
     <TypeScriptCompile Include="app\controllers\catagoryController.ts" />
     <TypeScriptCompile Include="app\controllers.ts" />

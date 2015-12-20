@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Alps.Domain.Common;
 using Alps.Domain.ProductMgr;
 using Alps.Domain.AccountingMgr;
+using Alps.Domain.DistributionMgr;
 using System.ComponentModel.DataAnnotations;
 namespace Alps.Domain.SaleMgr
 {
@@ -14,15 +15,16 @@ namespace Alps.Domain.SaleMgr
         public TradeAccount Customer { get; set; }
         [Display(Name="客户")]
         public Guid CustomerID { get; set; }
+        [Display(Name="下单时间")]
         public DateTime OrderTime { get; set; }
         public string DeliveryAddress { get; set; }
         public  ICollection<SaleOrderItem> Items { get; set; }
-        public  ICollection<DeliveryVoucher> DeliveryVouchers { get; set; }
+        public  ICollection<DistributionVoucher> DeliveryVouchers { get; set; }
         public SaleOrder ParentSaleOrder { get; set; }
         public SaleOrder()
         {
             Items = new HashSet<SaleOrderItem>();
-            DeliveryVouchers = new HashSet<DeliveryVoucher>();
+            DeliveryVouchers = new HashSet<DistributionVoucher>();
         }
 
         public static SaleOrder Create(Guid customerID,SaleOrder parentSaleOrder = null)
@@ -35,15 +37,15 @@ namespace Alps.Domain.SaleMgr
             return saleOrder;
         }
 
-        public void UpdateItems(Guid goodsID, decimal count, decimal weight, Guid unitID, decimal price)
+        public void UpdateItems(Guid commodityID, decimal count, decimal weight, Guid unitID, decimal price)
         {
-            SaleOrderItem existingItem = this.Items.FirstOrDefault(p => p.GoodsID == goodsID);
+            SaleOrderItem existingItem = this.Items.FirstOrDefault(p => p.CommodityID == commodityID);
             if (existingItem == null)
             {
                 existingItem = new SaleOrderItem();
                 this.Items.Add(existingItem);
             }
-            existingItem.GoodsID = goodsID;
+            existingItem.CommodityID = commodityID;
             existingItem.Quantity += new Quantity(count, weight);
             existingItem.UnitID = unitID;
             existingItem.Price = price;

@@ -53,7 +53,8 @@ namespace Alps.Web.Models
 
         public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrderItem> SaleOrderItems { get; set; }
 
-        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.Goods> Goods { get; set; }
+        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.Commodity> Commodities { get; set; }
+
 
     }
 }

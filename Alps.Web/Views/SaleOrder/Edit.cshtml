@@ -18,7 +18,6 @@
 						@Html.AntiForgeryToken()
 						<div class="-form-horizontal">
 							<h4>
-								SaleOrder
 								<a class="btn btn-danger btn-sm right" ng-click="deleteSaleOrder()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
 							<hr />
 							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -39,7 +38,7 @@
 								@Html.ValidationMessageFor(model => model.DeliveryAddress, "", new { @class = "text-danger" })
 							</div>
                             <div class="form-group">
-                                @Html.Partial("_ListEdit")
+                                @Html.Partial("ListEdit")
                             </div>
 							<div class="form-group  text-center">
 								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>

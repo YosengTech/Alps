@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Alps.Domain.Common;
+using Alps.Domain.SaleMgr;
 namespace Alps.Domain.DistributionMgr
 {
-    public class DistributionItem : EntityBase
+    public class DistributionVoucherItem : EntityBase
     {
-        public Guid GoodID { get; set; }
+        public Commodity Commodity { get; set; }
+        public Guid CommodityID { get; set; }
         public Quantity Quantity { get; set; }
     }
 }

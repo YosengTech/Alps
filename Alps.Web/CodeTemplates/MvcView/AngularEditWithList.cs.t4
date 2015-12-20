@@ -28,7 +28,6 @@ bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
 					@using (Html.BeginForm())
 					{
 						@Html.AntiForgeryToken()
-						<div class="-form-horizontal">
 							<h4>
 								<#= ViewDataTypeShortName #>
 								<a class="btn btn-danger btn-sm right" ng-click="delete<#= ViewDataTypeShortName #>()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
@@ -53,7 +52,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 <#
         } else if (!property.IsReadOnly) {
 #>
-							<div class="form-group">
+							<div class="form-group col-md-3">
 <#
             if (property.IsForeignKey) {
 #>
@@ -131,6 +130,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
     }
 }
 #>
+							<div class="clearfix"></div>
                             <div class="form-group">
                                 @Html.Partial("ListEdit")
                             </div>
@@ -139,7 +139,6 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 								<a class="btn btn-primary btn-sm" ng-click="save<#= ViewDataTypeShortName #>()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
                                 <a class="btn btn-primary btn-sm" ng-click="submit<#= ViewDataTypeShortName #>()"><span class="glyphicon glyphicon-save"></span>&nbsp;提交</a>
 							</div>
-						</div>
 					}
 				</div>
 			</div>

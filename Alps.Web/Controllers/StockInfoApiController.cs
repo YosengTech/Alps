@@ -20,7 +20,7 @@ namespace Alps.Web.Controllers
         // GET: api/StockInfoApi
         public IQueryable<StockInfoViewModel> GetStockInfos()
         {
-            var q=from c in db.Commodities
+            var q=from c in db.Products
                   from m in db.Materials
                   from p in db.Positions
                   from t in db.TradeAccounts

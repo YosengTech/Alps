@@ -55,7 +55,7 @@
     <Compile Include="Common\DomainException.cs" />
     <Compile Include="Common\Quantity.cs" />
     <Compile Include="Common\Unit.cs" />
-    <Compile Include="DistributionMgr\DistributionItem.cs" />
+    <Compile Include="DistributionMgr\DistributionVoucherItem.cs" />
     <Compile Include="DistributionMgr\DistributionVoucher.cs" />
     <Compile Include="EntityBase\ValueObject.cs" />
     <Compile Include="ProductMgr\Catagory.cs" />
@@ -65,8 +65,8 @@
     <Compile Include="ProductMgr\DeliveryVoucherItem.cs" />
     <Compile Include="ProductMgr\DeliveryVoucherState.cs" />
     <Compile Include="ProductMgr\Material.cs" />
-    <Compile Include="ProductMgr\Commodity.cs" />
     <Compile Include="ProductMgr\Product.cs" />
+    <Compile Include="ProductMgr\Product_back.cs" />
     <Compile Include="ProductMgr\Position.cs" />
     <Compile Include="ProductMgr\WarehouseVoucher.cs" />
     <Compile Include="ProductMgr\WarehouseVoucherItem.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="PurchaseMgr\PurchaseOrder.cs" />
     <Compile Include="PurchaseMgr\PurchaseOrderItem.cs" />
     <Compile Include="SaleMgr\Customer.cs" />
-    <Compile Include="SaleMgr\Goods.cs" />
+    <Compile Include="SaleMgr\Commodity.cs" />
     <Compile Include="SaleMgr\ListPrice.cs" />
     <Compile Include="SaleMgr\PayInfo.cs" />
     <Compile Include="SaleMgr\SaleOrder.cs" />

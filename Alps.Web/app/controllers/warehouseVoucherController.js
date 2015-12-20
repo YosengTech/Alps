@@ -199,7 +199,15 @@ var Alps;
                     getDestinationIDSelectList();
                     getMaterialIDSelectList();
                     getPositionIDSelectList();
-                    getWarehouseVoucher(id);
+                    if (id != '0') {
+                        getWarehouseVoucher(id);
+                    }
+                    else {
+                        scope.item = new WarehouseVoucher();
+                        scope.item.Creater = "FF";
+                        scope.item.CreateTime = new Date();
+                        scope.item.Items = [];
+                    }
                 }
                 else {
                     locationService.path("/WarehouseVoucher");
