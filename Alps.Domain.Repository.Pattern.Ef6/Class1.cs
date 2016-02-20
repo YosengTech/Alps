@@ -8,5 +8,6 @@ namespace Alps.Domain.Repository.Pattern.Ef6
 {
     public class Class1
     {
+        public int i { get; set; }
     }
 }
