@@ -21,7 +21,7 @@
 					scope.items=<Catagory[]>data;
 					toaster.success("提示","载入成功");
 				}).error(function(data){
-					toaster.error("错误",data.Message);
+					toaster.error("错误",Alps.phaseErr(data));
 				});
 			};
             scope.getCatagoryList = getCatagoryList;
@@ -38,10 +38,8 @@
 		public static $inject=["$scope","$http","toaster","$location"];
 		constructor(scope:ICatagoryCreateScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService){
 			function getParentIDSelectList(){
-				http.get("/api/catagory").success(function(data){
+                new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function(data){
 					scope.ParentIDSelectList=<any[]>data;
-				}).error(function(err){
-					toaster.error("错误",err.Message);
 				});
 			}
 			function createCatagory(){
@@ -72,8 +70,8 @@
 	export class CatagoryEditCtrl{
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
 		constructor(scope:ICatagoryEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
-			function getParentIDSelectList(){
-                http.get("/api/catagory").success(function(data){
+            function getParentIDSelectList() {
+                new Alps.SelectListService(http,toaster).GetSelection("catagory").success(function(data){
 					scope.ParentIDSelectList=<any[]>data;
 				}).error(function(err){
 					toaster.error("错误",err.Message);

@@ -1,0 +1,74 @@
+﻿@model Alps.Domain.PurchaseMgr.PurchaseOrder
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/PurchaseOrder">PurchaseOrder</a></li>
+		<li class="active"><a href="#/PurchaseOrder/Edit">Edit</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>PurchaseOrder</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+							<h4>
+								PurchaseOrder
+								<a class="btn btn-danger btn-sm right" ng-click="deletePurchaseOrder()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							@Html.HiddenFor(model => model.ID)
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.OrderTime,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<input name="OrderTime" id="OrderTime" type="text" class="form-control" ng-model="item.OrderTime"  bs_datepicker  data_date_format = "yyyy-MM-dd">
+								@Html.ValidationMessageFor(model => model.OrderTime, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.Creater,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.Creater, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Creater"} })
+								@Html.ValidationMessageFor(model => model.Creater, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.SupplierID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="SupplierID" id="SupplierID" class="form-control" ng-model="item.SupplierID" ng-options="selectList.ID as selectList.Name for selectList in SupplierIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.State,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EnumDropDownListFor(model => model.State, htmlAttributes: new { @class = "form-control" })
+								@Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalAmount,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.TotalAmount"} })
+								@Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalQuantity,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalQuantity, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.TotalQuantity"} })
+								@Html.ValidationMessageFor(model => model.TotalQuantity, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalWeight,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalWeight, new { htmlAttributes = new { @class = "form-control", ng_model = "item.TotalWeight" } })
+								@Html.ValidationMessageFor(model => model.TotalWeight, "", new { @class = "text-danger" })
+							</div>
+							<div class="clearfix"></div>
+                            <div class="form-group">
+                                @Html.Partial("~/Views/PurchaseOrder/ListEdit.cshtml")
+                            </div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="savePurchaseOrder()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+                                <a class="btn btn-primary btn-sm" ng-click="submitPurchaseOrder()"><span class="glyphicon glyphicon-save"></span>&nbsp;提交</a>
+							</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

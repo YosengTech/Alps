@@ -40,8 +40,6 @@ namespace Alps.Web.Models
 
         public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.WarehouseVoucherItem> WarehouseVoucherItems { get; set; }
 
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Material> Materials { get; set; }
-
         public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Position> Positions { get; set; }
 
 
@@ -54,6 +52,16 @@ namespace Alps.Web.Models
         public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrderItem> SaleOrderItems { get; set; }
 
         public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.Commodity> Commodities { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Web.Models.ProductMgr.ProductStockListModel> ProductStockListModels { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.ProductStock> ProductStocks { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Product> Products { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.PurchaseMgr.PurchaseOrder> PurchaseOrders { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.ProductSku> ProductSKUs { get; set; }
 
 
     }

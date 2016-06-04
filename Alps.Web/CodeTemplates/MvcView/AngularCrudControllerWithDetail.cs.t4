@@ -75,7 +75,7 @@ foreach (PropertyMetadata property in properties) {
             get<#=ViewDataTypeShortName#>List();
 		}
 	}
-	export interface I<#=ViewDataTypeShortName#>CreateScope{
+/*	export interface I<#=ViewDataTypeShortName#>CreateScope{
 		item:<#=ViewDataTypeShortName#>;
 		create<#=ViewDataTypeShortName#>():void;
 <#
@@ -125,6 +125,7 @@ foreach (PropertyMetadata property in properties) {
 #>
 		}
 	}
+	*/
 	export interface I<#=ViewDataTypeShortName#>EditScope{
 		id:string;
 		item:<#=ViewDataTypeShortName#>;
@@ -211,6 +212,8 @@ foreach (PropertyMetadata property in properties) {
                 window.history.back();
             }
 			function addSubItem() {
+			    if (scope.item.Items == undefined)
+                    scope.item.Items = [];
                 scope.item.Items.push({ "<#=ViewDataTypeShortName#>ID": scope.item.ID });
             }
             function deleteSubItem($index) {
@@ -233,7 +236,12 @@ foreach (PropertyMetadata property in properties) {
 <#
 		}
 #>
-				get<#=ViewDataTypeShortName#>(id);
+				if (id != '0') {
+                    get<#=ViewDataTypeShortName#>(id);
+                }
+				else
+					scope.item=new <#=ViewDataTypeShortName#>();
+				
 			}
 			else{
 				locationService.path("/<#=ViewDataTypeShortName#>");

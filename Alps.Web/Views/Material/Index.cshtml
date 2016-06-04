@@ -19,20 +19,23 @@
 			<table class="table">
 				<tr>
 					<th>
-						@Html.DisplayNameFor(model => model.Catagory.Name)
+						@Html.DisplayNameFor(model => model.Catagory.FullName)
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.Name)
 					</th>
-					<th></th>
+					<th>@Html.DisplayNameFor(model => model.FullName)</th><th></th>
 				</tr>
 				<tr ng-repeat="item in items">
 					<td>
-						{{item.Catagory.Name}}
+						{{item.Catagory.FullName}}
 					</td>
 					<td>
 						{{item.Name}}
 					</td>
+                    <td>
+                        {{item.FullName}}
+                    </td>
 					<td>
 						<a class="btn btn-default btn-sm" href="#/Material/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
 					</td>

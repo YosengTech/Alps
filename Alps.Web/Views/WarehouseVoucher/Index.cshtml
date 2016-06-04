@@ -50,13 +50,14 @@
 						{{item.CreateTime|date:"yyyy-MM-dd"}}
 					</td>
 					<td>
-						{{item.State}}
+						{{item.State|warehouseVoucherStateFilter}}
 					</td>
 					<td>
 						{{item.SubmitUser}}
 					</td>
 					<td>
-						<a class="btn btn-default btn-sm" href="#/WarehouseVoucher/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+                        
+						<a ng-if="item.State==0" class="btn btn-default btn-sm" href="#/WarehouseVoucher/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
 					</td>
 				</tr>
 			</table>

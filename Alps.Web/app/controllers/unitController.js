@@ -15,8 +15,8 @@ var Alps;
                     http.get("/api/Unit").success(function (data) {
                         scope.items = data;
                         toaster.success("提示", "载入成功");
-                    }).error(function (data) {
-                        toaster.error("错误", data.Message);
+                    }).error(function (err) {
+                        toaster.error("错误", Alps.phaseErr(err));
                     });
                 }
                 ;
@@ -34,7 +34,7 @@ var Alps;
                         toaster.success("提示", "创建成功");
                         locationService.path("/Unit");
                     }).error(function (err) {
-                        toaster.error("错误", err.Message);
+                        toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
                     });
                 }
                 ;
@@ -64,7 +64,18 @@ var Alps;
                         toaster.success("提示", "保存成功");
                         locationService.path("/Unit");
                     }).error(function (err) {
-                        toaster.error("错误", err.Message);
+                        var errMsg = "";
+                        if (err.ModelState) {
+                            errMsg = "<ul>";
+                            for (var p in err.ModelState) {
+                                errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
+                            }
+                            errMsg = errMsg + "</ul>";
+                        }
+                        if (errMsg == "") {
+                            errMsg = err.Message;
+                        }
+                        toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
                     });
                 }
                 function deleteUnit() {
@@ -99,48 +110,4 @@ var Alps;
         Controllers.UnitEditCtrl = UnitEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));
-/*
-<div class="page page-form-validation clearfix">
-
-
-    <ol class="breadcrumb breadcrumb-small">
-        <li>Forms</li>
-        <li class="active"><a href="#/Unit">Unit</a></li>
-    </ol>
-    <div class="page-wrap">
-        <div class="row">
-        
-<p>
-    <a  class="btn btn-default btn-sm" href="#/Unit/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Group)
-        </th>
-        <th></th>
-    </tr>
-
-    <tr ng-repeat="item in items">
-        <td>
-            {{item.Name}}
-        </td>
-        <td>
-            {{item.Group}}
-        </td>
-        <td>
-         <a class="btn btn-default btn-sm" href="#/Unit/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
-         <a class="btn btn-default btn-sm" href="#/Unit/Delete/{{item.ID}}"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>
-        </td>
-    </tr>
-
-</table>
-</div>
-    </div>
-
-</div>
-*/
 //# sourceMappingURL=unitController.js.map

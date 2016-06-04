@@ -11,17 +11,24 @@ using System.Web.Http.Description;
 using Alps.Domain.ProductMgr;
 using Alps.Web.Models;
 using Alps.Domain;
+using Alps.Service.ProductMgr;
 namespace Alps.Web.Controllers
 {
     public class CatagoryApiController : ApiController
     {
-        private AlpsContext db = new AlpsContext();
-
+        private CatagoryService catagoryService = null;
+        private AlpsContext unitOfWork = null;
+        public CatagoryApiController()
+        {
+            unitOfWork = new AlpsContext();
+            catagoryService = new CatagoryService(unitOfWork);
+        }
         // GET: api/CatagoriesApi
         public IList<Catagory> GetCatagories()
         {
-            IList<Catagory> list= db.Catagories.Include(p=>p.Parent).ToList();
-            //list = list.Select(p => new Catagory { ID = p.ID, ParentID = p.ParentID, Name = p.Name, Timestamp = p.Timestamp }).ToList(); 
+            //IList<Catagory> list= db.Catagories.Include(p=>p.Parent).ToList();
+
+            IList<Catagory> list = catagoryService.GetCatagories();
             return list;
         }
 
@@ -29,7 +36,7 @@ namespace Alps.Web.Controllers
         [ResponseType(typeof(Catagory))]
         public IHttpActionResult GetCatagory(Guid id)
         {
-            Catagory catagory = db.Catagories.Find(id);
+            Catagory catagory = catagoryService.GetCatagory(id); //db.Catagories.Find(id);
             if (catagory == null)
             {
                 return NotFound();
@@ -52,22 +59,18 @@ namespace Alps.Web.Controllers
                 return BadRequest();
             }
 
-            db.Entry(catagory).State = EntityState.Modified;
+            //db.Entry(catagory).State = EntityState.Modified;
+            catagoryService.UpdateCatagory(catagory.ID, catagory.Name, catagory.ParentID.HasValue ? catagory.ParentID.Value : Guid.Empty);
 
             try
             {
-                db.SaveChanges();
+                unitOfWork.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CatagoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
+                throw;
+
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,23 +84,16 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            db.Catagories.Add(catagory);
-
+            catagoryService.AddCatagory(catagory.Name, catagory.ParentID.HasValue ? catagory.ParentID.Value : Guid.Empty);
             try
             {
-                db.SaveChanges();
+                unitOfWork.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (CatagoryExists(catagory.ID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+
+                throw;
+
             }
 
             return CreatedAtRoute("DefaultApi", new { id = catagory.ID }, catagory);
@@ -107,14 +103,15 @@ namespace Alps.Web.Controllers
         [ResponseType(typeof(Catagory))]
         public IHttpActionResult DeleteCatagory(Guid id)
         {
-            Catagory catagory = db.Catagories.Find(id);
+            Catagory catagory = catagoryService.GetCatagory(id);
             if (catagory == null)
             {
                 return NotFound();
             }
 
-            db.Catagories.Remove(catagory);
-            db.SaveChanges();
+            //db.Catagories.Remove(catagory);
+            catagoryService.DeleteCatagory(id);
+            unitOfWork.SaveChanges();
 
             return Ok(catagory);
         }
@@ -123,14 +120,11 @@ namespace Alps.Web.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private bool CatagoryExists(Guid id)
-        {
-            return db.Catagories.Count(e => e.ID == id) > 0;
-        }
+
     }
 }

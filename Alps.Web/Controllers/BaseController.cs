@@ -21,5 +21,9 @@ namespace Alps.Web.Controllers
         {
             return View();
         }
+        public ActionResult Template(string templateName)
+        {
+            return View(templateName);
+        }
     }
 }

@@ -1,6 +1,14 @@
 -div{
     border:1px solid red;
 }
+
+.st-sort-ascent:before{
+    content: '\25B2';
+  }
+
+  .st-sort-descent:before{
+    content: '\25BC';
+  }
 .page-notification .btn {
     margin-bottom: 5px;
     margin-right: 5px
@@ -2364,15 +2372,19 @@ a.list-group-item {
     top: 0;
     z-index: 1000
 }
+
+/*因与bootstarp冲突而屏蔽
 .table th {
     font-weight: 600
 }
 .table>thead>tr>th,
+.table>tbody>tr>th,
 .table>tbody>tr>td,
 .table>tfoot>tr>td {
     vertical-align: middle;
     padding-left: 20px;
-    padding-right: 20px
+    padding-right: 20px;
+    text-align:center;
 }
 .table>thead>tr>th {
     border-bottom-width: 1px
@@ -2412,10 +2424,10 @@ a.list-group-item {
 }
 .table thead th>.th>.icon-down {
     bottom: -8px
-}
+}*/
 
-/*
-.toast {
+
+/*.toast {
     position: fixed;
     z-index: 1050
 }
@@ -2652,8 +2664,8 @@ a.list-group-item {
     .app.nav-min .toast.toast-bottomLeft {
         left: 65px
     }
-}
-    */
+}*/
+    
 .text-angular-editor.ta-root .btn-toolbar .btn-group {
     margin-bottom: 10px
 }

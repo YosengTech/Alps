@@ -10,22 +10,24 @@ Version requiredMvcVersion = new Version("5.1.0.0");
 bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
 #>
 <table class="table">
-	<tr>
+	<thead>
+		<tr>
 <#
 IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
 foreach (PropertyMetadata property in properties) {
 
     if (property.Scaffold && !property.IsAssociation) {
 #>
-		<th>
-			@Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
-		</th>
+			<th>
+				@Html.DisplayNameFor(model => model.<#= GetValueExpression(property) #>)
+			</th>
 <#
     }
 }
 #>
-		<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
-	</tr>
+			<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+		</tr>
+	</thead>
 	<tr ng-repeat="subItem in item.Items">
 <#
 foreach (PropertyMetadata property in properties) {
@@ -52,11 +54,11 @@ if (property.IsPrimaryKey) {
 <#
                     PushIndent("    ");
 #>
-			@Html.EditorFor(model => model.<#= property.PropertyName #>)
+			@Html.EditorFor(model => model.<#= property.PropertyName #>, new { htmlAttributes = new { ng_model = "item.<#= property.PropertyName #>"} })
 <#
                 } else if (property.IsEnum && !property.IsEnumFlags) {
 #>
-			@Html.EnumDropDownListFor(model => model.<#= property.PropertyName #>, htmlAttributes: new { @class = "form-control" })
+			<select class="form-control" ng-model="subItem.<#= property.PropertyName #>" ng-options="selectList.Value as selectList.Text for selectList in <#= property.PropertyName #>SelectList"></select>
 <#
                 } else {
 							if(property.TypeName.Equals(dateTimeOffsetType)){

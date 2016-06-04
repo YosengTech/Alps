@@ -10,6 +10,8 @@ namespace Alps.Domain.Common
     {
         public decimal Count { get; set; }
         public decimal Weight { get; set; }
+        //public Unit Unit { get; set; }
+        public Guid UnitID { get; set; }
         public Quantity(decimal count, decimal weight)
             : base()
         {

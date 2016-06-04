@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Alps.Web.Models.ProductMgr.ProductStockListModel>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/ProductStockListModel">ProductStockListModel</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/ProductStockListModel/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.ProductName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Quantity)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Weight)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PositionName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.OwnerName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.ProductNumber)
+					</th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.ProductName}}
+					</td>
+					<td>
+						{{item.Quantity}}
+					</td>
+					<td>
+						{{item.Weight}}
+					</td>
+					<td>
+						{{item.PositionName}}
+					</td>
+					<td>
+						{{item.OwnerName}}
+					</td>
+					<td>
+						{{item.ProductNumber}}
+					</td>
+
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>

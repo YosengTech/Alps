@@ -18,7 +18,7 @@ namespace Alps.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Alps.Domain.AlpsContext.Initial();
+            //Alps.Domain.AlpsContext.Initial();
 
             GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
@@ -27,6 +27,20 @@ namespace Alps.Web
             json.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.IsoDateTimeConverter() { DateTimeStyles = System.Globalization.DateTimeStyles.AdjustToUniversal });
             json.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
             json.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
+        }
+        protected void Application_EndRequest()
+        {
+            if (Context.Response.StatusCode == 404)
+            {
+                if ((!Request.RawUrl.Contains("style")) && (!Request.RawUrl.Contains("images")))
+                {
+                    Response.Clear();
+                    if (Response.StatusCode == 404)
+                    {
+                        Response.Redirect("/");
+                    }
+                }
+            }
         }
     }
 }

@@ -26,12 +26,12 @@
 							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 							@Html.HiddenFor(model => model.ID)
 							<div class="form-group">
-								@Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "text-uppercase small text-bold" })
 								@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Name"} })
 								@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 							</div>
 							<div class="form-group">
-								@Html.LabelFor(model => model.CatagoryID, "CatagoryID", htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.LabelFor(model => model.CatagoryID, htmlAttributes: new { @class = "text-uppercase small text-bold" })
 								<select name="CatagoryID" id="CatagoryID" class="form-control" ng-model="item.CatagoryID" ng-options="selectList.ID as selectList.Name for selectList in CatagoryIDSelectList"></select>
 								@Html.ValidationMessageFor(model => model.CatagoryID, "", new { @class = "text-danger" })
 							</div>

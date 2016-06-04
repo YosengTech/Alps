@@ -1,0 +1,91 @@
+﻿@model Alps.Domain.ProductMgr.Product
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/Product">Product</a></li>
+		<li class="active"><a href="#/Product/Create">Create</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>Product</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						<div class="form-horizontal">
+							<h4>Product</h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group">
+								@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Name"} })
+									@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.FullName"} })
+									@Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.ShortDiscription, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.ShortDiscription, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.ShortDiscription"} })
+									@Html.ValidationMessageFor(model => model.ShortDiscription, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.FullDiscription, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.FullDiscription, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.FullDiscription"} })
+									@Html.ValidationMessageFor(model => model.FullDiscription, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.PackingQuantity, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.PackingQuantity, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.PackingQuantity"} })
+									@Html.ValidationMessageFor(model => model.PackingQuantity, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Weight"} })
+									@Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Deleted, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									<div class="checkbox">
+    									@Html.EditorFor(model => model.Deleted, new { htmlAttributes = new { @class = "form-control" , ng_model="item.Deleted"} })
+    									@Html.ValidationMessageFor(model => model.Deleted, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.PricingMethod, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EnumDropDownListFor(model => model.PricingMethod, htmlAttributes: new { @class = "form-control" , ng_model = "item.PricingMethod" })
+									@Html.ValidationMessageFor(model => model.PricingMethod, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="createProduct()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

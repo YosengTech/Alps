@@ -51,12 +51,15 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest();
             }
-
-            new Alps.Domain.Service.ProductMgrService(db).UpdateWarehouseVoucher(id, warehouseVoucher);
+            SaveWarehouserVoucher(id, warehouseVoucher);
+            //new Alps.Domain.Service.ProductMgrService(db).UpdateWarehouseVoucher(id, warehouseVoucher);
+            //WarehouseVoucher exitingWarehouseVoucher = db.WarehouseVouchers.Find(id);
+            //db.Entry(exitingWarehouseVoucher).CurrentValues.SetValues(warehouseVoucher);
+            //exitingWarehouseVoucher.UpdateItem(warehouseVoucher.Items);
 
 
             //exitingWarehouseVoucher.UpdateItem(warehouseVoucher.Items.ToList());
-            
+
             try
             {
                 db.SaveChanges();
@@ -74,14 +77,22 @@ namespace Alps.Web.Controllers
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
+        [NonAction]
+        public void SaveWarehouserVoucher(Guid id, WarehouseVoucher warehouseVoucher)
+        {
+            (new Alps.Service.WarehouseVoucherAppService(db)).UpdateWarehouseVoucher(id, warehouseVoucher);
+        }
         [ResponseType(typeof(void))]
-        public IHttpActionResult Submit(Guid id)
+        public IHttpActionResult Submit(Guid id, WarehouseVoucher warehouseVoucher)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            if (warehouseVoucher != null)
+            {
+                SaveWarehouserVoucher(id, warehouseVoucher);
+            }
             var exitingWarehouseVoucher = db.WarehouseVouchers.Find(id);
             Alps.Domain.Service.ProductMgrService pms = new Alps.Domain.Service.ProductMgrService(this.db);
             pms.SubmitVoucher(exitingWarehouseVoucher, "WinsanLee");
@@ -115,7 +126,10 @@ namespace Alps.Web.Controllers
             }
             warehouseVoucher.Creater = this.User.Identity.Name;
             warehouseVoucher.CreateTime = DateTime.Now;
-            db.WarehouseVouchers.Add(warehouseVoucher);
+            var wvs = new Alps.Service.WarehouseVoucherAppService(db);
+            wvs.CreateWarehouseVoucher(warehouseVoucher);
+
+            //db.WarehouseVouchers.Add(warehouseVoucher);
 
             try
             {
@@ -140,16 +154,11 @@ namespace Alps.Web.Controllers
         [ResponseType(typeof(WarehouseVoucher))]
         public IHttpActionResult DeleteWarehouseVoucher(Guid id)
         {
-            WarehouseVoucher warehouseVoucher = db.WarehouseVouchers.Find(id);
-            if (warehouseVoucher == null)
-            {
-                return NotFound();
-            }
-
-            db.WarehouseVouchers.Remove(warehouseVoucher);
+            var wvs = new Alps.Service.WarehouseVoucherAppService(db);
+            wvs.DeleteWarehouseVoucher(id);
             db.SaveChanges();
 
-            return Ok(warehouseVoucher);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

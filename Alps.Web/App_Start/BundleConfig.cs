@@ -23,8 +23,8 @@ namespace Alps.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/content/css/font-awesome.min.css","~/content/ui-grid.min.css","~/content/loading-bar.css", "~/Content/main.min.css",
-                      "~/Content/toaster.css"));
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js","~/scripts/ui-grid.js"));
+                      "~/Content/toaster.css","~/Content/xeditable.css","~/Content/ui-grid.css","~/Content/Site.css"));
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js", "~/scripts/xeditable.js", "~/scripts/ui-grid.js"));
             bundles.Add(new ScriptBundle("~/bundles/app").Include("~/scripts/plugins.js","~/app/navDirective.js","~/app/controllers/*Controller.js","~/app/app.js"));
         }
     }

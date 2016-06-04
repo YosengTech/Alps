@@ -14,9 +14,10 @@
     </div>
     <div class="page-wrap">
         <div>{{tip}}</div>
-
+        <div><input ng-model="tip"/></div>
         <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit class="grid"></div>
         <div>{{msg}}</div><div><button ng-click="list()">list</button></div>
+        <div>{{ds.toString()| alpsgriddropdown :alpsToJson(ds) }}</div>
         <div><button ng-click="add()">add</button></div>
         <div><button ng-click="del()">del</button></div>
         <div><a href="#/home/test/121">Test</a></div>

@@ -8,7 +8,7 @@ namespace Alps.Domain.ProductMgr
 {
     public enum DeliveryVoucherState
     {
-        Unconfirm,
-        Confirm
+        Unconfirmed,
+        Confirmed
     }
 }

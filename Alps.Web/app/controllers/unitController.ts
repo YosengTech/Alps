@@ -16,11 +16,11 @@
 		public static $inject=["$scope","$http","toaster"];
 		constructor(scope:IUnitListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
 			function getUnitList(){
-				http.get("/api/Unit").success(function(data){
+				http.get("/api/Unit").success(function(data:any[]){
 					scope.items=<Unit[]>data;
 					toaster.success("提示","载入成功");
-				}).error(function(data){
-					toaster.error("错误",data.Message);
+				}).error(function(err){
+					toaster.error("错误",Alps.phaseErr(err));
 				});
 			};
             scope.getUnitList = getUnitList;
@@ -40,7 +40,8 @@
 					toaster.success("提示","创建成功");
 					locationService.path("/Unit");
 				}).error(function(err){
-					toaster.error("错误",err.Message);
+
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			};
 			function goBack() {
@@ -62,7 +63,7 @@
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
 		constructor(scope:IUnitEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
 			function getUnit(id){
-				http.get("/api/Unit/"+id).success(function(data){
+				http.get("/api/Unit/"+id).success(function(data:any){
 					scope.item=<Unit>data;
 					toaster.success("提示","载入成功");
 				}).error(function(data){
@@ -74,7 +75,18 @@
 					toaster.success("提示","保存成功");
 					locationService.path("/Unit");
 				}).error(function(err){
-					toaster.error("错误",err.Message);
+					var errMsg="";
+                    if (err.ModelState) {
+                        errMsg = "<ul>";
+                        for (var p in err.ModelState) {
+                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
+                        }
+                        errMsg = errMsg + "</ul>";
+                    }
+                    if (errMsg == "") {
+                        errMsg = err.Message;
+                    }
+                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
 				});
 			}
 			function deleteUnit() {
@@ -104,49 +116,6 @@
 			}
 		}
 	}
+
 }
 
-/*
-<div class="page page-form-validation clearfix">
-
-
-	<ol class="breadcrumb breadcrumb-small">
-		<li>Forms</li>
-		<li class="active"><a href="#/Unit">Unit</a></li>
-	</ol>
-	<div class="page-wrap">
-		<div class="row">
-		
-<p>
-    <a  class="btn btn-default btn-sm" href="#/Unit/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
-</p>
-<table class="table">
-    <tr>
-		<th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-		<th>
-            @Html.DisplayNameFor(model => model.Group)
-        </th>
-        <th></th>
-    </tr>
-
-    <tr ng-repeat="item in items">
-        <td>
-			{{item.Name}}
-        </td>
-        <td>
-			{{item.Group}}
-        </td>
-        <td>
-		 <a class="btn btn-default btn-sm" href="#/Unit/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
-		 <a class="btn btn-default btn-sm" href="#/Unit/Delete/{{item.ID}}"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>
-        </td>
-    </tr>
-
-</table>
-</div>
-    </div>
-
-</div>
-*/

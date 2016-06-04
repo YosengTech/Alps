@@ -4,19 +4,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    <title>永盛金属ERP--@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <base href="#/">
 </head>
 
 <body id="app" ng-app="Alps" ng-controller="RootCtrl" class="app">
-    <header class="site-head clearfix" id="site-head" ng-controller="HeaderCtrl">
+    <header class="site-head clearfix" id="site-head" >
         <!-- linked header (static) view -->
         @Html.Partial("_header")
     </header>
-    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true,'newest-on-top':false}"></toaster-container>
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true,'newest-on-top':false,'position-class': 'toast-bottom-right'}"></toaster-container>
     <div class="main-container clearfix">
-        <aside class="nav-wrap " id="site-nav" ng-controller="NavCtrl" custom-scrollbar>
+        <aside class="nav-wrap " id="site-nav"  custom-scrollbar>
             @Html.Partial("_nav")
         </aside>
 
@@ -60,13 +61,15 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angular")
+        @Scripts.Render("~/bundles/angular")
+
     <script src="~/Scripts/angular-sanitize.js"></script>
     <script src="~/Scripts/angular-animate.js"></script>
+    <script src="~/Scripts/smart-table.js"></script>
     <script src="~/Scripts/toaster.js"></script>
     <script src="~/app/loading-bar.js"></script>
-    <script src="~/Scripts/angularstrap/angular-strap.js"></script>
-    <script src="~/Scripts/angularstrap/angular-strap.tpl.js"></script>
+    @*<script src="~/Scripts/angularstrap/angular-strap.js"></script>
+    <script src="~/Scripts/angularstrap/angular-strap.tpl.js"></script>*@
     <script src="~/app/controllers.js"></script>
     @*<script src="~/app/warehouseVoucher.js"></script>
     <script src="~/app/catagory.js"></script>

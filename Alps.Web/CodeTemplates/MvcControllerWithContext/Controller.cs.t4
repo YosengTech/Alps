@@ -1,5 +1,5 @@
 ﻿<#@ template language="C#" HostSpecific="True" Debug="True" #>
-<#@ output extension="ts" #>
+<#@ output extension="cs" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Data.Linq" #>
 <#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>
@@ -77,64 +77,6 @@ namespace <#= Namespace #>
     {
         private <#= contextTypeName #> db = new <#= contextTypeName #>();
 
-        // GET: <#= routePrefix #>
-<# if (UseAsync) { #>
-        public async Task<ActionResult> Index()
-<# } else { #>
-        public ActionResult Index()
-<# } #>
-        {
-<#  var includeExpressions = "";
-        includeExpressions = String.Join("", relatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
-#>
-<# if(!String.IsNullOrEmpty(includeExpressions)) { #>
-            var <#= entitySetVar #> = db.<#= entitySetName #><#= includeExpressions #>;
-<#		if (UseAsync) { #>
-            return View(await <#= entitySetVar #>.ToListAsync());
-<#		} else { #>
-            return View(<#= entitySetVar #>.ToList());
-<#		} #>
-<# } else { #>
-<#		if (UseAsync) { #>
-            return View(await db.<#= entitySetName #><#= includeExpressions #>.ToListAsync());
-<#		} else { #>
-            return View(db.<#= entitySetName #><#= includeExpressions #>.ToList());
-<#		} #>
-<# } #>
-        }
-
-        // GET: <#= routePrefix #>/Details/5
-<# if (UseAsync) { #>
-        public async Task<ActionResult> Details(<#= primaryKeyNullableTypeName #> id)
-<# } else { #>
-        public ActionResult Details(<#= primaryKeyNullableTypeName #> id)
-<# } #>
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-<# if (UseAsync) { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(id);
-<# } else { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(id);
-<# } #>
-            if (<#= ModelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
-            return View(<#= ModelVariable #>);
-        }
-
-        // GET: <#= routePrefix #>/Create
-        public ActionResult Create()
-        {
-<# foreach (var property in relatedProperties.Values) { #>
-            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>");
-<# } #>
-            return View();
-        }
-
         // POST: <#= routePrefix #>/Create
 <# if (IsOverpostingProtectionRequired) {
     foreach (var line in OverpostingWarningMessage.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)) { 
@@ -169,31 +111,6 @@ namespace <#= Namespace #>
             return View(<#= ModelVariable #>);
         }
 
-        // GET: <#= routePrefix #>/Edit/5
-<# if (UseAsync) { #>
-        public async Task<ActionResult> Edit(<#= primaryKeyNullableTypeName #> id)
-<# } else { #>
-        public ActionResult Edit(<#= primaryKeyNullableTypeName #> id)
-<# } #>
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-<# if (UseAsync) { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(id);
-<# } else { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(id);
-<# } #>
-            if (<#= ModelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
-<# foreach (var property in relatedProperties.Values) { #>
-            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);
-<# } #>
-            return View(<#= ModelVariable #>);
-        }
 
         // POST: <#= routePrefix #>/Edit/5
 <# if (IsOverpostingProtectionRequired) {
@@ -225,29 +142,7 @@ namespace <#= Namespace #>
             return View(<#= ModelVariable #>);
         }
 
-        // GET: <#= routePrefix #>/Delete/5
-<# if (UseAsync) { #>
-        public async Task<ActionResult> Delete(<#= primaryKeyNullableTypeName #> id)
-<# } else { #>
-        public ActionResult Delete(<#= primaryKeyNullableTypeName #> id)
-<# } #>
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-<# if (UseAsync) { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(id);
-<# } else { #>
-            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(id);
-<# } #>
-            if (<#= ModelVariable #> == null)
-            {
-                return HttpNotFound();
-            }
-            return View(<#= ModelVariable #>);
-        }
-
+        
         // POST: <#= routePrefix #>/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

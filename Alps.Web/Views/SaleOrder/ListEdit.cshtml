@@ -1,26 +1,29 @@
 ﻿@model Alps.Domain.SaleMgr.SaleOrderItem
 <table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.ID)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.CommodityID)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.UnitID)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Price)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Remark)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Quantity)
-		</th>
-		<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
-	</tr>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommodityID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+
+        </tr>
+    </thead>
 	<tr ng-repeat="subItem in item.Items">
 		<td>
 			<input type="hidden" ng-model="subItem.ID" />

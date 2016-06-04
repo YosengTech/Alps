@@ -24,27 +24,7 @@ namespace Alps.Domain.Service
             if (existingOrder != null)
             {
                 db.Entry(existingOrder).CurrentValues.SetValues(order);
-                PurchaseOrderItem updatedItem = null;
-                foreach (PurchaseOrderItem item in existingOrder.Items.ToList())
-                {
-                    updatedItem = order.Items.FirstOrDefault(p => p.ID == item.ID);
-                    if (updatedItem == null)
-                    {
-                        existingOrder.Items.Remove(item);
-                        //db.WarehouseVoucherItems.Remove(item);
-                    }
-                    else
-                    {
-                        db.Entry(item).CurrentValues.SetValues(updatedItem);
-                        order.Items.Remove(updatedItem);
-                    }
-                }
-                foreach (PurchaseOrderItem item in order.Items)
-                {
-                    item.PurchaseOrderID = existingOrder.ID;
-                    existingOrder.Items.Add(item);
-
-                }
+                
             }
             
         }

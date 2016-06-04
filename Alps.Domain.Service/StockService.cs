@@ -23,31 +23,40 @@ namespace Alps.Domain.Service
                 {
                     foreach (WarehouseVoucherItem item in voucher.Items)
                     {
-                        StockOut(voucher.SourceID, item.MaterialID, item.Count, item.Quantity, item.PositionID, item.ProductNumber);
+                        StockOut(voucher.SourceID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
                     }
                 }
                 if (destination.InventoryManagement)
                 {
                     foreach (WarehouseVoucherItem item in voucher.Items)
                     {
-                        StockIn(voucher.DestinationID, item.MaterialID, item.Count, item.Quantity, item.PositionID, item.ProductNumber);
+                        StockIn(voucher.DestinationID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
                     }
                 }
             }
             else
                 throw new DomainException("入库单未提交");
         }
-        public void StockIn(Guid ownerID, Guid materialID, decimal count, decimal quantity, Guid positionID, string productNumber = "")
+        public void StockIn(Guid ownerID, Guid skuID, decimal quantity, decimal weight, Guid positionID, string productNumber = "")
         {
-            Product existCommodity =null;
+
+            ProductStock productStock = null;
             if (productNumber == string.Empty)
-                existCommodity = db.Products.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID);
-            else
-                existCommodity = db.Products.FirstOrDefault(p => p.ProductNumber == productNumber);
-            if (existCommodity == null)
             {
-                Product newCommodity = Product.Create(materialID, count, quantity, ownerID, positionID, productNumber);
-                db.Products.Add(newCommodity);
+                productStock = db.ProductStocks.Local.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+                if (productStock == null)
+                    productStock = db.ProductStocks.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+            }
+            else
+            {
+                productStock = db.ProductStocks.Local.FirstOrDefault(p => p.ProductNumber == productNumber);
+                if (productStock == null)
+                    productStock = db.ProductStocks.FirstOrDefault(p => p.ProductNumber == productNumber);
+            }
+            if (productStock == null)
+            {
+                ProductStock newProductStock = ProductStock.Create(skuID, quantity, weight, ownerID, positionID, productNumber);
+                db.ProductStocks.Add(newProductStock);
 
             }
             else
@@ -58,40 +67,42 @@ namespace Alps.Domain.Service
                 }
                 else
                 {
-                    existCommodity.Count += count;
-                    existCommodity.Quantity += quantity;
+                    productStock.Quantity += quantity;
+                    productStock.Weight += weight;
                 }
             }
         }
         public void StockOut(string productNumber)
         {
-            Product commodity = db.Products.FirstOrDefault(p => p.ProductNumber == productNumber);
-            if (commodity == null)
+            ProductStock productStock = db.ProductStocks.FirstOrDefault(p => p.ProductNumber == productNumber);
+            if (productStock == null)
             {
                 throw new DomainException("无此编码");
             }
-            db.Products.Remove(commodity);
+            db.ProductStocks.Remove(productStock);
         }
-        public void StockOut(Guid ownerID, Guid materialID, decimal count, decimal quantity, Guid positionID, string productNumber = "")
+        public void StockOut(Guid ownerID, Guid skuID, decimal quantity, decimal weight, Guid positionID, string productNumber = "")
         {
-            Product commodity = db.Products.FirstOrDefault(p => p.OwnerID == ownerID && p.MaterialID == materialID && p.PositionID == positionID && p.ProductNumber == productNumber);
-            if (commodity != null)
+
+            ProductStock productStock = db.ProductStocks.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+
+            if (productStock != null)
             {
                 if (productNumber == string.Empty)
                 {
-                    if (commodity.Count >= count && commodity.Quantity >= quantity)
+                    if (productStock.Quantity >= quantity && productStock.Weight >= weight)
                     {
-                        commodity.Count -= count;
-                        commodity.Quantity -= quantity;
+                        productStock.Weight -= weight;
+                        productStock.Quantity -= quantity;
                     }
                     else
                         throw new DomainException("库存量不足");
                 }
                 else
                 {
-                    if (commodity.Count == count && commodity.Quantity == quantity)
+                    if (productStock.Weight == weight && productStock.Quantity == quantity)
                     {
-                        db.Products.Remove(commodity);
+                        db.ProductStocks.Remove(productStock);
                     }
                     else
                         throw new DomainException("库存量已发生改变");

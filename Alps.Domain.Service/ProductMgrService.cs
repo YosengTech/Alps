@@ -14,7 +14,7 @@ namespace Alps.Domain.Service
         {
             this.db = db;
         }
-        public void SubmitVoucher(WarehouseVoucher voucher,string submitter)
+        public void SubmitVoucher(WarehouseVoucher voucher, string submitter)
         {
             voucher.Submit(submitter);
             StockService stockService = new StockService(db);
@@ -36,6 +36,7 @@ namespace Alps.Domain.Service
                 else
                 {
                     db.Entry(item).CurrentValues.SetValues(updatedItem);
+
                 }
             }
             foreach (WarehouseVoucherItem item in warehouseVoucher.Items)
@@ -45,5 +46,17 @@ namespace Alps.Domain.Service
 
             }
         }
+        //public ProductDetail GetProductDetailFromProductSKU(Guid skuID)
+        //{
+        //    var query = from p in db.Products
+        //                from sku in db.ProductSKUs
+        //                where p.ID == sku.ProductID && sku.ID == skuID
+        //                select p;
+        //    Product product = query.FirstOrDefault();
+        //    if (product != null)
+        //        return product.GetProductDetail();
+        //    else
+        //        throw new DomainException("无此SKUID");
+        //}
     }
 }

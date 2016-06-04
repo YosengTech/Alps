@@ -22,7 +22,7 @@ module Alps.Controllers
 					scope.items=<Material[]>data;
 					toaster.success("提示","载入成功");
 				}).error(function(data){
-					toaster.error("错误",data.Message);
+					toaster.error("错误",Alps.phaseErr( data));
 				});
 			};
             scope.getMaterialList = getMaterialList;
@@ -85,7 +85,7 @@ module Alps.Controllers
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
 		constructor(scope:IMaterialEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
 			function getCatagoryIDSelectList(){
-				http.get("/api/Catagory").success(function(data){
+                http.get("/selectlist/getcatagory").success(function(data){
 					scope.CatagoryIDSelectList=<any[]>data;
 				}).error(function(err){
 					toaster.error("错误",err.Message);

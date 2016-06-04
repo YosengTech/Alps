@@ -24,16 +24,25 @@ namespace Alps.Web
             if (suffix != null) suffix.SetValue(null, "ApiController");
             // Web API 路由
             config.MapHttpAttributeRoutes();
-
+            //config.Routes.MapHttpRoute(
+            //    name:"TemplateApi",
+            //    routeTemplate:"tapi/{controller}/{templateName}",
+            //    defaults: new {templateName="Index",action="Template" }
+            //    );
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
             config.Routes.MapHttpRoute(
-                name: "DefaultApiAction",
+                name: "DefaultApiAction_Obsolete",
                 routeTemplate: "api/{controller}/{id}/{action}"
             );
+            config.Routes.MapHttpRoute(
+                name: "DefaultApiAction",
+                routeTemplate: "action/{controller}/{action}/{id}"
+            );
+
         }
     }
 }

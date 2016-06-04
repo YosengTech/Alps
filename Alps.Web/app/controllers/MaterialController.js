@@ -16,7 +16,7 @@ var Alps;
                         scope.items = data;
                         toaster.success("提示", "载入成功");
                     }).error(function (data) {
-                        toaster.error("错误", data.Message);
+                        toaster.error("错误", Alps.phaseErr(data));
                     });
                 }
                 ;
@@ -70,7 +70,7 @@ var Alps;
         var MaterialEditCtrl = (function () {
             function MaterialEditCtrl(scope, http, toaster, locationService, routeParams, window) {
                 function getCatagoryIDSelectList() {
-                    http.get("/api/Catagory").success(function (data) {
+                    http.get("/selectlist/getcatagory").success(function (data) {
                         scope.CatagoryIDSelectList = data;
                     }).error(function (err) {
                         toaster.error("错误", err.Message);

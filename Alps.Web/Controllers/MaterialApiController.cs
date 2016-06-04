@@ -18,16 +18,16 @@ namespace Alps.Web.Controllers
         private Alps.Domain.AlpsContext db = new Alps.Domain.AlpsContext();
 
         // GET: api/MaterialApi
-        public IQueryable<Material> GetMaterials()
+        public IQueryable<Product> GetMaterials()
         {
             return db.Materials.ToList().AsQueryable();
         }
 
         // GET: api/MaterialApi/5
-        [ResponseType(typeof(Material))]
+        [ResponseType(typeof(Product))]
         public IHttpActionResult GetMaterial(Guid id)
         {
-            Material material = db.Materials.Find(id);
+            Product material = db.Materials.Find(id);
             if (material == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace Alps.Web.Controllers
 
         // PUT: api/MaterialApi/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutMaterial(Guid id, Material material)
+        public IHttpActionResult PutMaterial(Guid id, Product material)
         {
             if (!ModelState.IsValid)
             {
@@ -72,8 +72,8 @@ namespace Alps.Web.Controllers
         }
 
         // POST: api/MaterialApi
-        [ResponseType(typeof(Material))]
-        public IHttpActionResult PostMaterial(Material material)
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult PostMaterial(Product material)
         {
             if (!ModelState.IsValid)
             {
@@ -102,10 +102,10 @@ namespace Alps.Web.Controllers
         }
 
         // DELETE: api/MaterialApi/5
-        [ResponseType(typeof(Material))]
+        [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteMaterial(Guid id)
         {
-            Material material = db.Materials.Find(id);
+            Product material = db.Materials.Find(id);
             if (material == null)
             {
                 return NotFound();

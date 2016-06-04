@@ -18,12 +18,12 @@ namespace Alps.Web.Controllers
         private AlpsContext db = new AlpsContext();
 
         // GET: api/SaleOrderApi
-        public IQueryable<SaleOrder> GetSaleOrders()
+        public IQueryable GetSaleOrders()
         {
             var q = from p in db.SaleOrders
                     from t in db.TradeAccounts
                     where p.CustomerID == t.ID
-                    select p;
+                    select new { p.ID,CustomerName= p.Customer.Name, p.OrderTime, p.DeliveryAddress };
             return q;
         }
 
@@ -83,8 +83,12 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            db.SaleOrders.Add(saleOrder);
+            if(saleOrder.CustomerID==Guid.Empty)
+            {
+                return BadRequest();
+            }
+            SaleOrder newSaleOrder = SaleOrder.Create(saleOrder.CustomerID);
+            db.SaleOrders.Add(newSaleOrder);
 
             try
             {

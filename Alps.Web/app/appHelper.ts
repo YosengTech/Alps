@@ -8,9 +8,13 @@
             this.toaster = toaster;
         }
         public GetSelectList(selectID: string) {
-            return this.http.get("/api/" + selectID)//.success(function (data) {
-            //       dest= <any[]>data;
-            //})
+            return this.http.get("/api/" + selectID)
+                .error(function (err) {
+                this.toaster.error("错误", err.Message);
+            });
+        }
+        public GetSelection(selectName: string) {
+            return this.http.get("/selectList/get" + selectName + "?=" + new Date().toString())
                 .error(function (err) {
                 this.toaster.error("错误", err.Message);
             });

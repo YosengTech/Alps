@@ -11,44 +11,55 @@
 		<li>Forms</li>
 		<li class="active"><a href="#/StockInfoViewModel">StockInfoViewModel</a></li>
 	</ol>
-	<div class="page-wrap">
-		<div class="row">
-			<table class="table">
-				<tr>
-					<th>
-						@Html.DisplayNameFor(model => model.MaterialName)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.PositionName)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Count)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Quantity)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Owner)
-					</th>
-				</tr>
-				<tr ng-repeat="item in items">
-					<td>
-						{{item.MaterialName}}
-					</td>
-					<td>
-						{{item.PositionName}}
-					</td>
-					<td>
-						{{item.Count}}
-					</td>
-					<td>
-						{{item.Quantity}}
-					</td>
-					<td>
-						{{item.Owner}}
-					</td>
-				</tr>
-			</table>
-		</div>
+    <div class="page-wrap">
+        <div class="row ">
+            <div class="col-md-3 form-group">
+                <select name="ChoosedCatagory" id="ChoosedCatagory" class="form-control" ng-change="getStockInfoViewModelList(ChoosedCatagory)" ng-model="ChoosedCatagory" ng-options="selectList.ID as selectList.Name for selectList in CatagorySelectList"></select>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MaterialName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PositionName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Count)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Owner)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductNumber)
+                    </th>
+                </tr>
+                <tr ng-repeat="item in items">
+                    <td>
+                        {{item.MaterialName}}
+                    </td>
+                    <td>
+                        {{item.PositionName}}
+                    </td>
+                    <td>
+                        {{item.Count}}
+                    </td>
+                    <td>
+                        {{item.Quantity}}
+                    </td>
+                    <td>
+                        {{item.Owner}}
+                    </td>
+                    <td>
+                        {{item.ProductNumber}}
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

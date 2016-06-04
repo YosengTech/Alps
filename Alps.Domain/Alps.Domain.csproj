@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AccountingMgr\TradeAccount.cs" />
     <Compile Include="AlpsContext.cs" />
+    <Compile Include="Common\AttributeControlType.cs" />
     <Compile Include="Common\DomainException.cs" />
     <Compile Include="Common\Quantity.cs" />
     <Compile Include="Common\Unit.cs" />
@@ -64,10 +65,17 @@
     <Compile Include="ProductMgr\DeliveryVoucher.cs" />
     <Compile Include="ProductMgr\DeliveryVoucherItem.cs" />
     <Compile Include="ProductMgr\DeliveryVoucherState.cs" />
-    <Compile Include="ProductMgr\Material.cs" />
+    <Compile Include="ProductMgr\PricingMethod.cs" />
     <Compile Include="ProductMgr\Product.cs" />
-    <Compile Include="ProductMgr\Product_back.cs" />
+    <Compile Include="ProductMgr\ProductSkuInfo.cs" />
+    <Compile Include="ProductMgr\ProductStock.cs" />
+    <Compile Include="ProductMgr\ProductSaleAttribute.cs" />
+    <Compile Include="ProductMgr\ProductAttributeCombination.cs" />
+    <Compile Include="ProductMgr\ProductAttributeValue.cs" />
+    <Compile Include="ProductMgr\ProductCatagorySetting.cs" />
+    <Compile Include="ProductMgr\ProductGrade.cs" />
     <Compile Include="ProductMgr\Position.cs" />
+    <Compile Include="ProductMgr\ProductSku.cs" />
     <Compile Include="ProductMgr\WarehouseVoucher.cs" />
     <Compile Include="ProductMgr\WarehouseVoucherItem.cs" />
     <Compile Include="ProductMgr\WarehouseVoucherState.cs" />
@@ -81,6 +89,7 @@
     <Compile Include="SaleMgr\PayInfo.cs" />
     <Compile Include="SaleMgr\SaleOrder.cs" />
     <Compile Include="SaleMgr\SaleOrderItem.cs" />
+    <Compile Include="SaleMgr\SaleOrderState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

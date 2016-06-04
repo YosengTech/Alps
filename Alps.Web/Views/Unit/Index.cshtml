@@ -22,6 +22,12 @@
 					<th>
 						@Html.DisplayNameFor(model => model.Group)
 					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.IsBaseUnit)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.RateOfExchange)
+					</th>
 					<th></th>
 				</tr>
 				<tr ng-repeat="item in items">
@@ -30,6 +36,12 @@
 					</td>
 					<td>
 						{{item.Group}}
+					</td>
+					<td>
+						{{item.IsBaseUnit}}
+					</td>
+					<td>
+						{{item.RateOfExchange}}
 					</td>
 					<td>
 						<a class="btn btn-default btn-sm" href="#/Unit/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   

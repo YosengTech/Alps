@@ -16,7 +16,7 @@ var Alps;
                         scope.items = data;
                         toaster.success("提示", "载入成功");
                     }).error(function (data) {
-                        toaster.error("错误", data.Message);
+                        toaster.error("错误", Alps.phaseErr(data));
                     });
                 }
                 ;
@@ -30,10 +30,8 @@ var Alps;
         var CatagoryCreateCtrl = (function () {
             function CatagoryCreateCtrl(scope, http, toaster, locationService) {
                 function getParentIDSelectList() {
-                    http.get("/api/catagory").success(function (data) {
+                    new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function (data) {
                         scope.ParentIDSelectList = data;
-                    }).error(function (err) {
-                        toaster.error("错误", err.Message);
                     });
                 }
                 function createCatagory() {
@@ -59,7 +57,7 @@ var Alps;
         var CatagoryEditCtrl = (function () {
             function CatagoryEditCtrl(scope, http, toaster, locationService, routeParams, window) {
                 function getParentIDSelectList() {
-                    http.get("/api/catagory").success(function (data) {
+                    new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function (data) {
                         scope.ParentIDSelectList = data;
                     }).error(function (err) {
                         toaster.error("错误", err.Message);

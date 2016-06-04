@@ -13,7 +13,7 @@
             <div class="panel panel-lined mb30">
                 <div class="panel-heading"><i>WarehouseVoucher</i></div>
                 <div class="panel-body">
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Edit", "WarehouseVoucher", FormMethod.Post, new {Name="form" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="-form-horizontal">
