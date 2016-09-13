@@ -1,0 +1,89 @@
+﻿@model Alps.Domain.ProductMgr.MaterialReceipt
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/MaterialReceipt">MaterialReceipt</a></li>
+		<li class="active"><a href="#/MaterialReceipt/Edit">Edit</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>MaterialReceipt</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+							<h4>
+								MaterialReceipt
+								<a class="btn btn-danger btn-sm right" ng-click="deleteMaterialReceipt()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							@Html.HiddenFor(model => model.ID)
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.SourceDepartmentID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="SourceDepartmentID" id="SourceDepartmentID" class="form-control" ng-model="item.SourceDepartmentID" ng-options="selectList.ID as selectList.Name for selectList in SourceDepartmentIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.SourceDepartmentID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.DepartmentID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="DepartmentID" id="DepartmentID" class="form-control" ng-model="item.DepartmentID" ng-options="selectList.ID as selectList.Name for selectList in DepartmentIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.Creater,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.Creater, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Creater"} })
+								@Html.ValidationMessageFor(model => model.Creater, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.CreateTime,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<input name="CreateTime" id="CreateTime" type="text" class="form-control" ng-model="item.CreateTime"  bs_datepicker  data_date_format = "yyyy-MM-dd">
+								@Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.SubmitUser,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.SubmitUser, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.SubmitUser"} })
+								@Html.ValidationMessageFor(model => model.SubmitUser, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.Handler,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.Handler, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Handler"} })
+								@Html.ValidationMessageFor(model => model.Handler, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalQuantity,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalQuantity, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.TotalQuantity"} })
+								@Html.ValidationMessageFor(model => model.TotalQuantity, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalWeight,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalWeight, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.TotalWeight"} })
+								@Html.ValidationMessageFor(model => model.TotalWeight, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.TotalAmount,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.TotalAmount"} })
+								@Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.State,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EnumDropDownListFor(model => model.State, htmlAttributes: new { @class = "form-control" })
+								@Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+							</div>
+							<div class="clearfix"></div>
+                            <div class="form-group">
+                                @Html.Partial("~/Views/MaterialReceipt/ListEdit.cshtml")
+                            </div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="saveMaterialReceipt()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+                                <a class="btn btn-primary btn-sm" ng-click="submitMaterialReceipt()"><span class="glyphicon glyphicon-save"></span>&nbsp;提交</a>
+							</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

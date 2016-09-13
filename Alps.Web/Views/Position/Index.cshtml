@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Alps.Domain.ProductMgr.Position>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/Position">Position</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/Position/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Number)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Warehouse)
+					</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.Number}}
+					</td>
+					<td>
+						{{item.Name}}
+					</td>
+					<td>
+						{{item.Warehouse}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/Position/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>

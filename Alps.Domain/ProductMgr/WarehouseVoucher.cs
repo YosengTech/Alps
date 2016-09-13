@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Alps.Domain.AccountingMgr;
 using System.ComponentModel.DataAnnotations;
+using Alps.Domain.Common;
 namespace Alps.Domain.ProductMgr
 {
     public class WarehouseVoucher : EntityBase
@@ -20,17 +21,19 @@ namespace Alps.Domain.ProductMgr
         [DisplayFormat(DataFormatString = "yyyy/mm/dd")]
         public DateTimeOffset CreateTime { get; set; }
         [Display(Name = "来源")]
-        public Guid SourceID { get; set; }
+        public Guid SupplierID { get; set; }
         [Display(Name = "去处")]
-        public Guid DestinationID { get; set; }
+        public Guid DepartmentID { get; set; }
         [Display(Name = "来源")]
-        public virtual TradeAccount Source { get; set; }
+        public virtual Supplier Supplier { get; set; }
         [Display(Name = "去处")]
-        public virtual TradeAccount Destination { get; set; }
+        public virtual Department Department { get; set; }
         [Display(Name = "单据状态")]
         public virtual WarehouseVoucherState State { get; set; }
         [Display(Name = "提交人")]
         public string SubmitUser { get; set; }
+        [Display(Name = "经办人")]
+        public string Handler { get; set; }
         [Display(Name = "总数量")]
         public decimal TotalQuantity { get; set; }
         [Display(Name = "总重量")]
@@ -40,14 +43,14 @@ namespace Alps.Domain.ProductMgr
         [Display(Name = "明细")]
         public virtual ICollection<WarehouseVoucherItem> Items { get; set; }
 
-        public static WarehouseVoucher Create(Guid sourceID, Guid destinationID, string creater)
+        public static WarehouseVoucher Create(Guid supplierID, Guid departmentID, string creater)
         {
             WarehouseVoucher newWarehouseVoucher = new WarehouseVoucher();
             newWarehouseVoucher.State = WarehouseVoucherState.Unconfirmed;
             newWarehouseVoucher.Creater = creater;
             newWarehouseVoucher.CreateTime = DateTime.Now;
-            newWarehouseVoucher.SourceID = sourceID;
-            newWarehouseVoucher.DestinationID = destinationID;
+            newWarehouseVoucher.SupplierID = supplierID;
+            newWarehouseVoucher.DepartmentID = departmentID;
             newWarehouseVoucher.SubmitUser = "";
             return newWarehouseVoucher;
         }
@@ -60,11 +63,11 @@ namespace Alps.Domain.ProductMgr
         {
             return this.Items.Count(p => p.ProductNumber == productNumber) > 0;
         }
-        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Position position, Guid? purchaseOrderItemID = null)
+        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Position position,string remark="", Guid? purchaseOrderItemID = null)
         {
-            AddItem(productSkuInfo, quantity, weight, price, productNumber, position.ID, purchaseOrderItemID);
+            AddItem(productSkuInfo, quantity, weight, price, productNumber, position.ID,remark, purchaseOrderItemID);
         }
-        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Guid positionID, Guid? purchaseOrderItemID = null)
+        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Guid positionID, string remark="", Guid? purchaseOrderItemID = null)
         {
             if (productNumber == null)
                 productNumber = string.Empty;
@@ -74,6 +77,7 @@ namespace Alps.Domain.ProductMgr
             WarehouseVoucherItem newWarehouseVoucherItem = new WarehouseVoucherItem();
             newWarehouseVoucherItem.WarehouseVoucher = this;
             newWarehouseVoucherItem.WarehouseVoucherID = this.ID;
+            newWarehouseVoucherItem.Remark = remark;
             newWarehouseVoucherItem.ProductSkuInfo = productSkuInfo;
             newWarehouseVoucherItem.Quantity = quantity;
             //newWarehouseVoucherItem.UnitID = unitID;
@@ -87,6 +91,7 @@ namespace Alps.Domain.ProductMgr
             newWarehouseVoucherItem.ProductNumber = productNumber;
             newWarehouseVoucherItem.PositionID = positionID;
             newWarehouseVoucherItem.PurchaseOrderItemID = purchaseOrderItemID;
+            RefreshAmount(newWarehouseVoucherItem);
             Items.Add(newWarehouseVoucherItem);
         }
         public void RemoveItem(Guid itemID)
@@ -96,7 +101,7 @@ namespace Alps.Domain.ProductMgr
                 throw new DomainException("无此ID");
             Items.Remove(item);
         }
-        public void UpdateItem(Guid itemID, ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Guid positionID, Guid? purchaseOrderItemID)
+        public void UpdateItem(Guid itemID, ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Guid positionID,string remark="", Guid? purchaseOrderItemID=null)
         {
             WarehouseVoucherItem item = this.Items.FirstOrDefault(p => p.ID == itemID);
             if (item != null)
@@ -105,6 +110,7 @@ namespace Alps.Domain.ProductMgr
                     productNumber = string.Empty;
                 //item.Product = product;
                 item.ProductSkuInfo = productSkuInfo;
+                item.Remark = remark;
                 item.Quantity = quantity;
                 item.Weight = weight;
                 item.ProductNumber = productNumber;
@@ -112,15 +118,22 @@ namespace Alps.Domain.ProductMgr
                 item.Price = price;
                 //item.Amount = price * pricingQuantity;
                 item.PurchaseOrderItemID = purchaseOrderItemID;
-                if (item.PricingMethod == PricingMethod.PricingByQuantity)
-                    item.Amount = item.Quantity * item.Price;
-                if (item.PricingMethod == PricingMethod.PricingByWeight)
-                    item.Amount = item.Weight * item.Price;
+
+                RefreshAmount(item);
             }
             else
             {
                 throw new DomainException("无此ID");
             }
+        }
+        private void RefreshAmount(WarehouseVoucherItem item)
+        {
+            this.TotalAmount = this.TotalAmount - item.Amount;
+            if(item.ProductSkuInfo.PricingMethod==PricingMethod.PricingByQuantity)
+                item.Amount = item.Quantity * item.Price;
+            else
+                item.Amount = item.Weight * item.Price;
+            this.TotalAmount = this.TotalAmount +item.Amount;
         }
         public void UpdateItem(IEnumerable<WarehouseVoucherItem> items)
         {
@@ -129,9 +142,11 @@ namespace Alps.Domain.ProductMgr
             var addedItems = items.Where(p => !this.Items.Any(k => k.ID == p.ID)).ToList();
             var deletedItems = this.Items.Where(p => !items.Any(k => k.ID == p.ID)).ToList();
             deletedItems.ForEach(p => this.Items.Remove(p));
-            addedItems.ForEach(p => this.AddItem(p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID, p.PurchaseOrderItemID));
-            updatedItems.ForEach(p => this.UpdateItem(p.ID, p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID, p.PurchaseOrderItemID));
-
+            addedItems.ForEach(p => this.AddItem(p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
+            updatedItems.ForEach(p => this.UpdateItem(p.ID, p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
+            this.TotalAmount = this.Items.Sum(p => p.Amount);
+            this.TotalQuantity = this.Items.Sum(p => p.Quantity);
+            this.TotalWeight = this.Items.Sum(p => p.Weight);
         }
 
 

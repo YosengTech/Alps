@@ -1,7 +1,7 @@
 ﻿
 ! function () {
     "use strict";
-    angular.module("Alps.directives", []).directive("toggleNavMin", ["$rootScope", function ($rs) {
+    angular.module("Alps.Directives", []).directive("toggleNavMin", ["$rootScope", function ($rs) {
         return function (scope, el) {
             var app = $("#app");
             $rs.$watch("isMobile", function () {

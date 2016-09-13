@@ -141,21 +141,20 @@ foreach (PropertyMetadata property in properties) {
 		goBack():void;
 	}
 	export class <#=ViewDataTypeShortName#>EditCtrl{
-		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
-		constructor(scope:I<#=ViewDataTypeShortName#>EditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
+		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window","SelectListService"];
+		constructor(scope:I<#=ViewDataTypeShortName#>EditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.Services.SelectListService){
+
+			function getSelectList(){
 <#
 		foreach (PropertyMetadata property in foreignKeyProperties) {
 #>
-			function get<#=GetValueExpression(property) #>SelectList(){
-				http.get("/api/<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function(data){
-					scope.<#=GetValueExpression(property) #>SelectList=<any[]>data;
-				}).error(function(err){
-					toaster.error("错误",Alps.phaseErr(err));
-				});
-			}
+				selectListService.GetSelection("<#=foreignKeyPropertiesType[property.PropertyName]==null?GetAssociationNameFromForeignKey(property):foreignKeyPropertiesType[property.PropertyName]#>").success(function (data) {
+						scope.<#=GetValueExpression(property) #>SelectList = <any[]>data;
+					});
 <#
 		}
 #>
+			}
 			function get<#=ViewDataTypeShortName#>(id){
 				http.get("/api/<#=ViewDataTypeShortName#>/"+id).success(function(data:any){
 					scope.item=<<#=ViewDataTypeShortName#>>data;
@@ -174,22 +173,16 @@ foreach (PropertyMetadata property in properties) {
 				});
 			};
 			function save<#=ViewDataTypeShortName#>(){
-				http.put("/api/<#=ViewDataTypeShortName#>/"+id,scope.item).success(function(data){
+				var promise = null;
+                if (id == "0")
+                    promise = http.post("/api/<#=ViewDataTypeShortName#>/", scope.item);
+                else
+                    promise = http.put("/api/<#=ViewDataTypeShortName#>/" + id, scope.item);
+                promise.success(function(data){
 					toaster.success("提示","保存成功");
 					locationService.path("/<#=ViewDataTypeShortName#>");
 				}).error(function(err){
-					var errMsg="";
-                    if (err.ModelState) {
-                        errMsg = "<ul>";
-                        for (var p in err.ModelState) {
-                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
-                        }
-                        errMsg = errMsg + "</ul>";
-                    }
-                    if (errMsg == "") {
-                        errMsg = err.Message;
-                    }
-                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			}
 			function delete<#=ViewDataTypeShortName#>() {
@@ -212,14 +205,13 @@ foreach (PropertyMetadata property in properties) {
 			var id="";
 			if(routeParams["id"]){
 				id=routeParams["id"];
-<#
-		foreach (PropertyMetadata property in foreignKeyProperties) {
-#>
-				get<#=GetValueExpression(property) #>SelectList();
-<#
-		}
-#>
-				get<#=ViewDataTypeShortName#>(id);
+				getSelectList();
+				if (id != '0') {
+                    get<#=ViewDataTypeShortName#>(id);
+                }
+				else
+					scope.item=new <#=ViewDataTypeShortName#>();
+				
 			}
 			else{
 				locationService.path("/<#=ViewDataTypeShortName#>");

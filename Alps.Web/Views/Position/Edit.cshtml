@@ -1,0 +1,57 @@
+﻿@model Alps.Domain.ProductMgr.Position
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/Position">Position</a></li>
+		<li class="active"><a href="#/Position/Edit">Edit</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>Position</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						<div class="form-horizontal">
+							<h4>
+								Position
+								<a class="btn btn-danger btn-sm right" ng-click="deletePosition()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							@Html.HiddenFor(model => model.ID)
+							<div class="form-group">
+								@Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Number"} })
+									@Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Name"} })
+									@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Warehouse, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Warehouse, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Warehouse"} })
+									@Html.ValidationMessageFor(model => model.Warehouse, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="savePosition()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

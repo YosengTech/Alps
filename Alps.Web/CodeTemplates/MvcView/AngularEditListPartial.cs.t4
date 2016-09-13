@@ -9,7 +9,7 @@ string dateTimeOffsetType = "System.DateTimeOffset";
 Version requiredMvcVersion = new Version("5.1.0.0");
 bool isControlHtmlAttributesSupported = MvcVersion >= requiredMvcVersion;
 #>
-<table class="table">
+<table class="table table-edit table-bordered table-hover">
 	<thead>
 		<tr>
 <#

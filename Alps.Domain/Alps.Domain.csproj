@@ -38,6 +38,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,11 +58,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountingMgr\AlpsUser.cs" />
     <Compile Include="AccountingMgr\TradeAccount.cs" />
+    <Compile Include="AccountingMgr\TradeAccountType.cs" />
     <Compile Include="AlpsContext.cs" />
     <Compile Include="Common\AttributeControlType.cs" />
+    <Compile Include="Common\Customer.cs" />
+    <Compile Include="Common\Department.cs" />
     <Compile Include="Common\DomainException.cs" />
     <Compile Include="Common\Quantity.cs" />
+    <Compile Include="Common\Supplier.cs" />
     <Compile Include="Common\Unit.cs" />
     <Compile Include="DistributionMgr\DistributionVoucherItem.cs" />
     <Compile Include="DistributionMgr\DistributionVoucher.cs" />
@@ -65,6 +78,12 @@
     <Compile Include="ProductMgr\DeliveryVoucher.cs" />
     <Compile Include="ProductMgr\DeliveryVoucherItem.cs" />
     <Compile Include="ProductMgr\DeliveryVoucherState.cs" />
+    <Compile Include="ProductMgr\MaterialReceipt.cs" />
+    <Compile Include="ProductMgr\MaterialReceiptItem.cs" />
+    <Compile Include="ProductMgr\MaterialReceiptState.cs" />
+    <Compile Include="ProductMgr\MaterialRequisition.cs" />
+    <Compile Include="ProductMgr\MaterialRequisitionItem.cs" />
+    <Compile Include="ProductMgr\MaterialRequisitionState.cs" />
     <Compile Include="ProductMgr\PricingMethod.cs" />
     <Compile Include="ProductMgr\Product.cs" />
     <Compile Include="ProductMgr\ProductSkuInfo.cs" />
@@ -73,7 +92,6 @@
     <Compile Include="ProductMgr\ProductAttributeCombination.cs" />
     <Compile Include="ProductMgr\ProductAttributeValue.cs" />
     <Compile Include="ProductMgr\ProductCatagorySetting.cs" />
-    <Compile Include="ProductMgr\ProductGrade.cs" />
     <Compile Include="ProductMgr\Position.cs" />
     <Compile Include="ProductMgr\ProductSku.cs" />
     <Compile Include="ProductMgr\WarehouseVoucher.cs" />

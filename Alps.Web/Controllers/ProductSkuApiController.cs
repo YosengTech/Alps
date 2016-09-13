@@ -81,7 +81,8 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            productSKU.CreatedTime = DateTime.Now;
+            productSKU.ModifiedTime = DateTime.Now;
             db.ProductSkus.Add(productSKU);
 
             try

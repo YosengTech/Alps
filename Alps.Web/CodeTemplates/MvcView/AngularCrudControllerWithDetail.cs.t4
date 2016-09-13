@@ -146,8 +146,8 @@ foreach (PropertyMetadata property in properties) {
         form: ng.IFormController;
 	}
 	export class <#=ViewDataTypeShortName#>EditCtrl{
-		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
-		constructor(scope:I<#=ViewDataTypeShortName#>EditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
+		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window","SelectListService"];
+		constructor(scope:I<#=ViewDataTypeShortName#>EditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService, selectListService:Alps.Services.SelectListService){
 <#
 		foreach (PropertyMetadata property in foreignKeyProperties) {
 #>

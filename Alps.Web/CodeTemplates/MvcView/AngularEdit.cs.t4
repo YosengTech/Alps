@@ -89,7 +89,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 <#
                 } else if (property.IsEnum && !property.IsEnumFlags) {
 #>
-									<select class="form-control" ng-model="item.<#= property.PropertyName #>" ng-options="selectList.Value as selectList.Text for selectList in item.<#= property.PropertyName #>SelectList"></select>
+									<select class="form-control" ng-model="item.<#= property.PropertyName #>" ng-options="selectList.Value as selectList.Text for selectList in <#= property.PropertyName #>SelectList"></select>
 <#
                 } else {
 							if(property.TypeName.Equals(dateTimeOffsetType) || property.TypeName.Equals(dateTimeType)){

@@ -25,7 +25,7 @@ namespace Alps.Web.Controllers
                   from m in db.Products
                   from p in db.Positions
                   from t in db.TradeAccounts
-                  where c.SkuID==m.ID && c.PositionID==p.ID && c.OwnerID==t.ID
+                  where c.SkuID==m.ID && c.PositionID==p.ID && c.DepartmentID==t.ID
                   select new StockInfoViewModel{ID=c.ID,MaterialName=m.FullName,PositionName=p.Name,Weight=c.Weight,Quantity=c.Quantity,Owner=t.Name,ProductNumber=c.ProductNumber};
             return q;
         }
@@ -38,8 +38,8 @@ namespace Alps.Web.Controllers
                     from m in db.Products
                     from p in db.Positions
                     from t in db.TradeAccounts
-                    from s in db.ProductCatagorySettings
-                    where c.SkuID == m.ID && c.PositionID == p.ID && c.OwnerID == t.ID && m.ProductCatagorySettings.Contains(s) && s.CatagoryID==id
+                    //from s in db.ProductCatagorySettings
+                    where c.SkuID == m.ID && c.PositionID == p.ID && c.DepartmentID == t.ID && m.CatagoryID==id
                     select new StockInfoViewModel { ID = c.ID, MaterialName = m.FullName, PositionName = p.Name, Weight = c.Weight, Quantity = c.Quantity, Owner = t.Name, ProductNumber = c.ProductNumber };
             return q;
             //Alps.Domain.ProductMgr.Product stockInfoViewModel = db.Products.FirstOrDefault(p=>p.ProductNumber==id);

@@ -19,7 +19,7 @@ module Alps.Controllers {
     }
     export class StockInfoListCtrl {
         public static $inject = ["$scope", "$http", "toaster", "SelectListService"];
-        constructor(scope: IStockInfoListScope, http: ng.IHttpService, toaster: ngToaster.IToasterService, selectListService: Alps.SelectListService) {
+        constructor(scope: IStockInfoListScope, http: ng.IHttpService, toaster: ngToaster.IToasterService, selectListService: Alps.Services.SelectListService) {
             function getStockInfoViewModelList(id:string) {
                 http.get("/api/StockInfo/"+id).success(function (data: any[]) {
                     scope.items = <StockInfoViewModel[]>data;

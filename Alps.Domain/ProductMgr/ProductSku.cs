@@ -20,6 +20,7 @@ namespace Alps.Domain.ProductMgr
         public decimal Price { get; set; }
         [Display(Name = "属性")]
         public string Attributes { get; set; }
+        [Display(Name="显示名称")]
         public string AttributeName { get; set; }
         [Display(Name = "创建时间")]
         public DateTime CreatedTime { get; set; }

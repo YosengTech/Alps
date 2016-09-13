@@ -32,40 +32,10 @@ var Alps;
         Controllers.WarehouseVoucherListCtrl = WarehouseVoucherListCtrl;
         var WarehouseVoucherEditCtrl = (function () {
             function WarehouseVoucherEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
-                function getSourceIDSelectList() {
-                    http.get("/api/TradeAccount").success(function (data) {
-                        scope.SourceIDSelectList = data;
-                    }).error(function (err) {
-                        toaster.error("错误", err.Message);
-                    });
-                }
-                function getDestinationIDSelectList() {
-                    http.get("/api/TradeAccount").success(function (data) {
-                        scope.DestinationIDSelectList = data;
-                    }).error(function (err) {
-                        toaster.error("错误", err.Message);
-                    });
-                }
                 function getWarehouseVoucher(id) {
                     http.get("/api/WarehouseVoucher/" + id).success(function (data) {
                         scope.item = data;
                         scope.item.CreateTime = new Date(data.CreateTime);
-                        scope.itemsGridOptions = {
-                            columnDefs: [{
-                                name: "ProductID"
-                            }, { name: "Quantity" }, {
-                                name: "Weight"
-                            }, {
-                                name: 'PricingMethod',
-                                field: 'PricingMethod',
-                                cellFilter: "alpsDropdown:this",
-                                editableCellTemplate: "ui-grid/dropdownEditor",
-                                editDropdownOptionsArray: scope.PricingMethodSelectList,
-                                editDropdownIdLabel: "Value",
-                                editDropdownValueLabel: "Text"
-                            }, { name: "Price" }]
-                        };
-                        scope.itemsGridOptions.data = scope.item.Items;
                         toaster.success("提示", "载入成功");
                     }).error(function (data) {
                         toaster.error("错误", data.Message);
@@ -111,10 +81,27 @@ var Alps;
                     window.history.back();
                 }
                 function addSubItem() {
+                    //uibModal.open({ templateUrl: "/template/home/SelectListModal", backdrop: false, controller: "SelectListModalCtrl", resolve: { selectList: function () { return scope.ProductSkuWithCatagorySelectList; } } })
+                    //    .result.then(function (item) {
+                    //    if (scope.item.Items == undefined)
+                    //        scope.item.Items = [];
+                    var newItem = {
+                        "WarehouseVoucherID": scope.item.ID
+                    };
                     if (scope.item.Items == undefined)
                         scope.item.Items = [];
-                    scope.item.Items.push({ "WarehouseVoucherID": scope.item.ID });
+                    scope.item.Items.push(newItem);
+                    //modifySku(newItem);
+                    //productSelectionChanged(newItem);
+                    //});
                 }
+                //function modifySku(item) {
+                //    uibModal.open({ templateUrl: "/template/home/SelectListModal", backdrop: true, controller: "SelectListModalCtrl", resolve: { selectList: function () { return scope.ProductSkuWithCatagorySelectList; }, selectedItem: function () { return item.ProductSkuInfo.SkuID; } } })
+                //        .result.then(function (result) {
+                //        item.ProductSkuInfo.SkuID = result.ID;
+                //        productSelectionChanged(item);
+                //    });
+                //}
                 function deleteSubItem($index) {
                     scope.item.Items.splice($index, 1);
                 }
@@ -157,12 +144,14 @@ var Alps;
                 }
                 function productSelectionChanged(item) {
                     var value = item.ProductSkuInfo;
-                    for (var i = 0; i < scope.ProductSkuIDSelectList.length; i++) {
-                        if (scope.ProductSkuIDSelectList[i].SkuID === value.SkuID) {
-                            value.Name = scope.ProductSkuIDSelectList[i].Name;
-                            value.PricingMethod = scope.ProductSkuIDSelectList[i].PricingMethod;
-                            reCaluAmount(item);
-                            break;
+                    if (value && value.SkuID) {
+                        for (var i = 0; i < scope.ProductSkuIDSelectList.length; i++) {
+                            if (scope.ProductSkuIDSelectList[i].SkuID === value.SkuID) {
+                                value.Name = scope.ProductSkuIDSelectList[i].Name;
+                                value.PricingMethod = scope.ProductSkuIDSelectList[i].PricingMethod;
+                                reCaluAmount(item);
+                                break;
+                            }
                         }
                     }
                 }
@@ -172,6 +161,10 @@ var Alps;
                     else
                         item.Amount = item.Weight * item.Price;
                 }
+                //function selectNewProductSku(sku) {
+                //    uibModal.open({ templateUrl: "/template/home/SelectListModal", controller: "SelectListModalCtrl", resolve: { selectList: function () { return scope.ProductSkuIDSelectList; } } })
+                //        .result.then(function (item) { alert(item.name); });
+                //}
                 scope.pn_KeyUp = addSubItemByProductNumber;
                 scope.addSubItem = addSubItem;
                 scope.deleteSubItem = deleteSubItem;
@@ -183,15 +176,14 @@ var Alps;
                 scope.productSelectionChanged = productSelectionChanged;
                 scope.reCaluAmount = reCaluAmount;
                 scope.itemsGridOptions = {};
+                //scope.modifySku = modifySku;
                 var id = "";
                 if (routeParams["id"]) {
                     id = routeParams["id"];
-                    getSourceIDSelectList();
-                    getDestinationIDSelectList();
                     getPricingMethodSelectList();
-                    selectListService.GetSelection("Material").success(function (data) {
-                        scope.MaterialIDSelectList = data;
-                    });
+                    //selectListService.GetSelection("Material").success(function (data) {
+                    //    scope.MaterialIDSelectList = <any[]>data;
+                    //});
                     selectListService.GetSelection("Position").success(function (data) {
                         scope.PositionIDSelectList = data;
                     });
@@ -200,6 +192,15 @@ var Alps;
                     });
                     selectListService.GetSelection("ProductSku").success(function (data) {
                         scope.ProductSkuIDSelectList = data;
+                    });
+                    selectListService.GetSelection("Supplier").success(function (data) {
+                        scope.SupplierIDSelectList = data;
+                    });
+                    selectListService.GetSelection("Department").success(function (data) {
+                        scope.DepartmentIDSelectList = data;
+                    });
+                    selectListService.GetSelection("ProductSkuWithCatagory").success(function (data) {
+                        scope.ProductSkuWithCatagorySelectList = data;
                     });
                     if (id != '0') {
                         getWarehouseVoucher(id);
@@ -211,7 +212,7 @@ var Alps;
                     locationService.path("/WarehouseVoucher");
                 }
             }
-            WarehouseVoucherEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
+            WarehouseVoucherEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"]; //, "$uibModal"];
             return WarehouseVoucherEditCtrl;
         })();
         Controllers.WarehouseVoucherEditCtrl = WarehouseVoucherEditCtrl;

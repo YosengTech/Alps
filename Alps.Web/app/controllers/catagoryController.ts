@@ -35,10 +35,10 @@
 		goBack():void;
 	}
 	export class CatagoryCreateCtrl{
-		public static $inject=["$scope","$http","toaster","$location"];
-		constructor(scope:ICatagoryCreateScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService){
+        public static $inject = ["$scope", "$http", "toaster", "$location","SelectListService"];
+        constructor(scope: ICatagoryCreateScope, http: ng.IHttpService, toaster: ngToaster.IToasterService, locationService: ng.ILocationService, selectListService:Alps.Services.SelectListService){
 			function getParentIDSelectList(){
-                new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function(data){
+                selectListService.GetSelection("catagory").success(function(data){
 					scope.ParentIDSelectList=<any[]>data;
 				});
 			}
@@ -68,10 +68,10 @@
 		goBack():void;
 	}
 	export class CatagoryEditCtrl{
-		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
-		constructor(scope:ICatagoryEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
+        public static $inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window","SelectListService"];
+        constructor(scope: ICatagoryEditScope, http: ng.IHttpService, toaster: ngToaster.IToasterService, locationService: ng.ILocationService, routeParams: ng.route.IRouteParamsService, window: ng.IWindowService, selectListService: Alps.Services.SelectListService){
             function getParentIDSelectList() {
-                new Alps.SelectListService(http,toaster).GetSelection("catagory").success(function(data){
+                selectListService.GetSelection("catagory").success(function(data){
 					scope.ParentIDSelectList=<any[]>data;
 				}).error(function(err){
 					toaster.error("错误",err.Message);

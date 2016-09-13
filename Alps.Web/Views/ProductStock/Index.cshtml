@@ -11,9 +11,7 @@
 	</ol>
 	<div class="page-wrap">
 		<div class="row">
-			<p>
-				<a class="btn btn-default btn-sm" href="#/ProductStockListModel/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
-			</p>
+
 			<table class="table">
 				<tr>
 					<th>
@@ -57,6 +55,8 @@
 
 				</tr>
 			</table>
+            <uib-pagination total-items="totalCount" items-per-page="pageSize" ng-model="currentPage" ng-change="getProductStockListModelList(currentPage)" class="pagination-sm" boundary-link-numbers="true" boundary-links="true" rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+
 		</div>
     </div>
 </div>

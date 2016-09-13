@@ -4,8 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>永盛金属ERP--@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+    <title>永盛金属ERP</title>
+    @Styles.Render("~/Content/csss")
     @Scripts.Render("~/bundles/modernizr")
     <base href="#/">
 </head>
@@ -27,57 +27,27 @@
 
         </div>
         <footer id="site-foot" class="site-foot clearfix">
-            <p class="left">&copy; Copyright 2014 <strong>APPBOARD</strong>, All rights reserved.</p>
-            <p class="right">v1.1</p>
+            <p class="left">&copy; Copyright 2014 <strong>永盛科技</strong>, 版权所有.</p>
+            <p class="right"><a href="/#/ChangedLog">v0.1.0.2</a></p>
         </footer>
     </div>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                        <li>@Html.ActionLink("关于", "About", "Home")</li>
-                        <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-            </footer>
-        </div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular")
 
     <script src="~/Scripts/angular-sanitize.js"></script>
     <script src="~/Scripts/angular-animate.js"></script>
-    <script src="~/Scripts/smart-table.js"></script>
+    @*<script src="~/Scripts/smart-table.js"></script>*@
     <script src="~/Scripts/toaster.js"></script>
     <script src="~/app/loading-bar.js"></script>
-    @*<script src="~/Scripts/angularstrap/angular-strap.js"></script>
-    <script src="~/Scripts/angularstrap/angular-strap.tpl.js"></script>*@
-    <script src="~/app/controllers.js"></script>
-    @*<script src="~/app/warehouseVoucher.js"></script>
-    <script src="~/app/catagory.js"></script>
-    <script src="~/app/StockInfo.js"></script>
-    <script src="~/app/unit.js"></script>*@
+    @*<script src="~/app/controllers.js"></script>*@
     <script src="~/app/appConfig.js"></script>
-    @Scripts.Render("~/bundles/app")
     <script src="~/app/appHelper.js"></script>
+    @Scripts.Render("~/bundles/app")
+    @*@Scripts.Render("~/bundles/angularPlugIns")*@
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/plugins.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

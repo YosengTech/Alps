@@ -30,38 +30,20 @@ namespace Alps.Web.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Catagory> Catagories { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.WarehouseVoucher> WarehouseVouchers { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.AccountingMgr.TradeAccount> TradeAccounts { get; set; }
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Product> Products { get; set; }
 
         public System.Data.Entity.DbSet<Alps.Domain.Common.Unit> Units { get; set; }
 
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.WarehouseVoucherItem> WarehouseVoucherItems { get; set; }
+        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.ProductSku> ProductSkus { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.Common.Customer> Customers { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.Common.Supplier> Suppliers { get; set; }
+
+        public System.Data.Entity.DbSet<Alps.Domain.Common.Department> Departments { get; set; }
 
         public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Position> Positions { get; set; }
 
-
-        public System.Data.Entity.DbSet<Alps.Domain.PurchaseMgr.PurchaseOrderItem> PurchaseOrderItems { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Web.Models.StockInfoViewModel> StockInfoViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrder> SaleOrders { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.SaleOrderItem> SaleOrderItems { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.SaleMgr.Commodity> Commodities { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Web.Models.ProductMgr.ProductStockListModel> ProductStockListModels { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.ProductStock> ProductStocks { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.Product> Products { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.PurchaseMgr.PurchaseOrder> PurchaseOrders { get; set; }
-
-        public System.Data.Entity.DbSet<Alps.Domain.ProductMgr.ProductSku> ProductSKUs { get; set; }
 
 
     }

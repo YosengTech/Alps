@@ -7,58 +7,80 @@
 
 	<ol class="breadcrumb breadcrumb-small">
 		<li>Forms</li>
-		<li class="active"><a href="#/ProductSKU">ProductSKU</a></li>
+		<li class="active"><a href="#/ProductSku">ProductSku</a></li>
 	</ol>
 	<div class="page-wrap">
 		<div class="row">
 			<p>
-				<a class="btn btn-default btn-sm" href="#/ProductSKU/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+				<a class="btn btn-default btn-sm" href="#/ProductSku/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
 			</p>
 			<table class="table">
 				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Product.Name)
+					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.Description)
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.StockQuantity)
 					</th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PricingMethod)
-                    </th>
+					<th>
+						@Html.DisplayNameFor(model => model.StockWeight)
+					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.Price)
 					</th>
 					<th>
+						@Html.DisplayNameFor(model => model.Attributes)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.AttributeName)
+					</th>
+					@*<th>
 						@Html.DisplayNameFor(model => model.CreatedTime)
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.ModifiedTime)
+					</th>*@
+					<th>
+						@Html.DisplayNameFor(model => model.PricingMethod)
 					</th>
 					<th></th>
 				</tr>
 				<tr ng-repeat="item in items">
-				
+					<td>
+						{{item.Product.Name}}
+					</td>
 					<td>
 						{{item.Description}}
 					</td>
 					<td>
 						{{item.StockQuantity}}
 					</td>
-                    <td>
-                        {{item.PricingMethod}}
-                    </td>
+					<td>
+						{{item.StockWeight}}
+					</td>
 					<td>
 						{{item.Price}}
 					</td>
-					
 					<td>
-						{{item.CreatedTime|date:"yyyy-MM-dd"}}
+						{{item.Attributes}}
 					</td>
 					<td>
-						{{item.ModifiedTime|date:"yyyy-MM-dd"}}
+						{{item.AttributeName}}
+					</td>
+					@*<td>
+						{{item.CreatedTime}}
 					</td>
 					<td>
-						<a class="btn btn-default btn-sm" href="#/ProductSKU/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+						{{item.ModifiedTime}}
+					</td>*@
+					<td>
+						{{item.PricingMethod}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/ProductSku/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
 					</td>
 				</tr>
 			</table>

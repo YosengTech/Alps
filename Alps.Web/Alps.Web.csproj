@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -230,7 +231,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CatagoriesApiController.cs" />
     <Compile Include="Controllers\CommodityApiController.cs" />
+    <Compile Include="Controllers\CustomerApiController.cs" />
+    <Compile Include="Controllers\DeliveryVoucherApiController.cs" />
+    <Compile Include="Controllers\DepartmentApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MaterialReceiptApiController.cs" />
+    <Compile Include="Controllers\MaterialRequisitionApiController.cs" />
     <Compile Include="Controllers\PositionApiController.cs" />
     <Compile Include="Controllers\ProductApiController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -241,12 +247,14 @@
     <Compile Include="Controllers\PurchaseOrderApiController.cs" />
     <Compile Include="Controllers\SaleOrderApiController.cs" />
     <Compile Include="Controllers\StockInfoApiController.cs" />
+    <Compile Include="Controllers\SupplierApiController.cs" />
     <Compile Include="Controllers\SystemMgrApiController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TradeAccountApiController.cs" />
     <Compile Include="Controllers\UnitApiController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WarehouseVoucherApiController.cs" />
+    <Compile Include="Extensions\CustomHandleErrorAttribute.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -254,6 +262,7 @@
     <Compile Include="Infrastructure\AlpsSelectList\AlpsSelectListItem.cs" />
     <Compile Include="Infrastructure\AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="Infrastructure\AutoMapper\ProductProfile.cs" />
+    <Compile Include="Infrastructure\PagedList\PagedList.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -304,6 +313,7 @@
     <Content Include="Appboard\views\todo.html" />
     <Content Include="Appboard\views\widgets.html" />
     <Content Include="Appboard\widgets.html" />
+    <Content Include="app\extensions\movableModal.js" />
     <Content Include="app\loading-bar.js" />
     <Content Include="app\loading-bar.min.js" />
     <Content Include="app\plugins.js" />
@@ -324,6 +334,7 @@
     <Content Include="Content\xeditable.css" />
     <Content Include="Content\xeditable.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\ui-grid.svg" />
     <Content Include="Global.asax" />
@@ -717,6 +728,15 @@
     <Content Include="CodeTemplates\MvcView\AngularEditWithList.cs.t4" />
     <Content Include="CodeTemplates\MvcView\Test.cs.t4" />
     <Content Include="CodeTemplates\ApiControllerWithContext\Controller.cs.t4" />
+    <Content Include="CodeTemplates\MvcView\AngularCrudControllerWithDetail2.cs.t4" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\alps.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1502,7 +1522,7 @@
     <Content Include="Views\Shared\_nav.cshtml" />
     <Content Include="Views\Home\Catagories.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\SelectListModal.cshtml" />
     <Content Include="Views\Catagory\Index_.cshtml" />
     <Content Include="Views\Catagory\Create.cshtml" />
     <Content Include="Views\Catagory\Edi.cshtml" />
@@ -1523,13 +1543,11 @@
     <Content Include="Views\Shared\DisplayTemplates\Date.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\StockInfo\Index.cshtml" />
-    <Content Include="Views\Shared\Index.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\Material\Create.cshtml" />
     <Content Include="Views\TradeAccount\Index.cshtml" />
     <Content Include="Views\TradeAccount\Edit.cshtml" />
-    <Content Include="Views\WarehouseVoucher\Edit_back.cshtml" />
     <Content Include="Views\WarehouseVoucher\ListEdit.cshtml" />
     <Content Include="Views\SaleOrder\Edit.cshtml" />
     <Content Include="Views\SaleOrder\ListEdit.cshtml" />
@@ -1545,6 +1563,25 @@
     <Content Include="Views\PurchaseOrder\Edit.cshtml" />
     <Content Include="Views\PurchaseOrder\ListEdit.cshtml" />
     <Content Include="Views\ProductSku\Index.cshtml" />
+    <Content Include="Views\DeliveryVoucher\Index.cshtml" />
+    <Content Include="Views\DeliveryVoucher\Edit.cshtml" />
+    <Content Include="Views\DeliveryVoucher\ListEdit.cshtml" />
+    <Content Include="Views\MaterialReceipt\Index.cshtml" />
+    <Content Include="Views\MaterialRequisition\Index.cshtml" />
+    <Content Include="Views\MaterialReceipt\Edit.cshtml" />
+    <Content Include="Views\MaterialReceipt\ListEdit.cshtml" />
+    <Content Include="Views\MaterialRequisition\ListEdit.cshtml" />
+    <Content Include="Views\MaterialRequisition\Edit.cshtml" />
+    <Content Include="Views\ProductSku\Edit.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Department\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\Position\Edit.cshtml" />
+    <Content Include="Views\Home\ChangedLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1564,23 +1601,33 @@
     <TypeScriptCompile Include="app\alpsToaster.ts" />
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\appConfig.ts" />
+    <TypeScriptCompile Include="app\appFilter.ts" />
     <TypeScriptCompile Include="app\appHelper.ts" />
-    <TypeScriptCompile Include="app\catagories.ts" />
     <TypeScriptCompile Include="app\controllers\catagoryController.ts" />
-    <TypeScriptCompile Include="app\controllers.ts" />
     <TypeScriptCompile Include="app\controllers\commodityController.ts" />
+    <TypeScriptCompile Include="app\controllers\customerController.ts" />
+    <TypeScriptCompile Include="app\controllers\dashboardController.ts" />
+    <TypeScriptCompile Include="app\controllers\deliveryVoucherController.ts" />
+    <TypeScriptCompile Include="app\controllers\departmentController.ts" />
     <TypeScriptCompile Include="app\controllers\MaterialController.ts" />
+    <TypeScriptCompile Include="app\controllers\materialReceiptController.ts" />
+    <TypeScriptCompile Include="app\controllers\materialRequisitionController.ts" />
+    <TypeScriptCompile Include="app\controllers\positionController.ts" />
     <TypeScriptCompile Include="app\controllers\productController.ts" />
     <TypeScriptCompile Include="app\controllers\productSkuController.ts" />
     <TypeScriptCompile Include="app\controllers\productStockController.ts" />
     <TypeScriptCompile Include="app\controllers\purchaseOrderController.ts" />
     <TypeScriptCompile Include="app\controllers\saleOrderController.ts" />
     <TypeScriptCompile Include="app\controllers\StockInfoController.ts" />
+    <TypeScriptCompile Include="app\controllers\supplierController.ts" />
     <TypeScriptCompile Include="app\controllers\tradeAccountController.ts" />
     <TypeScriptCompile Include="app\controllers\unitController.ts" />
     <TypeScriptCompile Include="app\controllers\warehouseVoucherController.ts" />
     <Compile Include="Controllers\SelectListController.cs" />
-    <TypeScriptCompile Include="app\directives\materialSelector.ts" />
+    <TypeScriptCompile Include="app\directives\draggableDirective.ts" />
+    <TypeScriptCompile Include="app\directives\productSkuSelectorDirective.ts" />
+    <TypeScriptCompile Include="app\services\productSkuSelectorService.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angular-ui-bootstrap\angular-ui-bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs-toaster\angularjs-toaster.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />

@@ -20,12 +20,13 @@ namespace Alps.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/Content/csss").Include(
                       "~/Content/bootstrap.css",
-                      "~/content/css/font-awesome.min.css","~/content/ui-grid.min.css","~/content/loading-bar.css", "~/Content/main.min.css",
+                      "~/content/css/font-awesome.min.css", "~/content/loading-bar.css", "~/Content/main.min.css", //"~/Content/ui-bootstrap-csp.css",
                       "~/Content/toaster.css","~/Content/xeditable.css","~/Content/ui-grid.css","~/Content/Site.css"));
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js", "~/scripts/xeditable.js", "~/scripts/ui-grid.js"));
-            bundles.Add(new ScriptBundle("~/bundles/app").Include("~/scripts/plugins.js","~/app/navDirective.js","~/app/controllers/*Controller.js","~/app/app.js"));
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include("~/scripts/angular.js", "~/scripts/angular-route.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/angularPlugIns").Include("~/scripts/plugins.js", "~/scripts/xeditable.js", "~/scripts/ui-grid.js", "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
+            bundles.Add(new ScriptBundle("~/bundles/app").Include( "~/app/navDirective.js","~/app/directives/*Directive.js", "~/app/controllers/*Controller.js", "~/app/appFilter.js" ,"~/app/app.js"));
         }
     }
 }

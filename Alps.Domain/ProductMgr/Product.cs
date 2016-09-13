@@ -27,12 +27,15 @@ namespace Alps.Domain.ProductMgr
         public bool Deleted { get; set; }
         [Display(Name = "基本单位")]
         public Guid BaseUnitID { get; set; }
-        [Display(Name = "类别")]
-        public virtual ICollection<ProductCatagorySetting> ProductCatagorySettings { get; set; }
+        //[Display(Name = "类别")]
+       // public virtual ICollection<ProductCatagorySetting> ProductCatagorySettings { get; set; }
         [Display(Name = "计价方式")]
         public PricingMethod PricingMethod { get; set; }
         [Display(Name = "定价")]
         public decimal ListPrice { get; set; }
+        [Display(Name="类别")]
+        public Guid CatagoryID { get;set; }
+        public virtual Catagory Catagory { get; set; }
         //public ICollection<ProductAttributeCombination> ProductAttributeCombination { get; set; }
         public virtual Unit BaseUnit { get; set; }
         public static Product Create(string name,string shortDiscription,string fullDiscription,PricingMethod priceMethod,decimal price,Guid baseUnitID)
@@ -47,13 +50,21 @@ namespace Alps.Domain.ProductMgr
             product.PricingMethod = priceMethod;
             product.ListPrice = price;
             product.BaseUnitID = baseUnitID;
-            product.ProductCatagorySettings = new HashSet<ProductCatagorySetting>();
+           // product.ProductCatagorySettings = new HashSet<ProductCatagorySetting>();
             return product;
         }
-        public void AddAssociatedCatagory(Catagory catagory,int displayOrder)
+        public static Product Create(string name, string shortDiscription, string fullDiscription, PricingMethod priceMethod, decimal price, Guid baseUnitID,Guid catagoryID)
         {
-            var productCatagorySetting = ProductCatagorySetting.Create(catagory.ID,catagory.Name,displayOrder);
-            this.ProductCatagorySettings.Add(productCatagorySetting);
+            Product p= Create(name, shortDiscription, fullDiscription, priceMethod, price, baseUnitID);
+            p.CatagoryID = catagoryID;
+            //p.SetCatagory(catagoryID);
+            return p;
+        }
+        public void SetCatagory(Catagory catagory,int displayOrder=0)
+        {
+            this.CatagoryID = catagory.ID;
+            //var productCatagorySetting = ProductCatagorySetting.Create(this.ID,catagory.ID,catagory.Name,displayOrder);
+            //this.ProductCatagorySettings.Add(productCatagorySetting);
         }
         
         public void SetDeleted()

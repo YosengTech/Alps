@@ -1,71 +1,82 @@
 ﻿@model Alps.Domain.ProductMgr.WarehouseVoucherItem
-<table class="table-edit  table-bordered table-hover  " st-table="displalyList" st-safe-src="item.Items">
+<table class="table table-edit  table-bordered table-hover  " st-table="displalyList" st-safe-src="item.Items">
+    <colgroup>
+        <col />
+        <col width="50" /><col width="50" /><col width="50" />
+        <col />
+    </colgroup>
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ProductSkuInfo.SkuID)
             </th>
-            <th st-sort="Quantity" class="col-md-1">
+            <th st-sort="Quantity" >
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th st-sort="Weight" class="col-md-1">
+            <th st-sort="Weight"  >
                 @Html.DisplayNameFor(model => model.Weight)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.ProductSkuInfo.PricingMethod)
-            </th>*@
-            <th class="col-md-1">
+                    @Html.DisplayNameFor(model => model.ProductSkuInfo.PricingMethod)
+                </th>*@
+            <th >
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
-            <th class="col-md-2">
+            <th >
                 @Html.DisplayNameFor(model => model.ProductNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PositionID)
             </th>
-            <th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span></a></th>
         </tr>
     </thead>
-    <tr ng-repeat="subItem in displalyList">
+    <tr ng-repeat="subItem in item.Items">
         <td>
-            <select name="ProductID" id="ProductID" class="form-control" ng-model="subItem.ProductSkuInfo.SkuID" ng-change="productSelectionChanged(subItem)" ng-options="selectList.SkuID as selectList.Name for selectList in ProductSkuIDSelectList"></select>
+            <div productskuselector ng-model="subItem.ProductSkuInfo.SkuID" selectlist="ProductSkuWithCatagorySelectList" ng-change="productSelectionChanged(subItem)"></div>
+            @*<select name="ProductID" id="ProductID" class="form-control" ng-click="$event.preventDefault();modifySku(subItem)" ng-model="subItem.ProductSkuInfo.SkuID" ng-change="productSelectionChanged(subItem)" ng-options="selectList.SkuID as selectList.Name for selectList in ProductSkuIDSelectList"></select>*@
         </td>
         <td>
-            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Quantity", ng_change = "reCaluAmount(subItem)" } })
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Quantity", ng_change = "reCaluAmount(subItem)" } })
         </td>
         <td>
-            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Weight", ng_change = "reCaluAmount(subItem)" } })
+            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Weight", ng_change = "reCaluAmount(subItem)" } })
         </td>
         @*<td>
-            <select name="PricingMethod" id="PricingMethod" class="form-control" ng-model="subItem.ProductSkuInfo.PricingMethod" ng-options="selectList.Value as selectList.Text for selectList in PricingMethodSelectList"></select>
-        </td>*@
+                <select name="PricingMethod" id="PricingMethod" class="form-control" ng-model="subItem.ProductSkuInfo.PricingMethod" ng-options="selectList.Value as selectList.Text for selectList in PricingMethodSelectList"></select>
+            </td>*@
         <td>
             @*<a href="#" editable-text="subItem.Price" class="e-popover-edit">
-                {{subItem.Price}}
-            </a>*@
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.Price", ng_change = "reCaluAmount(subItem)" } })
+                    {{subItem.Price}}
+                </a>*@
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Price", ng_change = "reCaluAmount(subItem)" } })
         </td>
         <td>
             {{subItem.Amount}}
         </td>
         <td>
             @*<a href="#" editable-text="subItem.ProductNumber" class="e-popover-edit">
-                {{subItem.ProductNumber}}
-            </a>*@
-            @Html.EditorFor(model => model.ProductNumber, new { htmlAttributes = new { @class = "form-control", ng_model = "subItem.ProductNumber" } })
+                    {{subItem.ProductNumber}}
+                </a>*@
+            @Html.EditorFor(model => model.ProductNumber, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.ProductNumber" } })
         </td>
         <td>
             @*<a href="#" class="e-popover-edit" editable-select="subItem.PositionID" e-ng-options="selectList.ID as selectList.Name for selectList in PositionIDSelectList">
-                {{subItem.PositionID|displayName:PositionIDSelectList}}
-            </a>*@
-            <select name="PositionID" id="PositionID" class="form-control" ng-model="subItem.PositionID" ng-options="selectList.ID as selectList.Name for selectList in PositionIDSelectList"></select>
+                    {{subItem.PositionID|displayName:PositionIDSelectList}}
+                </a>*@
+            <select name="PositionID" id="PositionID" class="form-control input-mini" ng-model="subItem.PositionID" ng-options="selectList.ID as selectList.Name for selectList in PositionIDSelectList"></select>
         </td>
-
         <td>
-            <a class="btn btn-default btn-sm" ng-click="deleteSubItem($index)"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>
+            @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Remark" } })
+        </td>
+        <td>
+            <a class="btn btn-default btn-sm" ng-click="deleteSubItem($index)"><span class="glyphicon glyphicon-trash"></span></a>
         </td>
     </tr>
 </table>

@@ -28,9 +28,9 @@ var Alps;
         })();
         Controllers.CatagoryListCtrl = CatagoryListCtrl;
         var CatagoryCreateCtrl = (function () {
-            function CatagoryCreateCtrl(scope, http, toaster, locationService) {
+            function CatagoryCreateCtrl(scope, http, toaster, locationService, selectListService) {
                 function getParentIDSelectList() {
-                    new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function (data) {
+                    selectListService.GetSelection("catagory").success(function (data) {
                         scope.ParentIDSelectList = data;
                     });
                 }
@@ -50,14 +50,14 @@ var Alps;
                 scope.goBack = goBack;
                 getParentIDSelectList();
             }
-            CatagoryCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
+            CatagoryCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location", "SelectListService"];
             return CatagoryCreateCtrl;
         })();
         Controllers.CatagoryCreateCtrl = CatagoryCreateCtrl;
         var CatagoryEditCtrl = (function () {
-            function CatagoryEditCtrl(scope, http, toaster, locationService, routeParams, window) {
+            function CatagoryEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
                 function getParentIDSelectList() {
-                    new Alps.SelectListService(http, toaster).GetSelection("catagory").success(function (data) {
+                    selectListService.GetSelection("catagory").success(function (data) {
                         scope.ParentIDSelectList = data;
                     }).error(function (err) {
                         toaster.error("错误", err.Message);
@@ -107,7 +107,7 @@ var Alps;
                     locationService.path("/Catagory");
                 }
             }
-            CatagoryEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
+            CatagoryEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
             return CatagoryEditCtrl;
         })();
         Controllers.CatagoryEditCtrl = CatagoryEditCtrl;

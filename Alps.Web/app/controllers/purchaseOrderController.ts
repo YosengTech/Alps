@@ -79,7 +79,7 @@
 	}
 	export class PurchaseOrderEditCtrl{
         public static $inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window","SelectListService"];
-		constructor(scope:IPurchaseOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.SelectListService){
+		constructor(scope:IPurchaseOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.Services.SelectListService){
 			function getPurchaseOrder(id){
 				http.get("/api/PurchaseOrder/"+id).success(function(data:any){
 					scope.item=<PurchaseOrder>data;

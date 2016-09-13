@@ -12,16 +12,16 @@ namespace Alps.Web.Controllers
         AlpsContext db = new AlpsContext();
         public IHttpActionResult InitialDatabase()
         {
-            try
-            {
+            //try
+            //{
                 Alps.Domain.AlpsContext.Initial();
                 db.Database.Initialize(true);
                 return Ok();
-            }
-            catch(Exception e)
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content =new StringContent( e.Message) });
-            }
+            //}
+            //catch(Exception e)
+            //{
+            //    throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content =new StringContent( e.Message) });
+            //}
             
 
         }

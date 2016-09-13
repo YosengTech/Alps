@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Alps.Domain.Common;
 namespace Alps.Domain.ProductMgr
 {
     public class ProductStock:EntityBase
@@ -16,16 +17,18 @@ namespace Alps.Domain.ProductMgr
         public decimal Quantity { get; set; }
         public decimal Weight { get; set; }
         public Guid PositionID { get; set; }
-        public Guid OwnerID { get; set; }
+        public Guid DepartmentID { get; set; }
         public string ProductNumber { get; set; }
 
-        public static ProductStock Create(Guid skuID, decimal quantity, decimal weight, Guid ownerID, Guid positionID, string productNumber = "")
+        public virtual Department Department { get; set; }
+
+        public static ProductStock Create(Guid skuID, decimal quantity, decimal weight, Guid departmentID, Guid positionID, string productNumber = "")
         {
             ProductStock productStock=new ProductStock();
             productStock.SkuID = skuID;
             productStock.Quantity = quantity;
             productStock.Weight = weight;
-            productStock.OwnerID = ownerID;
+            productStock.DepartmentID = departmentID;
             productStock.PositionID = positionID;
             productStock.ProductNumber = productNumber;
             return productStock;

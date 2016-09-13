@@ -132,7 +132,7 @@ foreach (PropertyMetadata property in ModelMetadata.Properties) {
 #>
 							<div class="clearfix"></div>
                             <div class="form-group">
-                                @Html.Partial("ListEdit")
+                                @Html.Partial("~/Views/<#= ViewDataTypeShortName #>/ListEdit.cshtml")
                             </div>
 							<div class="form-group  text-center">
 								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>

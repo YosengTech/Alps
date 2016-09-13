@@ -12,6 +12,7 @@ using Alps.Domain.ProductMgr;
 using Alps.Web.Models;
 using Alps.Web.Models.ProductMgr;
 using Alps.Domain;
+using Alps.Web.Infrastructure;
 namespace Alps.Web.Controllers
 {
     public class ProductStockApiController : ApiController
@@ -19,16 +20,19 @@ namespace Alps.Web.Controllers
         private AlpsContext db = new AlpsContext();
 
         // GET: api/ProductStockApi
-        public IQueryable<ProductStockListModel> GetProductStocks()
+        public IHttpActionResult GetProductStocks(int pageIndex = 1,int pageSize=10)
         {
             
             var q = from p in db.ProductSkus
                     from ps in db.ProductStocks
                     from po in db.Positions
-                    from t in db.TradeAccounts
-                    where p.ID==ps.SkuID && ps.OwnerID==t.ID && ps.PositionID==po.ID
+                    from t in db.Departments
+                    where p.ID==ps.SkuID && ps.DepartmentID==t.ID && ps.PositionID==po.ID
+                    orderby p.Attributes
                     select new ProductStockListModel { ProductName = p.Attributes, ID = ps.ID, OwnerName = t.Name, PositionName = po.Name, ProductNumber = ps.ProductNumber, Quantity = ps.Quantity, Weight = ps.Weight };
-            return q;
+            var totalCount = q.Count();
+            var result = q.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return Ok(new {data=result,totalcount=totalCount});
         }
 
         // GET: api/ProductStockApi/5

@@ -15,7 +15,7 @@
 	<div class="page-wrap">
 		<div class="row">
 			<p>
-				<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+				<a class="btn btn-default btn-sm" href="#/<#= ViewDataTypeShortName#>/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
 			</p>
 			<table class="table">
 				<tr>

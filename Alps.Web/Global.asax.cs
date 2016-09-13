@@ -34,10 +34,13 @@ namespace Alps.Web
             {
                 if ((!Request.RawUrl.Contains("style")) && (!Request.RawUrl.Contains("images")))
                 {
-                    Response.Clear();
+                    
                     if (Response.StatusCode == 404)
                     {
-                        Response.Redirect("/");
+                       // if (Context.Request.Headers["X-Requested-With"] != "XMLHttpRequest")
+
+//                        throw new HttpResponseException(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.NotFound) {Content=new System.Net.Http.StringContent("找不到资源")}); 
+                          //Response.Redirect("/");
                     }
                 }
             }

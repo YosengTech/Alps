@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Alps.Domain.ProductMgr;
+using Alps.Domain.Common;
 namespace Alps.Domain.PurchaseMgr
 {
     public class PurchaseOrder : EntityBase
@@ -21,7 +22,7 @@ namespace Alps.Domain.PurchaseMgr
         [Display(Name = "供应商")]
         public Guid SupplierID { get; set; }
         [ForeignKey("SupplierID")]
-        public virtual TradeAccount Supplier { get; set; }
+        public virtual Supplier Supplier { get; set; }
         public virtual ICollection<PurchaseOrderItem> Items { get; set; }
         [Display(Name = "订单状态")]
         public PurchaseOrderState State { get; set; }

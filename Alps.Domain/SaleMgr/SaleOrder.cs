@@ -12,7 +12,7 @@ namespace Alps.Domain.SaleMgr
 {
     public class SaleOrder : EntityBase
     {
-        public TradeAccount Customer { get; set; }
+        public Customer Customer { get; set; }
         [Display(Name="客户")]
         public Guid CustomerID { get; set; }
         [Display(Name="下单时间")]

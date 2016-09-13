@@ -8,27 +8,31 @@
 		Weight:number
 		PositionName:string
 		OwnerName:string
-		ProductNumber:string
+        ProductNumber: string
 	}
 	
 	export interface IProductStockListModelListScope{
 		items:ProductStockListModel[];
-		getProductStockListModelList():void;
-
+        getProductStockListModelList(pageIndex): void;
+        totalCount: number;
+        currentPage: number;
+        pageSize: number;
 	}
 	export class ProductStockListModelListCtrl{
 		public static $inject=["$scope","$http","toaster"];
 		constructor(scope:IProductStockListModelListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
-			function getProductStockListModelList(){
-				http.get("/api/ProductStock").success(function(data:any[]){
-					scope.items=<ProductStockListModel[]>data;
+			function getProductStockListModelList(pageIndex){
+				http.get("/api/ProductStock?pageIndex="+pageIndex).success(function(data:any){
+                    scope.items = <ProductStockListModel[]>data.data;
+                    scope.totalCount = data.totalcount;
 					toaster.success("提示","载入成功");
 				}).error(function(err){
 					toaster.error("错误",Alps.phaseErr(err));
 				});
-			};
+            };
+            scope.pageSize = 10;
             scope.getProductStockListModelList = getProductStockListModelList;
-            getProductStockListModelList();
+            getProductStockListModelList(1);
 		}
 	}
 	export interface IProductStockListModelCreateScope{

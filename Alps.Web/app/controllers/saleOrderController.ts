@@ -82,7 +82,7 @@
 	}
 	export class SaleOrderEditCtrl{
 		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window","SelectListService"];
-		constructor(scope:ISaleOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.SelectListService){
+		constructor(scope:ISaleOrderEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.Services.SelectListService){
 			function getCustomerIDSelectList(){
 				http.get("/api/TradeAccount").success(function(data){
 					scope.CustomerIDSelectList=<any[]>data;

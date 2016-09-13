@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Alps.Web.Models;
+using Alps.Domain.AccountingMgr;
 
 namespace Alps.Web.Providers
 {
@@ -29,9 +30,9 @@ namespace Alps.Web.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            var userManager = context.OwinContext.GetUserManager<AlpsUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            AlpsUser user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {

@@ -13,26 +13,56 @@ namespace Alps.Domain.Service
         {
             this.db = db;
         }
+        public void UpdateStock(DeliveryVoucher voucher)
+        {
+            if (voucher.State == DeliveryVoucherState.Confirmed)
+            {
+                foreach (DeliveryVoucherItem item in voucher.Items)
+                {
+                    StockOut(voucher.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                }
+            }
+        }
+        public void UpdateStock(MaterialReceipt materialReceipt)
+        {
+            if (materialReceipt.State == MaterialReceiptState.Confirmed)
+            {
+                foreach (MaterialReceiptItem item in materialReceipt.Items)
+                {
+                    StockIn(materialReceipt.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                }
+            }
+        }
+        public void UpdateStock(MaterialRequisition materialRequisition)
+        {
+            if(materialRequisition.State==MaterialRequisitionState.Confirmed)
+            {
+                foreach (MaterialRequisitionItem item in materialRequisition.Items)
+                {
+                    StockOut(materialRequisition.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                }
+            }
+        }
         public void UpdateStock(WarehouseVoucher voucher)
         {
             if (voucher.State == WarehouseVoucherState.Confirmed)
             {
-                var source = db.TradeAccounts.Find(voucher.SourceID);
-                var destination = db.TradeAccounts.Find(voucher.DestinationID);
-                if (source.InventoryManagement)
-                {
+                //var source = db.Suppliers.Find(voucher.SupplierID);
+                //var destination = db.Departments.Find(voucher.DepartmentID);
+                //if (source.InventoryManagement)
+                //{
+                //    foreach (WarehouseVoucherItem item in voucher.Items)
+                //    {
+                //        StockOut(voucher.SupplierID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                //    }
+                //}
+                //if (destination.InventoryManagement)
+                //{
                     foreach (WarehouseVoucherItem item in voucher.Items)
                     {
-                        StockOut(voucher.SourceID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                        StockIn(voucher.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
                     }
-                }
-                if (destination.InventoryManagement)
-                {
-                    foreach (WarehouseVoucherItem item in voucher.Items)
-                    {
-                        StockIn(voucher.DestinationID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
-                    }
-                }
+                //}
             }
             else
                 throw new DomainException("入库单未提交");
@@ -43,9 +73,9 @@ namespace Alps.Domain.Service
             ProductStock productStock = null;
             if (productNumber == string.Empty)
             {
-                productStock = db.ProductStocks.Local.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+                productStock = db.ProductStocks.Local.FirstOrDefault(p => p.DepartmentID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
                 if (productStock == null)
-                    productStock = db.ProductStocks.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+                    productStock = db.ProductStocks.FirstOrDefault(p => p.DepartmentID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
             }
             else
             {
@@ -84,7 +114,7 @@ namespace Alps.Domain.Service
         public void StockOut(Guid ownerID, Guid skuID, decimal quantity, decimal weight, Guid positionID, string productNumber = "")
         {
 
-            ProductStock productStock = db.ProductStocks.FirstOrDefault(p => p.OwnerID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
+            ProductStock productStock = db.ProductStocks.FirstOrDefault(p => p.DepartmentID == ownerID && p.SkuID == skuID && p.PositionID == positionID && p.ProductNumber == productNumber);
 
             if (productStock != null)
             {

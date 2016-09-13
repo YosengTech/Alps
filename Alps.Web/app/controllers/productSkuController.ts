@@ -1,30 +1,31 @@
 ﻿module Alps.Controllers
 {
     'use strict';
-	export class ProductSKU{
+	export class ProductSku{
 		ID:string
 		ProductID:string
+		Description:string
 		StockQuantity:number
+		StockWeight:number
 		Price:number
 		Attributes:string
 		AttributeName:string
 		CreatedTime:Date
 		ModifiedTime:Date
-		PackingQuantity:number
-		Weight:number
+		PricingMethod:number
 	}
 	
-	export interface IProductSKUListScope{
-		items:ProductSKU[];
-		getProductSKUList():void;
+	export interface IProductSkuListScope{
+		items:ProductSku[];
+		getProductSkuList():void;
 
 	}
-	export class ProductSKUListCtrl{
+	export class ProductSkuListCtrl{
 		public static $inject=["$scope","$http","toaster"];
-		constructor(scope:IProductSKUListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
-			function getProductSKUList(){
-				http.get("/api/ProductSKU").success(function(data:any[]){
-					scope.items=<ProductSKU[]>data;
+		constructor(scope:IProductSkuListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
+			function getProductSkuList(){
+				http.get("/api/ProductSku").success(function(data:any[]){
+					scope.items=<ProductSku[]>data;
 					for (var i = 0; i < scope.items.length; i++) {
 						scope.items[i].CreatedTime=new Date(data[i].CreatedTime);
 						scope.items[i].ModifiedTime=new Date(data[i].ModifiedTime);
@@ -34,19 +35,19 @@
 					toaster.error("错误",Alps.phaseErr(err));
 				});
 			};
-            scope.getProductSKUList = getProductSKUList;
-            getProductSKUList();
+            scope.getProductSkuList = getProductSkuList;
+            getProductSkuList();
 		}
 	}
-	export interface IProductSKUCreateScope{
-		item:ProductSKU;
-		createProductSKU():void;
+	export interface IProductSkuCreateScope{
+		item:ProductSku;
+		createProductSku():void;
 		ProductIDSelectList:any[];
 		goBack():void;
 	}
-	export class ProductSKUCreateCtrl{
+	export class ProductSkuCreateCtrl{
 		public static $inject=["$scope","$http","toaster","$location"];
-		constructor(scope:IProductSKUCreateScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService){
+		constructor(scope:IProductSkuCreateScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService){
 			function getProductIDSelectList(){
 				http.get("/api/Product").success(function(data){
 					scope.ProductIDSelectList=<any[]>data;
@@ -54,10 +55,10 @@
 					toaster.error("错误",Alps.phaseErr(err));
 				});
 			}
-			function createProductSKU(){
-				http.post("/api/ProductSKU",scope.item).success(function(data){
+			function createProductSku(){
+				http.post("/api/ProductSku",scope.item).success(function(data){
 					toaster.success("提示","创建成功");
-					locationService.path("/ProductSKU");
+					locationService.path("/ProductSku");
 				}).error(function(err){
 
                     toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
@@ -66,33 +67,36 @@
 			function goBack() {
                 window.history.back();
             }
-            scope.createProductSKU = createProductSKU;
+            scope.createProductSku = createProductSku;
 			scope.goBack = goBack;
 				getProductIDSelectList();
 		}
 	}
-	export interface IProductSKUEditScope{
+	export interface IProductSkuEditScope{
 		id:string;
-		item:ProductSKU;
-		getProductSKU(string):void;
-		saveProductSKU():void;
-        deleteProductSKU(): void;
+		item:ProductSku;
+		getProductSku(string):void;
+		saveProductSku():void;
+        deleteProductSku(): void;
 		ProductIDSelectList:any[];
-		goBack():void;
+        goBack(): void;
+        PricingMethodSelectList: any[];
 	}
-	export class ProductSKUEditCtrl{
-		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window"];
-		constructor(scope:IProductSKUEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService){
-			function getProductIDSelectList(){
-				http.get("/api/Product").success(function(data){
-					scope.ProductIDSelectList=<any[]>data;
-				}).error(function(err){
-					toaster.error("错误",Alps.phaseErr(err));
-				});
+	export class ProductSkuEditCtrl{
+		public static $inject=["$scope","$http","toaster","$location","$routeParams","$window","SelectListService"];
+		constructor(scope:IProductSkuEditScope,http:ng.IHttpService,toaster:ngToaster.IToasterService,locationService:ng.ILocationService,routeParams:ng.route.IRouteParamsService,window:ng.IWindowService,selectListService:Alps.Services.SelectListService){
+
+			function getSelectList(){
+				selectListService.GetSelection("Product").success(function (data) {
+						scope.ProductIDSelectList = <any[]>data;
+                });
+                selectListService.GetSelection("PricingMethod").success(function (data) {
+                    scope.PricingMethodSelectList = <any[]>data;
+                });
 			}
-			function getProductSKU(id){
-				http.get("/api/ProductSKU/"+id).success(function(data:any){
-					scope.item=<ProductSKU>data;
+			function getProductSku(id){
+				http.get("/api/ProductSku/"+id).success(function(data:any){
+					scope.item=<ProductSku>data;
 					scope.item.CreatedTime=new Date(data.CreatedTime);
 					scope.item.ModifiedTime=new Date(data.ModifiedTime);
 					toaster.success("提示","载入成功");
@@ -100,30 +104,24 @@
 					toaster.error("错误",data.Message);
 				});
 			};
-			function saveProductSKU(){
-				http.put("/api/ProductSKU/"+id,scope.item).success(function(data){
+			function saveProductSku(){
+				var promise = null;
+                if (id == "0")
+                    promise = http.post("/api/ProductSku/", scope.item);
+                else
+                    promise = http.put("/api/ProductSku/" + id, scope.item);
+                promise.success(function(data){
 					toaster.success("提示","保存成功");
-					locationService.path("/ProductSKU");
+					locationService.path("/ProductSku");
 				}).error(function(err){
-					var errMsg="";
-                    if (err.ModelState) {
-                        errMsg = "<ul>";
-                        for (var p in err.ModelState) {
-                            errMsg = errMsg + "<li>" + err.ModelState[p][0] + "</li>";
-                        }
-                        errMsg = errMsg + "</ul>";
-                    }
-                    if (errMsg == "") {
-                        errMsg = err.Message;
-                    }
-                    toaster.pop("error", "错误", errMsg, 3000, "trustedHtml");
+                    toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
 				});
 			}
-			function deleteProductSKU() {
+			function deleteProductSku() {
 			    if (confirm("确认要删除?")) {
-					http.delete("/api/ProductSKU/" + id).success(function (data) {
+					http.delete("/api/ProductSku/" + id).success(function (data) {
 						toaster.success("提示", "删除成功");
-						locationService.path("/ProductSKU");
+						locationService.path("/ProductSku");
 					}).error(function (err) {
 						toaster.error("错误", err.Message);
 					});
@@ -132,18 +130,23 @@
 			function goBack() {
                 window.history.back();
             }
-            scope.getProductSKU = getProductSKU;
-			scope.saveProductSKU = saveProductSKU;
-			scope.deleteProductSKU = deleteProductSKU;
+            scope.getProductSku = getProductSku;
+			scope.saveProductSku = saveProductSku;
+			scope.deleteProductSku = deleteProductSku;
 			scope.goBack=goBack;
 			var id="";
 			if(routeParams["id"]){
 				id=routeParams["id"];
-				getProductIDSelectList();
-				getProductSKU(id);
+				getSelectList();
+				if (id != '0') {
+                    getProductSku(id);
+                }
+				else
+					scope.item=new ProductSku();
+				
 			}
 			else{
-				locationService.path("/ProductSKU");
+				locationService.path("/ProductSku");
 			}
 		}
 	}
