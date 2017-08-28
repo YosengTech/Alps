@@ -14,8 +14,10 @@ namespace Alps.Domain.ProductMgr
         public ProductSkuInfo ProductSkuInfo { get; set; }
         [Display(Name = "数量")]
         public decimal Quantity { get; set; }
-        [Display(Name = "重量")]
+        [Display(Name ="重量")]
         public decimal Weight { get; set; }
+        [Display(Name = "辅助数量")]
+        public decimal AuxiliaryQuantity { get; set; }
 
         [Display(Name = "价格")]
         public decimal Price { get; set; }

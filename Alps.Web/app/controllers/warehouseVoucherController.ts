@@ -184,10 +184,11 @@
                 }
             }
             function reCaluAmount(item) {
-                if (item.ProductSkuInfo.PricingMethod === 0)
-                    item.Amount = item.Quantity * item.Price;
-                else
-                    item.Amount = item.Weight * item.Price;
+                item.Amount = item.Quantity * item.Price;
+                //if (item.ProductSkuInfo.PricingMethod === 0)
+                //    item.Amount = item.Quantity * item.Price;
+                //else
+                //    item.Amount = item.Weight * item.Price;
             }
             //function selectNewProductSku(sku) {
             //    uibModal.open({ templateUrl: "/template/home/SelectListModal", controller: "SelectListModalCtrl", resolve: { selectList: function () { return scope.ProductSkuIDSelectList; } } })

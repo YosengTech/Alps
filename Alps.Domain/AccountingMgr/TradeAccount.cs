@@ -18,12 +18,19 @@ namespace Alps.Domain.AccountingMgr
         [Display(Name="库存维护")]
         public bool InventoryManagement { get; set; }
         [Display(Name = "帐户类型")]
-        public TradeAccountType Type { get; set; }
-
-
+        public ICollection <TradeAccountType> Types { get; set; }
+        public ICollection<string> Catagorys { get; set; }
+        public string Test { get; set; }
+        public TradeAccount()
+        {
+            Types = new List<TradeAccountType>();
+        }
+        
         public static TradeAccount Create(string name, TradeAccountType type,string cellPhoneNumber, string bankAccount)
         {
-            return new TradeAccount() { Name = name, Type = type, BankAccount = bankAccount ,CellPhoneNumber=cellPhoneNumber};
+            var ta= new TradeAccount() { Name = name,  BankAccount = bankAccount ,CellPhoneNumber=cellPhoneNumber};
+            ta.Types.Add(type);
+            return ta;
         }
     }
     

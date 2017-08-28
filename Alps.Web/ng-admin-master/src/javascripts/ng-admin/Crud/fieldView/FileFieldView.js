@@ -1,6 +1,5 @@
-define(function(require) {
+define(function (require) {
     "use strict";
-
     function getReadWidget() {
         return 'error: cannot display file field as readable';
     }
@@ -14,9 +13,10 @@ define(function(require) {
         return '<ma-file-field field="::field" value="entry.values[field.name()]"></ma-file-field>';
     }
     return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
+        getReadWidget: getReadWidget,
+        getLinkWidget: getLinkWidget,
         getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
-    }
+        getWriteWidget: getWriteWidget,
+    };
 });
+//# sourceMappingURL=FileFieldView.js.map

@@ -1,8 +1,5 @@
 /*global requirejs,window*/
-
-var tests = [],
-    file;
-
+var tests = [], file;
 for (file in window.__karma__.files) {
     if (window.__karma__.files.hasOwnProperty(file)) {
         if (/Spec\.js$/.test(file)) {
@@ -10,3 +7,4 @@ for (file in window.__karma__.files) {
         }
     }
 }
+//# sourceMappingURL=app-test.js.map

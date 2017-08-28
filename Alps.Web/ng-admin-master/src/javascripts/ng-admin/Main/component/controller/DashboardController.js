@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     /**
      *
      * @param {$scope}       $scope
@@ -15,19 +13,15 @@ define(function (require) {
         this.collections = collections;
         this.entries = entries;
         this.hasEntities = hasEntities;
-
         $scope.$on('$destroy', this.destroy.bind(this));
     }
-
-    DashboardController.prototype.gotoList = function(entityName) {
+    DashboardController.prototype.gotoList = function (entityName) {
         this.$state.go(this.$state.get('list'), { entity: entityName });
-    }
-
+    };
     DashboardController.prototype.destroy = function () {
         this.$state = undefined;
     };
-
     DashboardController.$inject = ['$scope', '$state', 'collections', 'entries', 'hasEntities'];
-
     return DashboardController;
 });
+//# sourceMappingURL=DashboardController.js.map

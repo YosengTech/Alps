@@ -2,6 +2,7 @@
     border:1px solid red;
 }
 
+
 .st-sort-ascent:before{
     content: '\25B2';
   }

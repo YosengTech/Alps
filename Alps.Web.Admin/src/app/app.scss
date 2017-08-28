@@ -1,0 +1,29 @@
+﻿@import "~normalize.css";
+@import "theme/theme";
+
+
+form input.ng-valid{
+  border-left: 5px solid #42A948; /* green */
+}
+
+form input.ng-invalid {
+  border-left: 5px solid #a94442; /* red */
+}
+.form-action-group{
+text-align:right;
+}
+
+/*form .ng-dirty.ng-valid .btn-selector {
+  border-left: 5px solid #42A948;
+}*/
+
+.table-action-edit {
+  font-size: 14px !important;
+  color: #ffffff;
+  padding: 0 5px;
+  display: inline-block;
+}
+.table-action-add {
+  font-size: 18px !important;
+  color: #ffffff;
+}

@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http.Dispatcher;
 using System.Reflection;
+using System.Web.Http.OData.Extensions;
 
 namespace Alps.Web
 {
@@ -40,8 +41,11 @@ namespace Alps.Web
             );
             config.Routes.MapHttpRoute(
                 name: "DefaultApiAction",
-                routeTemplate: "action/{controller}/{action}/{id}"
+                routeTemplate: "action/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
+            config.AddODataQueryFilter();
+            //config.EnableQuerySupport();
 
         }
     }

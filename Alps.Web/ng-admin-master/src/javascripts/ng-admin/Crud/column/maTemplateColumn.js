@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     function maTemplateColumn() {
         return {
             restrict: 'E',
@@ -11,7 +9,7 @@ define(function (require) {
                 entry: '&',
                 entity: '&'
             },
-            link: function(scope) {
+            link: function (scope) {
                 scope.field = scope.field();
                 scope.entry = scope.entry();
                 scope.entity = scope.entity();
@@ -19,8 +17,7 @@ define(function (require) {
             template: '<span compile="field.getTemplateValue(entry)"></span>'
         };
     }
-
     maTemplateColumn.$inject = [];
-
     return maTemplateColumn;
 });
+//# sourceMappingURL=maTemplateColumn.js.map

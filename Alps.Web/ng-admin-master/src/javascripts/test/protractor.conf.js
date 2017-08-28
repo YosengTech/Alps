@@ -1,8 +1,7 @@
 /*global browser*/
-exports.config =  {
+exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
-
     specs: ['e2e/*.js'],
     baseUrl: 'http://' + (process.env.CI ? 'ngadmin' : 'localhost') + ':8000',
     maxSessions: 1,
@@ -14,7 +13,6 @@ exports.config =  {
             name: 'ng-admin'
         }
     ],
-
     jasmineNodeOpts: {
         onComplete: null,
         isVerbose: true,
@@ -22,8 +20,8 @@ exports.config =  {
         includeStackTrace: true,
         defaultTimeoutInterval: 360000
     },
-
     onPrepare: function () {
         browser.executeScript('window.name = "NG_ENABLE_DEBUG_INFO"');
     }
 };
+//# sourceMappingURL=protractor.conf.js.map

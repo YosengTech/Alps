@@ -1,44 +1,33 @@
 /*global angular,inject,describe,it,expect,beforeEach*/
 describe('directive: json-field', function () {
     'use strict';
-
     var directive = require('../../../../ng-admin/Crud/field/maJsonField');
     var Field = require('admin-config/lib/Field/Field');
-
     angular.module('testapp_JsonField', []).directive('maJsonField', directive);
-
-    var $compile,
-        scope,
-        directiveUsage = '<ma-json-field field="field" value="value"></ma-json-field>';
-
+    var $compile, scope, directiveUsage = '<ma-json-field field="field" value="value"></ma-json-field>';
     beforeEach(angular.mock.module('testapp_JsonField'));
-
     beforeEach(inject(function (_$compile_, _$rootScope_) {
         $compile = _$compile_;
         scope = _$rootScope_;
     }));
-
     it("should contain a textarea tag", function () {
         scope.field = new Field();
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.children()[0].nodeName).toBe('TEXTAREA');
     });
-
     it("should add any supplied attribute", function () {
         scope.field = new Field().attributes({ placeholder: 'fill me!' });
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.children()[0].placeholder).toEqual('fill me!');
     });
-
     it("should use an empty string for null values", function () {
         scope.field = new Field();
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         expect(element.find('textarea').val()).toBe('');
     });
-
     it("should be initialized with the stringified bounded value as textarea value", function () {
         scope.field = new Field();
         scope.value = ["foo", { bar: 123 }];
@@ -46,7 +35,6 @@ describe('directive: json-field', function () {
         scope.$digest();
         expect(element.find('textarea').val()).toBe(JSON.stringify(JSON.parse('["foo",{"bar":123}]'), null, 2));
     });
-
     it("should convert the JSON string into a JavaScript object value", function () {
         scope.field = new Field();
         var element = $compile(directiveUsage)(scope);
@@ -57,6 +45,7 @@ describe('directive: json-field', function () {
         element.find('textarea').triggerHandler('input');
         scope.$digest();
         // We must compare on datas, because objects are different, even with same datas
-        expect(JSON.stringify(scope.value)).toBe(JSON.stringify(["foo",{"bar":456}]));
+        expect(JSON.stringify(scope.value)).toBe(JSON.stringify(["foo", { "bar": 456 }]));
     });
 });
+//# sourceMappingURL=maJsonFieldSpec.js.map

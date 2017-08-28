@@ -36,8 +36,8 @@ namespace Alps.Domain.ProductMgr
         public string Handler { get; set; }
         [Display(Name = "总数量")]
         public decimal TotalQuantity { get; set; }
-        [Display(Name = "总重量")]
-        public decimal TotalWeight { get; set; }
+        [Display(Name = "总辅助数量")]
+        public decimal TotalAuxiliaryQuantity { get; set; }
         [Display(Name = "总金额")]
         public decimal TotalAmount { get; set; }
         [Display(Name = "明细")]
@@ -63,11 +63,11 @@ namespace Alps.Domain.ProductMgr
         {
             return this.Items.Count(p => p.ProductNumber == productNumber) > 0;
         }
-        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Position position,string remark="", Guid? purchaseOrderItemID = null)
+        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal auxiliaryQuantity, decimal price, string productNumber, Position position,string remark="", Guid? purchaseOrderItemID = null)
         {
-            AddItem(productSkuInfo, quantity, weight, price, productNumber, position.ID,remark, purchaseOrderItemID);
+            AddItem(productSkuInfo, quantity, auxiliaryQuantity, price, productNumber, position.ID,remark, purchaseOrderItemID);
         }
-        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal weight, decimal price, string productNumber, Guid positionID, string remark="", Guid? purchaseOrderItemID = null)
+        public void AddItem(ProductSkuInfo productSkuInfo, decimal quantity, decimal auxiliaryQuantity, decimal price, string productNumber, Guid positionID, string remark="", Guid? purchaseOrderItemID = null)
         {
             if (productNumber == null)
                 productNumber = string.Empty;
@@ -81,18 +81,20 @@ namespace Alps.Domain.ProductMgr
             newWarehouseVoucherItem.ProductSkuInfo = productSkuInfo;
             newWarehouseVoucherItem.Quantity = quantity;
             //newWarehouseVoucherItem.UnitID = unitID;
-            newWarehouseVoucherItem.Weight = weight;
+            newWarehouseVoucherItem.AuxiliaryQuantity = auxiliaryQuantity;
             newWarehouseVoucherItem.Price = price;
-            if (productSkuInfo.PricingMethod == PricingMethod.PricingByQuantity)
-                newWarehouseVoucherItem.Amount = quantity * price;
-            else
-                newWarehouseVoucherItem.Amount = weight * price;
+            newWarehouseVoucherItem.Amount = quantity * price;
+            //if (productSkuInfo.PricingMethod == PricingMethod.PricingByQuantity)
+            //    newWarehouseVoucherItem.Amount = quantity * price;
+            //else
+            //    newWarehouseVoucherItem.Amount = weight * price;
             //newWarehouseVoucherItem.Amount = pricingQuantity * price;
             newWarehouseVoucherItem.ProductNumber = productNumber;
             newWarehouseVoucherItem.PositionID = positionID;
             newWarehouseVoucherItem.PurchaseOrderItemID = purchaseOrderItemID;
-            RefreshAmount(newWarehouseVoucherItem);
+            
             Items.Add(newWarehouseVoucherItem);
+            RefreshTotalAmount();
         }
         public void RemoveItem(Guid itemID)
         {
@@ -112,28 +114,31 @@ namespace Alps.Domain.ProductMgr
                 item.ProductSkuInfo = productSkuInfo;
                 item.Remark = remark;
                 item.Quantity = quantity;
-                item.Weight = weight;
+                item.AuxiliaryQuantity = weight;
                 item.ProductNumber = productNumber;
                 item.PositionID = positionID;
                 item.Price = price;
                 //item.Amount = price * pricingQuantity;
                 item.PurchaseOrderItemID = purchaseOrderItemID;
-
-                RefreshAmount(item);
+                item.Amount = price * quantity;
+                //RefreshAmount(item);
             }
             else
             {
                 throw new DomainException("无此ID");
             }
         }
-        private void RefreshAmount(WarehouseVoucherItem item)
+        private void RefreshTotalAmount()
         {
-            this.TotalAmount = this.TotalAmount - item.Amount;
-            if(item.ProductSkuInfo.PricingMethod==PricingMethod.PricingByQuantity)
-                item.Amount = item.Quantity * item.Price;
-            else
-                item.Amount = item.Weight * item.Price;
-            this.TotalAmount = this.TotalAmount +item.Amount;
+            this.TotalAmount = this.Items.Sum(p => p.Amount);
+            this.TotalQuantity = this.Items.Sum(p => p.Quantity);
+            this.TotalAuxiliaryQuantity = this.Items.Sum(p => p.AuxiliaryQuantity);
+            //this.TotalAmount = this.TotalAmount - item.Amount;
+            //if (item.ProductSkuInfo.PricingMethod == PricingMethod.PricingByQuantity)
+            //    item.Amount = item.Quantity * item.Price;
+            //else
+            //    item.Amount = item.AuxiliaryQuantity * item.Price;
+            //this.TotalAmount = this.TotalAmount +item.Amount;
         }
         public void UpdateItem(IEnumerable<WarehouseVoucherItem> items)
         {
@@ -142,11 +147,9 @@ namespace Alps.Domain.ProductMgr
             var addedItems = items.Where(p => !this.Items.Any(k => k.ID == p.ID)).ToList();
             var deletedItems = this.Items.Where(p => !items.Any(k => k.ID == p.ID)).ToList();
             deletedItems.ForEach(p => this.Items.Remove(p));
-            addedItems.ForEach(p => this.AddItem(p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
-            updatedItems.ForEach(p => this.UpdateItem(p.ID, p.ProductSkuInfo, p.Quantity, p.Weight, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
-            this.TotalAmount = this.Items.Sum(p => p.Amount);
-            this.TotalQuantity = this.Items.Sum(p => p.Quantity);
-            this.TotalWeight = this.Items.Sum(p => p.Weight);
+            addedItems.ForEach(p => this.AddItem(p.ProductSkuInfo, p.Quantity, p.AuxiliaryQuantity, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
+            updatedItems.ForEach(p => this.UpdateItem(p.ID, p.ProductSkuInfo, p.Quantity, p.AuxiliaryQuantity, p.Price, p.ProductNumber, p.PositionID,p.Remark, p.PurchaseOrderItemID));
+            RefreshTotalAmount();
         }
 
 

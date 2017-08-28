@@ -10,10 +10,10 @@ function getFilterWidget() {
 function getWriteWidget() {
     return '<ma-wysiwyg-field field="::field" value="entry.values[field.name()]"></ma-wysiwyg-field>';
 }
-
 module.exports = {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
-        getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget
+    getReadWidget: getReadWidget,
+    getLinkWidget: getLinkWidget,
+    getFilterWidget: getFilterWidget,
+    getWriteWidget: getWriteWidget
 };
+//# sourceMappingURL=WysiwygFieldView.js.map

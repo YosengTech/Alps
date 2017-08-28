@@ -14,9 +14,9 @@ var Alps;
             };
             scope.testMsg = "Hello Winsan!";
         }
-        RootCtrl.$inject = ["$scope", "$rootScope", "toaster", "$animate", "$document", "$http", "$window"];
         return RootCtrl;
-    })();
+    }());
+    RootCtrl.$inject = ["$scope", "$rootScope", "toaster", "$animate", "$document", "$http", "$window"];
     Alps.RootCtrl = RootCtrl;
     var AlpsApp = (function () {
         function AlpsApp() {
@@ -25,7 +25,7 @@ var Alps;
             return angular.module("Alps");
         };
         return AlpsApp;
-    })();
+    }());
     Alps.AlpsApp = AlpsApp;
     function getApp() {
         return angular.module("Alps");
@@ -52,7 +52,7 @@ var Alps;
     app.controller("RootCtrl", RootCtrl);
     RegisterControllers(app);
     //注册过滤器,在appFilter实现
-    var app = angular.module("Alps", ["ngRoute", "Alps.Directives", "Alps.Controllers", "Alps.Filters", "Alps.Services", "angular-loading-bar", 'ngAnimate', 'toaster', "ui.bootstrap"]);
+    var app = angular.module("Alps", ["ngRoute", "Alps.Directives", "Alps.Controllers", "Alps.Filters", "Alps.Services", "angular-loading-bar", 'ngAnimate', 'toaster', "ui.bootstrap", "ui.select", "ngSanitize", "ui.tree"]);
     //app.run(["editableOptions", function (editableOptions) {
     //    editableOptions.theme = "bs3";
     //    editableOptions.activate = "select";
@@ -74,6 +74,8 @@ var Alps;
         }
         if (err.ExceptionMessage)
             msg = msg + "<li>" + err.ExceptionMessage + "</li>";
+        if (err.Message)
+            msg = msg + "<li>" + err.Message + "</li>";
         var e = err;
         while (e.InnerException) {
             msg = msg + "<li>" + e.InnerException.ExceptionMessage + "</li>";
@@ -97,8 +99,7 @@ var Alps;
         routeProvider.when("/ChangedLog", { templateUrl: "/template/home/changedlog" });
         routeProvider.when("/home/test/:id", { templateUrl: "/Home/Test" }).otherwise({ redirectTo: "/" });
         routeProvider.when("/ProductStock", {
-            templateUrl: "/ProductStock",
-            controller: "ProductStockListModelListCtrl"
+            templateUrl: "/ProductStock", controller: "ProductStockListModelListCtrl"
         });
         for (var p in Alps.Controllers) {
             if (p.substring(p.length - 8) == "ListCtrl" && typeof (Alps.Controllers[p]) == "function") {
@@ -121,5 +122,9 @@ var Alps;
         //locationProvider.html5Mode(true);
     }
     app.config(["$routeProvider", "$locationProvider", configRoute]);
+    //function configAnimate(animate: ng.animate.IAnimateService) {
+    //    animate.enabled(true);
+    //}
+    //app.config(["$animate", configAnimate]);
 })(Alps || (Alps = {}));
 //# sourceMappingURL=app.js.map

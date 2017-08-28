@@ -8,10 +8,25 @@ namespace Alps.Domain.Common
 {
     public class Quantity : ValueObject
     {
+        public decimal QuantityOfUnit { get; set; }
+        public string UnitName { get; set; }
         public decimal Count { get; set; }
         public decimal Weight { get; set; }
         //public Unit Unit { get; set; }
         public Guid UnitID { get; set; }
+        public Quantity(decimal quantity, Guid unitID)
+        {
+            this.QuantityOfUnit = quantity;
+            this.UnitID = unitID;
+        }
+        public Quantity(decimal quantity,Guid unitID,string unitDisplayName) : this(quantity, unitID)
+        {
+            this.UnitName = unitDisplayName;
+        }
+        public static Quantity Create(decimal quantityOfUnit,Guid unitID,string unitDisplayName)
+        {
+            return new Quantity(quantityOfUnit, unitID, unitDisplayName);
+        }
         public Quantity(decimal count, decimal weight)
             : base()
         {

@@ -17,15 +17,21 @@
 	
 	export interface IProductSkuListScope{
 		items:ProductSku[];
-		getProductSkuList():void;
-
+        getProductSkuList(index): void;
+        selectedItems: any[];
+        totalCount: number;
+        currentPage: number;
+        pageSize: number;
 	}
 	export class ProductSkuListCtrl{
 		public static $inject=["$scope","$http","toaster"];
-		constructor(scope:IProductSkuListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
-			function getProductSkuList(){
-				http.get("/api/ProductSku").success(function(data:any[]){
-					scope.items=<ProductSku[]>data;
+        constructor(scope: IProductSkuListScope, http: ng.IHttpService, toaster: ngToaster.IToasterService) {
+            scope.pageSize = 10;
+            scope.currentPage = 1;
+			function getProductSkuList(index){
+                http.get("/api/ProductSku?$orderby=PricingMethod&$top=" + scope.pageSize + "&$skip=" + scope.pageSize * (scope.currentPage - 1) + "&$inlinecount=allpages", { data: { "kk":"Winsan"}}).success(function(data:any){
+                    scope.items = <ProductSku[]>data.Items;
+                    scope.totalCount = data.Count;
 					for (var i = 0; i < scope.items.length; i++) {
 						scope.items[i].CreatedTime=new Date(data[i].CreatedTime);
 						scope.items[i].ModifiedTime=new Date(data[i].ModifiedTime);
@@ -34,9 +40,10 @@
 				}).error(function(err){
 					toaster.error("错误",Alps.phaseErr(err));
 				});
-			};
+            };
+            
             scope.getProductSkuList = getProductSkuList;
-            getProductSkuList();
+            getProductSkuList(scope.currentPage);
 		}
 	}
 	export interface IProductSkuCreateScope{

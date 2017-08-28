@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     var DeleteController = function ($scope, $window, WriteQueries, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
@@ -19,12 +17,8 @@ define(function () {
         this.$scope.view = view;
         $scope.$on('$destroy', this.destroy.bind(this));
     };
-
     DeleteController.prototype.deleteOne = function () {
-        var notification = this.notification,
-            entityName = this.entity.name(),
-            $window = this.$window;
-
+        var notification = this.notification, entityName = this.entity.name(), $window = this.$window;
         this.WriteQueries.deleteOne(this.view, this.entityId).then(function () {
             this.back();
             notification.log('Element successfully deleted.', { addnCls: 'humane-flatty-success' });
@@ -34,23 +28,19 @@ define(function () {
             if (typeof body === 'object') {
                 body = JSON.stringify(body);
             }
-
-            notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, {addnCls: 'humane-flatty-error'});
+            notification.log('Oops, an error occured : (code: ' + response.status + ') ' + body, { addnCls: 'humane-flatty-error' });
         });
     };
-
     DeleteController.prototype.back = function () {
         this.$window.history.back();
     };
-
     DeleteController.prototype.destroy = function () {
         this.$scope = undefined;
         this.WriteQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
     };
-
     DeleteController.$inject = ['$scope', '$window', 'WriteQueries', 'notification', 'params', 'view', 'entry'];
-
     return DeleteController;
 });
+//# sourceMappingURL=DeleteController.js.map

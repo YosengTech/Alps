@@ -1,6 +1,5 @@
-define(function(require) {
+define(function (require) {
     "use strict";
-
     function getReadWidget() {
         return 'error: cannot display password field as readable';
     }
@@ -14,9 +13,10 @@ define(function(require) {
         return '<ma-input-field type="password" field="::field" value="entry.values[field.name()]"></ma-input-field>';
     }
     return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
+        getReadWidget: getReadWidget,
+        getLinkWidget: getLinkWidget,
         getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
-    }
+        getWriteWidget: getWriteWidget,
+    };
 });
+//# sourceMappingURL=PasswordFieldView.js.map

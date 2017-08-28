@@ -1,18 +1,14 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') { // for live reload
+    if (process.env.NODE_ENV !== 'production') {
         sources.push('webpack-dev-server/client?http://localhost:8080');
     }
-
     return sources;
 }
-
 var ngAdminSources = [
     './src/javascripts/ng-admin.js',
     './src/sass/ng-admin.scss'
 ];
-
 var vendorSources = [
     './src/javascripts/vendors.js',
     'font-awesome/scss/font-awesome.scss',
@@ -24,7 +20,6 @@ var vendorSources = [
     'codemirror/addon/lint/lint.css',
     'ui-select/dist/select.css'
 ];
-
 module.exports = {
     entry: {
         'ng-admin': getEntrySources(ngAdminSources.concat(vendorSources)),
@@ -50,3 +45,4 @@ module.exports = {
         })
     ]
 };
+//# sourceMappingURL=webpack.config.js.map

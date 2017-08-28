@@ -1,33 +1,23 @@
-describe('ReferenceField', function() {
+describe('ReferenceField', function () {
     var choiceDirective = require('../../../../ng-admin/Crud/field/maChoiceField');
     var referenceDirective = require('../../../../ng-admin/Crud/field/maReferenceField');
     var ReferenceField = require('admin-config/lib/Field/ReferenceField');
     var mixins = require('../../../mock/mixins');
     var DataStore = require('admin-config/lib/DataStore/DataStore');
-
     var $compile, $timeout, scope;
-    const directiveUsage = `
-        <ma-reference-field
-            entry="entry"
-            field="field"
-            value="value"
-            datastore="datastore">
-        </ma-reference-field>`;
-
+    var directiveUsage = "\n        <ma-reference-field\n            entry=\"entry\"\n            field=\"field\"\n            value=\"value\"\n            datastore=\"datastore\">\n        </ma-reference-field>";
     angular.module('myTestingApp', ['ui.select', 'testapp_DataStore'])
         .directive('maChoiceField', choiceDirective)
         .directive('maReferenceField', referenceDirective);
-
-    beforeEach(function() {
-        angular.mock.module(function($provide) {
-            $provide.service('ReferenceRefresher', function($q) {
-                this.getInitialChoices = jasmine.createSpy('getInitialChoices').and.callFake(function() {
+    beforeEach(function () {
+        angular.mock.module(function ($provide) {
+            $provide.service('ReferenceRefresher', function ($q) {
+                this.getInitialChoices = jasmine.createSpy('getInitialChoices').and.callFake(function () {
                     return mixins.buildPromise([
                         { value: 2, label: 'bar' }
                     ]);
                 });
-
-                this.refresh = jasmine.createSpy('refresh').and.callFake(function() {
+                this.refresh = jasmine.createSpy('refresh').and.callFake(function () {
                     return mixins.buildPromise([
                         { value: 1, label: 'foo' },
                         { value: 2, label: 'bar' },
@@ -37,9 +27,7 @@ describe('ReferenceField', function() {
             });
         });
     });
-
     beforeEach(angular.mock.module('myTestingApp'));
-
     var MockedReferenceRefresher;
     beforeEach(inject(function (_$compile_, _$rootScope_, _$timeout_, ReferenceRefresher) {
         $compile = _$compile_;
@@ -47,42 +35,35 @@ describe('ReferenceField', function() {
         scope = _$rootScope_;
         MockedReferenceRefresher = ReferenceRefresher;
     }));
-
-    beforeEach(function() {
+    beforeEach(function () {
         scope.datastore = new DataStore();
         scope.field = new ReferenceField('post_id')
             .targetField({
-                name: () => 'name'
-            })
+            name: function () { return 'name'; }
+        })
             .targetEntity({
-                identifier: () => {
-                    return {
-                        name: () => 'id'
-                    };
-                }
-            })
+            identifier: function () {
+                return {
+                    name: function () { return 'id'; }
+                };
+            }
+        })
             .remoteComplete(true, { refreshDelay: 500 });
     });
-
-    it('should be an ui-select field', function() {
+    it('should be an ui-select field', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-
         var uiSelect = element[0].querySelector('.ui-select-container');
         expect(uiSelect).toBeTruthy();
     });
-
     it('should call remote API when inputting first characters', function () {
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
-
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
         var choices = angular.element(element[0].querySelector('.ui-select-choices'));
-
         uiSelect.refresh(element.attr('refresh'));
         $timeout.flush();
         scope.$digest();
-
         expect(MockedReferenceRefresher.refresh).toHaveBeenCalled();
         expect(angular.toJson(uiSelect.items)).toEqual(angular.toJson([
             { value: 1, label: 'foo' },
@@ -90,25 +71,19 @@ describe('ReferenceField', function() {
             { value: 3, label: 'qux' }
         ]));
     });
-
     it('should be pre-filled with related label at initialization', function () {
         scope.value = 2;
-
         var element = $compile(directiveUsage)(scope);
         scope.$digest();
         $timeout.flush();
-
         var uiSelect = angular.element(element[0].querySelector('.ui-select-match-text'));
         expect(uiSelect.text()).toBe('bar');
     });
-
-    it('should get all choices loaded at initialization if refreshDelay is null', function() {
+    it('should get all choices loaded at initialization if refreshDelay is null', function () {
         scope.field.remoteComplete(true, { refreshDelay: null });
-
         var element = $compile(directiveUsage)(scope);
         $timeout.flush();
         scope.$digest();
-
         var uiSelect = angular.element(element[0].querySelector('.ui-select-container')).controller('uiSelect');
         expect(MockedReferenceRefresher.refresh).toHaveBeenCalled();
         expect(uiSelect.items).toEqual([
@@ -118,3 +93,4 @@ describe('ReferenceField', function() {
         ]);
     });
 });
+//# sourceMappingURL=maReferenceFieldSpec.js.map

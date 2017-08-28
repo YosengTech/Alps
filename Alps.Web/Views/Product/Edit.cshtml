@@ -67,6 +67,13 @@
 									@Html.ValidationMessageFor(model => model.BaseUnitID, "", new { @class = "text-danger" })
 								</div>
 							</div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AuxiliaryUnitID, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+                                <div class="col-md-11">
+                                    <select name="AuxiliaryUnitID" id="AuxiliaryUnitID" class="form-control" ng-model="item.AuxiliaryUnitID" ng-options="selectList.ID as selectList.Name for selectList in BaseUnitIDSelectList"></select>
+                                    @Html.ValidationMessageFor(model => model.AuxiliaryUnitID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 							<div class="form-group">
 								@Html.LabelFor(model => model.PricingMethod, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
 								<div class="col-md-11">

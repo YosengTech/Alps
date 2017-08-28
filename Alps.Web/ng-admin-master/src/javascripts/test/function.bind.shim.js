@@ -5,3 +5,4 @@ Function.prototype.bind = Function.prototype.bind || function (thisp) {
         return fn.apply(thisp, arguments);
     };
 };
+//# sourceMappingURL=function.bind.shim.js.map

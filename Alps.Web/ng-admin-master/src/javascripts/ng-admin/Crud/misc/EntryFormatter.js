@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function EntryFormatter($filter) {
         this.formatDate = function (format) {
             return function (date) {
@@ -10,11 +8,9 @@ define(function () {
             };
         };
     }
-
     EntryFormatter.prototype.formatField = function formatField(field) {
         var label = field.label() || field.name();
         var type = field.type();
-
         switch (type) {
             case 'boolean':
             case 'choice':
@@ -40,7 +36,6 @@ define(function () {
                 if (!format) {
                     format = type === 'date' ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss';
                 }
-
                 var formatDate = this.formatDate(format);
                 return function (entry) {
                     return {
@@ -60,26 +55,24 @@ define(function () {
                 return; //ignored
         }
     };
-
     EntryFormatter.prototype.getFormatter = function getFormatter(fields) {
         var fieldsFormatters = fields.map(this.formatField.bind(this));
-
         return function formatEntry(entry) {
             var result = {};
             fieldsFormatters.map(function (formatter) {
-                if (!formatter) return;
+                if (!formatter)
+                    return;
                 return formatter(entry);
             })
-            .forEach(function (field) {
-                if (!field) return;
+                .forEach(function (field) {
+                if (!field)
+                    return;
                 result[field.name] = field.value;
             });
-
             return result;
         };
     };
-
     EntryFormatter.$inject = ['$filter'];
-
     return EntryFormatter;
 });
+//# sourceMappingURL=EntryFormatter.js.map

@@ -27,8 +27,12 @@ namespace Alps.Domain.ProductMgr
         public bool Deleted { get; set; }
         [Display(Name = "基本单位")]
         public Guid BaseUnitID { get; set; }
+        [Display(Name="启用辅助单位")]
+        public Boolean EnableAuxiliaryUnit { get; set; }
+        [Display(Name ="辅助单位")]
+        public Guid? AuxiliaryUnitID { get; set; }
         //[Display(Name = "类别")]
-       // public virtual ICollection<ProductCatagorySetting> ProductCatagorySettings { get; set; }
+        // public virtual ICollection<ProductCatagorySetting> ProductCatagorySettings { get; set; }
         [Display(Name = "计价方式")]
         public PricingMethod PricingMethod { get; set; }
         [Display(Name = "定价")]

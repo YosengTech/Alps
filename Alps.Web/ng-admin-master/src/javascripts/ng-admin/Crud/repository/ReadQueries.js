@@ -1,7 +1,6 @@
 /*global define*/
 define(function () {
     'use strict';
-
     /**
      *
      * @param {RestWrapper} RestWrapper
@@ -13,10 +12,9 @@ define(function () {
      * @constructor
      */
     function ReadQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-        return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration())
+        return AdminDescription.getReadQueries(RestWrapper, PromisesResolver, Configuration());
     }
-
     ReadQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];
-
     return ReadQueries;
 });
+//# sourceMappingURL=ReadQueries.js.map

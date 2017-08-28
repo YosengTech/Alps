@@ -7,7 +7,7 @@ var Alps;
             function Commodity() {
             }
             return Commodity;
-        })();
+        }());
         Controllers.Commodity = Commodity;
         var CommodityListCtrl = (function () {
             function CommodityListCtrl(scope, http, toaster) {
@@ -26,9 +26,9 @@ var Alps;
                 scope.getCommodityList = getCommodityList;
                 getCommodityList();
             }
-            CommodityListCtrl.$inject = ["$scope", "$http", "toaster"];
             return CommodityListCtrl;
-        })();
+        }());
+        CommodityListCtrl.$inject = ["$scope", "$http", "toaster"];
         Controllers.CommodityListCtrl = CommodityListCtrl;
         var CommodityCreateCtrl = (function () {
             function CommodityCreateCtrl(scope, http, toaster, locationService) {
@@ -47,9 +47,9 @@ var Alps;
                 scope.createCommodity = createCommodity;
                 scope.goBack = goBack;
             }
-            CommodityCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
             return CommodityCreateCtrl;
-        })();
+        }());
+        CommodityCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
         Controllers.CommodityCreateCtrl = CommodityCreateCtrl;
         var CommodityEditCtrl = (function () {
             function CommodityEditCtrl(scope, http, toaster, locationService, routeParams, window) {
@@ -108,9 +108,9 @@ var Alps;
                     locationService.path("/Commodity");
                 }
             }
-            CommodityEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
             return CommodityEditCtrl;
-        })();
+        }());
+        CommodityEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
         Controllers.CommodityEditCtrl = CommodityEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

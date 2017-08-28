@@ -11,11 +11,15 @@
 	export interface ICatagoryListScope{
 		items:Catagory[];
 		getCatagoryList():void;
-
+        remove(any): void;
+        toggle(any): void;
+        newSubItem(any): void;
+        GetCatagoriesByParentID(id): void;
+        currentParentID: string;
 	}
     export class CatagoryListCtrl{
-		public static $inject=["$scope","$http","toaster"];
-		constructor(scope:ICatagoryListScope,http:ng.IHttpService,toaster:ngToaster.IToasterService){
+		public static $inject=["$scope","$http","toaster","$routeParams"];
+        constructor(scope: ICatagoryListScope, http: ng.IHttpService, toaster: ngToaster.IToasterService, routeParams: ng.route.IRouteParamsService){
 			function getCatagoryList(){
 				http.get("/api/Catagory").success(function(data){
 					scope.items=<Catagory[]>data;
@@ -23,9 +27,38 @@
 				}).error(function(data){
 					toaster.error("错误",Alps.phaseErr(data));
 				});
-			};
-            scope.getCatagoryList = getCatagoryList;
-            getCatagoryList();
+            };
+            function GetCatagoriesByParentID(id) {
+                
+                http.get("/action/catagory/GetCatagoriesByParentID/" + id).success(function (data) {
+                    scope.items = <Catagory[]>data;
+                    scope.currentParentID = id;
+                    toaster.success("提示", "载入成功");
+                }).error(function (errData) {
+                    toaster.error("错误", Alps.phaseErr(errData));
+                    });
+            }
+            //scope.getCatagoryList = getCatagoryList;
+            GetCatagoriesByParentID(null);
+            scope.GetCatagoriesByParentID = GetCatagoriesByParentID;
+            scope.remove = function (scope) {
+                scope.remove();
+            };
+
+            scope.toggle = function (scope) {
+                scope.toggle();
+            };
+
+            scope.newSubItem = function (scope) {
+                var nodeData = scope.$modelValue;
+                if (nodeData.nodes == undefined)
+                    nodeData.nodes = [];
+                nodeData.nodes.push({
+                    id: nodeData.id * 10 + nodeData.nodes.length,
+                    title: nodeData.title + '.' + (nodeData.nodes.length + 1),
+                    nodes: []
+                });
+            };
 		}
 	}
 	export interface ICatagoryCreateScope{

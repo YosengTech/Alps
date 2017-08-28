@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function DatagridMultiSelectorDirective() {
         return {
             restrict: 'E',
@@ -22,8 +20,7 @@ define(function () {
             }
         };
     }
-
     DatagridMultiSelectorDirective.$inject = [];
-
     return DatagridMultiSelectorDirective;
 });
+//# sourceMappingURL=maDatagridMultiSelector.js.map

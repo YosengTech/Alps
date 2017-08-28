@@ -1,30 +1,26 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     function maJsonValidator() {
         return {
             require: 'ngModel',
-            link: function(scope, elm, attr, ctrl) {
-                ctrl.$validators.json = function(value) {
+            link: function (scope, elm, attr, ctrl) {
+                ctrl.$validators.json = function (value) {
                     if (ctrl.$isEmpty(value)) {
                         return true;
                     }
-
                     try {
                         angular.fromJson(value);
-
                         return true;
-                    } catch (e) {
+                    }
+                    catch (e) {
                         return false;
                     }
                 };
             }
         };
     }
-
     maJsonValidator.$inject = [];
-
     return maJsonValidator;
 });
+//# sourceMappingURL=maJsonValidator.js.map

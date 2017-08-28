@@ -1,6 +1,4 @@
-var FormController = function ($scope, $state, WriteQueries, Configuration,
-                               progression, notification, view, dataStore) {
-
+var FormController = function ($scope, $state, WriteQueries, Configuration, progression, notification, view, dataStore) {
     this.$scope = $scope;
     this.$state = $state;
     this.WriteQueries = WriteQueries;
@@ -17,30 +15,26 @@ var FormController = function ($scope, $state, WriteQueries, Configuration,
     this.$scope.entry = dataStore.getFirstEntry(this.entity.uniqueId);
     this.$scope.view = view;
     this.$scope.entity = this.entity;
-
     // in case of entity identifier being modified
     this.originEntityId = this.$scope.entry.values[this.entity.identifier().name()];
-
     $scope.$on('$destroy', this.destroy.bind(this));
 };
-
 FormController.prototype.validateEntry = function () {
     if (!this.form.$valid) {
         this.notification.log('invalid form', { addnCls: 'humane-flatty-error' });
         return false;
     }
-
     try {
         this.view.validate(this.$scope.entry);
-    } catch (e) {
+    }
+    catch (e) {
         this.notification.log(e, { addnCls: 'humane-flatty-error' });
         return false;
     }
-
     return true;
 };
-
 FormController.prototype.submitCreation = function ($event) {
+    var _this = this;
     $event.preventDefault();
     if (!this.validateEntry()) {
         return;
@@ -52,15 +46,15 @@ FormController.prototype.submitCreation = function ($event) {
     this.progression.start();
     this.WriteQueries
         .createOne(view, restEntry)
-        .then(rawEntry => {
-            this.progression.done();
-            this.notification.log('Element successfully created.', { addnCls: 'humane-flatty-success' });
-            var entry = view.mapEntry(rawEntry);
-            this.$state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue });
-        }, this.handleError.bind(this));
+        .then(function (rawEntry) {
+        _this.progression.done();
+        _this.notification.log('Element successfully created.', { addnCls: 'humane-flatty-success' });
+        var entry = view.mapEntry(rawEntry);
+        _this.$state.go(_this.$state.get(route), { entity: entity.name(), id: entry.identifierValue });
+    }, this.handleError.bind(this));
 };
-
 FormController.prototype.submitEdition = function ($event) {
+    var _this = this;
     $event.preventDefault();
     if (!this.validateEntry()) {
         return;
@@ -70,12 +64,11 @@ FormController.prototype.submitEdition = function ($event) {
     this.progression.start();
     this.WriteQueries
         .updateOne(view, restEntry, this.originEntityId)
-        .then(() => {
-            this.progression.done();
-            this.notification.log('Changes successfully saved.', { addnCls: 'humane-flatty-success' });
-        }, this.handleError.bind(this));
+        .then(function () {
+        _this.progression.done();
+        _this.notification.log('Changes successfully saved.', { addnCls: 'humane-flatty-success' });
+    }, this.handleError.bind(this));
 };
-
 /**
  * Handle create or update errors
  *
@@ -83,11 +76,9 @@ FormController.prototype.submitEdition = function ($event) {
  */
 FormController.prototype.handleError = function (response) {
     var errorMessage = this.config.getErrorMessageFor(this.view, response);
-
     this.progression.done();
-    this.notification.log(errorMessage, {addnCls: 'humane-flatty-error'});
+    this.notification.log(errorMessage, { addnCls: 'humane-flatty-error' });
 };
-
 FormController.prototype.destroy = function () {
     this.$scope = undefined;
     this.$state = undefined;
@@ -96,7 +87,6 @@ FormController.prototype.destroy = function () {
     this.view = undefined;
     this.entity = undefined;
 };
-
 FormController.$inject = ['$scope', '$state', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
-
 module.exports = FormController;
+//# sourceMappingURL=FormController.js.map

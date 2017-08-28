@@ -12,17 +12,22 @@ using System.Web.Http.Description;
 using Alps.Domain.ProductMgr;
 using Alps.Web.Models;
 using Alps.Domain;
-
+using System.Web.Http.OData;
+using System.Web.Http.OData.Query;
+using System.Web.Http.OData.Extensions;
 namespace Alps.Web.Controllers
 {
     public class ProductSkuApiController : ApiController
     {
         private AlpsContext db = new AlpsContext();
 
-        // GET: api/ProductSKUApi
-        public IQueryable<ProductSku> GetProductSKUs()
+        public PageResult<ProductSku> GetProductSKUs(ODataQueryOptions<ProductSku> options)
         {
-            return db.ProductSkus.ToList().AsQueryable();
+            
+            IQueryable items=options.ApplyTo(db.ProductSkus.ToList().AsQueryable());
+            Uri nextLink = Request.ODataProperties().NextLink;
+            long? count=Request.ODataProperties().TotalCount;
+            return new PageResult<ProductSku>(items as IEnumerable<ProductSku>,nextLink,count);
         }
 
         // GET: api/ProductSKUApi/5

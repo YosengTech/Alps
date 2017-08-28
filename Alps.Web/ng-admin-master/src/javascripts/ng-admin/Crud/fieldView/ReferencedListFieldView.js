@@ -1,12 +1,11 @@
-define(function(require) {
+define(function (require) {
     "use strict";
-
     function getReadWidget() {
         return '<ma-datagrid name="{{ field.datagridName() }}" ' +
-                 'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
-                 'fields="::field.targetFields()" ' +
-                 'list-actions="::field.listActions()" ' +
-                 'entity="::field.targetEntity()">' +
+            'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
+            'fields="::field.targetFields()" ' +
+            'list-actions="::field.listActions()" ' +
+            'entity="::field.targetEntity()">' +
             '</ma-datagrid>';
     }
     function getLinkWidget() {
@@ -17,16 +16,17 @@ define(function(require) {
     }
     function getWriteWidget() {
         return '<ma-datagrid name="{{ field.datagridName() }}"' +
-                  'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
-                  'fields="::field.targetFields()" ' +
-                  'list-actions="::field.listActions()" ' +
-                  'entity="::field.targetEntity()">' +
+            'entries="::datastore.getEntries(field.targetEntity().uniqueId + \'_list\')" ' +
+            'fields="::field.targetFields()" ' +
+            'list-actions="::field.listActions()" ' +
+            'entity="::field.targetEntity()">' +
             '</ma-datagrid>';
     }
     return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
+        getReadWidget: getReadWidget,
+        getLinkWidget: getLinkWidget,
         getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
+        getWriteWidget: getWriteWidget,
     };
 });
+//# sourceMappingURL=ReferencedListFieldView.js.map

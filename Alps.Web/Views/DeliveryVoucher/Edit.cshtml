@@ -1,0 +1,54 @@
+﻿@model Alps.Domain.ProductMgr.DeliveryVoucher
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/DeliveryVoucher">DeliveryVoucher</a></li>
+		<li class="active"><a href="#/DeliveryVoucher/Edit">Edit</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>DeliveryVoucher</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+							<h4>
+								DeliveryVoucher
+								<a class="btn btn-danger btn-sm right" ng-click="deleteDeliveryVoucher()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.DepartmentID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="DepartmentID" id="DepartmentID" class="form-control" ng-model="item.DepartmentID" ng-options="selectList.ID as selectList.Name for selectList in DepartmentIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.CustomerID,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								<select name="CustomerID" id="CustomerID" class="form-control" ng-model="item.CustomerID" ng-options="selectList.ID as selectList.Name for selectList in CustomerIDSelectList"></select>
+								@Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+							</div>
+							<div class="form-group col-md-3">
+								@Html.LabelFor(model => model.Handler,  htmlAttributes: new { @class = "text-uppercase small text-bold" })
+								@Html.EditorFor(model => model.Handler, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Handler"} })
+								@Html.ValidationMessageFor(model => model.Handler, "", new { @class = "text-danger" })
+							</div>
+							
+							<div class="clearfix"></div>
+                            <div class="form-group">
+                                @Html.Partial("~/Views/DeliveryVoucher/ListEdit.cshtml")
+                            </div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="saveDeliveryVoucher()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+                                <a class="btn btn-primary btn-sm" ng-click="submitDeliveryVoucher()"><span class="glyphicon glyphicon-save"></span>&nbsp;提交</a>
+							</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

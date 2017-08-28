@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+
+<div>
+    <style>
+            /*.select-list-modal {
+            overflow: hidden;
+            position: fixed;
+            left: 50%;
+            z-index: 19911125;
+            transition: 0.3s;
+            box-shadow: 0 3px 12px rgba(0,0,0,.175);
+            background: #fff;
+            display: none;
+        }
+
+            .select-address.active {
+                top: 0 !important;
+            }*/
+
+            .select-list-modal ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+                .select-list-modal ul li {
+                    padding: 10px;
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+
+            .select-list-modal-catagory {
+                width: 80px;
+            }
+
+                .select-list-modal-catagory span {
+                    white-space: nowrap;
+                }
+
+            .select-list-modal-detail {
+                width: 500px;
+            }
+            /*.select-list-modal ul li:nth-child(even) {
+                    background: #eee;
+                }*/
+
+            .select-list-modal ul li span {
+                font-size: 13px;
+                list-style: none;
+                display: inline-block;
+                margin: 5px 7px;
+                cursor: pointer;
+            }
+
+            .select-address-footer {
+                border-top: 1px solid #eee;
+                padding: 10px 15px;
+                overflow: hidden;
+            }
+
+                .select-address-footer input {
+                    min-width: 50%;
+                }
+    </style>
+    <div class="modal-header" draggable="">
+        <h3 class="modal-title">请选择</h3>
+    </div>
+    <div class="modal-body select-list-modal">
+
+        <ul>
+            <li class="select-list-modal-catagory">
+                <!-- 省份 -->
+                <span ng-repeat="item in levelOne"
+                      ng-click="selectLevelOne(item)"
+                      ng-class="{'label label-success': levelOneSelected === item}">
+                    {{item.Name}}
+                </span>
+            </li>
+            <li ng-if="levelTwo" class="select-list-modal-catagory">
+                <!-- 城市 -->
+                <span ng-repeat="item in levelTwo"
+                      ng-click="selectLevelTwo(item)"
+                      ng-class="{'label label-success': levelTwoSelected === item} ">
+                    {{item.Name}}
+                </span>
+            </li>
+            <li ng-if="levelThree" class="select-list-modal-detail">
+                <!-- 县级 -->
+                <span ng-repeat="item in levelThree"
+                      ng-click="selectLevelThree(item)"
+                      ng-class="{'label label-success': levelThreeSelected === item}">
+                    {{item.Name}}
+                </span>
+                @*<h5 ng-if="!dists" class="text-muted text-center">没有县级资料</h5>*@
+            </li>
+        </ul>
+    </div>
+    @*<div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>*@
+</div>

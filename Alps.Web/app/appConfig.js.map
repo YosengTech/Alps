@@ -1,1 +1,1 @@
-{"version":3,"file":"appConfig.js","sourceRoot":"","sources":["appConfig.ts"],"names":["Alps"],"mappings":"AAAA,IAAO,IAAI,CAIV;AAJD,WAAO,IAAI,EAAC,CAAC;IACTA,IAAIA,SAASA,GAASA,MAAMA,CAACA;IAC7BA,OAAOA,CAACA,MAAMA,CAACA,SAASA,EAAEA,EAAEA,CAACA,CAACA;AAElCA,CAACA,EAJM,IAAI,KAAJ,IAAI,QAIV"}
+{"version":3,"file":"appConfig.js","sourceRoot":"","sources":["appConfig.ts"],"names":[],"mappings":"AAAA,IAAO,IAAI,CAIV;AAJD,WAAO,IAAI;IACP,IAAI,SAAS,GAAS,MAAM,CAAC;IAC7B,OAAO,CAAC,MAAM,CAAC,SAAS,EAAE,EAAE,CAAC,CAAC;AAElC,CAAC,EAJM,IAAI,KAAJ,IAAI,QAIV"}

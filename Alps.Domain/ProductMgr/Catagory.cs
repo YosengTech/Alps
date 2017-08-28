@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Alps.Domain.Common;
+
 namespace Alps.Domain.ProductMgr
 {
     public partial class Catagory : EntityBase

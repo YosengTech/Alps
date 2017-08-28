@@ -9,43 +9,36 @@
  */
 function maFilterController($scope, $state, $stateParams) {
     'use strict';
-
+    var _this = this;
     this.$scope = $scope;
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$scope.values = this.$scope.values() || {};
-    $scope.$watch('values', (newValues, oldValues) => {
+    $scope.$watch('values', function (newValues, oldValues) {
         if (newValues != oldValues) {
-            this.filter(); // FIXME use debounce
+            _this.filter(); // FIXME use debounce
         }
-    }, true)
+    }, true);
     this.$scope.filters = this.$scope.filters;
     this.$scope.datastore = this.$scope.datastore();
     this.isFilterEmpty = isEmpty(this.$scope.values);
 }
-
 function isEmpty(values) {
     for (var i in values) {
-        if (values[i] != '') return false;
+        if (values[i] != '')
+            return false;
     }
     return true;
 }
-
-maFilterController.prototype.removeFilter = function(filter) {
+maFilterController.prototype.removeFilter = function (filter) {
     delete this.$scope.values[filter.name()];
-    this.$scope.filters = this.$scope.filters.filter(f => f !== filter);
+    this.$scope.filters = this.$scope.filters.filter(function (f) { return f !== filter; });
     if (filter.name() in this.$stateParams.search) {
         this.filter();
     }
 };
-
 maFilterController.prototype.filter = function () {
-    var values = {},
-        filters = this.$scope.filters,
-        fieldName,
-        field,
-        i;
-
+    var values = {}, filters = this.$scope.filters, fieldName, field, i;
     for (i in filters) {
         field = filters[i];
         fieldName = field.name();
@@ -53,26 +46,21 @@ maFilterController.prototype.filter = function () {
             delete this.$scope.values[fieldName];
             continue;
         }
-
-        if ((field.type() === 'boolean' && this.$scope.values[fieldName]) || // for boolean false is the same as null
+        if ((field.type() === 'boolean' && this.$scope.values[fieldName]) ||
             (field.type() !== 'boolean' && this.$scope.values[fieldName] !== null)) {
             values[fieldName] = this.$scope.values[fieldName];
         }
     }
-
     this.$stateParams.search = values;
     this.$stateParams.page = 1;
     this.$state.go('list', this.$stateParams);
 };
-
 maFilterController.prototype.shouldFilter = function () {
     return Object.keys(this.$scope.filters).length;
 };
-
 maFilterController.prototype.destroy = function () {
     this.$scope = undefined;
 };
-
 maFilterController.$inject = ['$scope', '$state', '$stateParams'];
-
 module.exports = maFilterController;
+//# sourceMappingURL=maFilterController.js.map

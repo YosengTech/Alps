@@ -1,6 +1,5 @@
-define(function(require) {
+define(function (require) {
     "use strict";
-
     function getReadWidget() {
         return '<ma-boolean-column value="::entry.values[field.name()]"></ma-boolean-column>';
     }
@@ -14,9 +13,10 @@ define(function(require) {
         return '<ma-checkbox-field field="::field" value="entry.values[field.name()]"></ma-checkbox-field>';
     }
     return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
+        getReadWidget: getReadWidget,
+        getLinkWidget: getLinkWidget,
         getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
-    }
+        getWriteWidget: getWriteWidget,
+    };
 });
+//# sourceMappingURL=BooleanFieldView.js.map

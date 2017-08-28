@@ -8,7 +8,8 @@ module.exports = {
     getFilterWidget: function () {
         return '<ma-reference-field field="::field" value="values[field.name()]" datastore="::datastore"></ma-reference-field>';
     },
-    getWriteWidget:  function getWriteWidget() {
+    getWriteWidget: function getWriteWidget() {
         return '<ma-reference-field field="::field" value="entry.values[field.name()]" datastore="::datastore"></ma-reference-field>';
     }
 };
+//# sourceMappingURL=ReferenceFieldView.js.map

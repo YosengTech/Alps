@@ -18,7 +18,6 @@ function factories(fvp) {
     fvp.registerFieldView('text', require('../fieldView/TextFieldView'));
     fvp.registerFieldView('wysiwyg', require('../fieldView/WysiwygFieldView'));
 }
-
 factories.$inject = ['FieldViewConfigurationProvider'];
-
 module.exports = factories;
+//# sourceMappingURL=factories.js.map

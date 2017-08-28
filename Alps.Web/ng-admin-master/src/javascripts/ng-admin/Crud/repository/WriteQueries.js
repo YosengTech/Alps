@@ -1,7 +1,6 @@
 /*global define*/
 define(function () {
     'use strict';
-
     /**
      *
      * @param {RestWrapper} RestWrapper
@@ -13,10 +12,9 @@ define(function () {
      * @constructor
      */
     function WriteQueries(RestWrapper, Configuration, AdminDescription, PromisesResolver) {
-        return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration())
+        return AdminDescription.getWriteQueries(RestWrapper, PromisesResolver, Configuration());
     }
-
     WriteQueries.$inject = ['RestWrapper', 'NgAdminConfiguration', 'AdminDescription', 'PromisesResolver'];
-
     return WriteQueries;
 });
+//# sourceMappingURL=WriteQueries.js.map

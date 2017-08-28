@@ -51,7 +51,12 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (!ValidWarehouseVoucher(warehouseVoucher))
+            {
+                return BadRequest("提交的参数无效");
+                //return Alps.Web.Extensions.AlpsErrorHandleHelper.AlpsErrorResponse("提交的数据有错");
+                //return BadRequest("提交的数据有错");
+            }
             if (id != warehouseVoucher.ID)
             {
                 return BadRequest();
@@ -87,6 +92,10 @@ namespace Alps.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (!ValidWarehouseVoucher(warehouseVoucher))
+            {
+                return BadRequest("提交的数据有错");
+            }
             if (warehouseVoucher != null)
             {
                 SaveWarehouserVoucher(id, warehouseVoucher);
@@ -118,6 +127,10 @@ namespace Alps.Web.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            if(!ValidWarehouseVoucher(warehouseVoucher))
+            {
+                return BadRequest("提交的数据有错");
             }
             warehouseVoucher.Creater = this.User.Identity.Name;
             warehouseVoucher.CreateTime = DateTime.Now;
@@ -164,6 +177,18 @@ namespace Alps.Web.Controllers
         {
             return unitOfWork.WarehouseVouchers.Count(e => e.ID == id) > 0;
         }
-       
+        bool ValidWarehouseVoucher(WarehouseVoucher warehouseV)
+        {
+            if(warehouseV.Items !=null)
+            {
+                foreach (WarehouseVoucherItem item in warehouseV.Items)
+                {
+                    if (item.ProductSkuInfo==null || item.ProductSkuInfo.SkuID == null)
+                        return false;
+                }
+            }
+            return true;
+        }
+        
     }
 }

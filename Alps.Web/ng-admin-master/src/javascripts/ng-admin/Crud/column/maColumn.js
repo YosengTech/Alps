@@ -1,10 +1,7 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     function maColumn($state, $anchorScroll, $compile, Configuration, FieldViewConfiguration) {
-
         function isDetailLink(field) {
             if (field.isDetailLink() === false) {
                 return false;
@@ -14,10 +11,10 @@ define(function (require) {
             }
             var referenceEntity = field.targetEntity().name();
             var relatedEntity = Configuration().getEntity(referenceEntity);
-            if (!relatedEntity) return false;
+            if (!relatedEntity)
+                return false;
             return relatedEntity.isReadOnly ? relatedEntity.showView().enabled : relatedEntity.editionView().enabled;
         }
-
         return {
             restrict: 'E',
             scope: {
@@ -26,14 +23,15 @@ define(function (require) {
                 entity: '&',
                 datastore: '&'
             },
-            link: function(scope, element) {
+            link: function (scope, element) {
                 scope.datastore = scope.datastore();
                 scope.field = scope.field();
                 scope.entry = scope.entry();
                 var type = scope.field.type();
                 if (isDetailLink(scope.field)) {
                     element.append(FieldViewConfiguration[type].getLinkWidget());
-                } else {
+                }
+                else {
                     element.append(FieldViewConfiguration[type].getReadWidget());
                 }
                 $compile(element.contents())(scope);
@@ -42,8 +40,7 @@ define(function (require) {
                     if (route == 'edit' && !scope.entity().editionView().enabled) {
                         route = 'show';
                     }
-                    $state.go($state.get(route),
-                    angular.extend({}, $state.params, {
+                    $state.go($state.get(route), angular.extend({}, $state.params, {
                         entity: scope.entry.entityName,
                         id: scope.entry.identifierValue
                     }));
@@ -61,8 +58,7 @@ define(function (require) {
             }
         };
     }
-
     maColumn.$inject = ['$state', '$anchorScroll', '$compile', 'NgAdminConfiguration', 'FieldViewConfiguration'];
-
     return maColumn;
 });
+//# sourceMappingURL=maColumn.js.map

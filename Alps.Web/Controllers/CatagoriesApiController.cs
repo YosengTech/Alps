@@ -31,6 +31,16 @@ namespace Alps.Web.Controllers
             IList<Catagory> list = catagoryService.GetCatagories();
             return list;
         }
+        public IList<Catagory> GetCatagoriesByParentID()
+        {
+            IList<Catagory> list = GetCatagoriesByParentID(null);
+            return list;
+        }
+        public IList<Catagory> GetCatagoriesByParentID(Guid? id)
+        {
+            IList<Catagory> list = catagoryService.GetCatagoriesByParentID(id);
+            return list;
+        }
 
         // GET: api/CatagoriesApi/5
         [ResponseType(typeof(Catagory))]

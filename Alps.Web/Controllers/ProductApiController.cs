@@ -52,7 +52,7 @@ namespace Alps.Web.Controllers
             }
 
             db.Entry(product).State = EntityState.Modified;
-
+            
             try
             {
                 db.SaveChanges();

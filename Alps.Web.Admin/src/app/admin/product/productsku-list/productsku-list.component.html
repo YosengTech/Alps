@@ -1,0 +1,8 @@
+﻿<div class="widgets">
+  <ba-card title="类别选择">
+  <alps-selector [options]="productOptions" [(ngModel)]="selectedProductID" (ngModelChange)="onProductIDChanged()" ></alps-selector>
+  </ba-card>
+  <ba-card title="物品列表">
+    <alps-list-table [settings]="tableSettings" [source]="tableSource"></alps-list-table>
+  </ba-card>
+</div>

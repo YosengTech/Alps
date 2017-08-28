@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     /**
      * Generic edition field
      *
@@ -26,12 +24,10 @@ define(function (require) {
                     input[name] = attributes[name];
                 }
             },
-            template:
-            '<input type="checkbox" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" />'
+            template: '<input type="checkbox" ng-model="value" id="{{ name }}" name="{{ name }}" class="form-control" />'
         };
     }
-
     maCheckboxField.$inject = [];
-
     return maCheckboxField;
 });
+//# sourceMappingURL=maCheckboxField.js.map

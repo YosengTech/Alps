@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     /**
      * Simple Javascript inheritance helper
      * @param {Object} child
@@ -11,11 +9,9 @@ define(function () {
     function inherits(child, parent) {
         var Wrapper = new Function();
         Wrapper.prototype = parent.prototype;
-
         child.prototype = new Wrapper();
         child.prototype.constructor = child;
     }
-
     /**
      * camelCase a string
      *
@@ -27,16 +23,14 @@ define(function () {
      */
     function camelCase(input) {
         var f = input.charAt(0).toUpperCase();
-
         input = f + input.substr(1);
-
         return input.replace(/[-_](.)/g, function (match, group1) {
             return ' ' + group1.toUpperCase();
         });
     }
-
     return {
         inherits: inherits,
         camelCase: camelCase
     };
 });
+//# sourceMappingURL=utils.js.map

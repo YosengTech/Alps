@@ -33,5 +33,6 @@ namespace Alps.Domain.ProductMgr
             productStock.ProductNumber = productNumber;
             return productStock;
         }
+
     }
 }

@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function maShowButtonDirective($state) {
         return {
             restrict: 'E',
@@ -14,23 +12,17 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'Show';
-
                 scope.gotoShow = function () {
-                    $state.go($state.get('show'),
-                    angular.extend({
+                    $state.go($state.get('show'), angular.extend({
                         entity: scope.entity().name(),
                         id: scope.entry().identifierValue
                     }, $state.params));
                 };
             },
-            template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoShow()">
-    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;{{ ::label }}
-</a>`
+            template: " <a class=\"btn btn-default\" ng-class=\"size ? 'btn-' + size : ''\" ng-click=\"gotoShow()\">\n    <span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span>&nbsp;{{ ::label }}\n</a>"
         };
     }
-
     maShowButtonDirective.$inject = ['$state'];
-
     return maShowButtonDirective;
 });
+//# sourceMappingURL=maShowButton.js.map

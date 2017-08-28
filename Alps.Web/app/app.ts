@@ -55,7 +55,7 @@ module Alps {
     //注册过滤器,在appFilter实现
 
 
-    var app = angular.module("Alps", ["ngRoute", "Alps.Directives", "Alps.Controllers", "Alps.Filters", "Alps.Services", "angular-loading-bar", 'ngAnimate', 'toaster',"ui.bootstrap"]);
+    var app = angular.module("Alps", ["ngRoute", "Alps.Directives", "Alps.Controllers", "Alps.Filters", "Alps.Services", "angular-loading-bar", 'ngAnimate', 'toaster', "ui.bootstrap","ui.select","ngSanitize","ui.tree"]);
     //app.run(["editableOptions", function (editableOptions) {
     //    editableOptions.theme = "bs3";
     //    editableOptions.activate = "select";
@@ -79,6 +79,8 @@ module Alps {
         }
         if (err.ExceptionMessage)
             msg = msg + "<li>" + err.ExceptionMessage + "</li>";
+        if (err.Message)
+            msg = msg + "<li>" + err.Message + "</li>";
         var e = err;
         while (e.InnerException) {
             msg = msg + "<li>" + e.InnerException.ExceptionMessage + "</li>";

@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     var ListController = function ($scope, $stateParams, $location, $anchorScroll, ReadQueries, progression, view, dataStore, totalItems) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
@@ -24,50 +22,39 @@ define(function () {
         this.setPageCallback = this.setPage.bind(this);
         this.sortField = this.$stateParams.sortField || this.view.getSortFieldName();
         this.sortDir = this.$stateParams.sortDir || this.view.sortDir();
-
         if ($scope.selectionUpdater) {
             $scope.selection = $scope.selection || [];
             $scope.$watch('selection', $scope.selectionUpdater);
-        } else {
+        }
+        else {
             $scope.selection = null;
         }
-        
-
         $scope.$on('$destroy', this.destroy.bind(this));
     };
-
     ListController.prototype.nextPage = function (page) {
+        var _this = this;
         if (this.loadingPage) {
             return;
         }
-
-        let view = this.view,
-            datastore = this.datastore;
-
+        var view = this.view, datastore = this.datastore;
         this.progression.start();
-
         this.ReadQueries
             .getAll(view, page, this.search, this.sortField, this.sortDir)
-            .then(response => {
-                this.progression.done();
-                var references = view.getReferences();
-
-                view.mapEntries(response.data)
-                    .map(entry => {
-                        dataStore.fillReferencesValuesFromEntry(entry, references, true);
-                        dataStore.addEntry(this.entity.uniqueId, entry);
-                    });
-
-                this.loadingPage = false;
+            .then(function (response) {
+            _this.progression.done();
+            var references = view.getReferences();
+            view.mapEntries(response.data)
+                .map(function (entry) {
+                dataStore.fillReferencesValuesFromEntry(entry, references, true);
+                dataStore.addEntry(_this.entity.uniqueId, entry);
             });
+            _this.loadingPage = false;
+        });
     };
-
     ListController.prototype.setPage = function (number) {
         this.$location.search('page', number);
         this.$anchorScroll(0);
     };
-
-
     ListController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$stateParams = undefined;
@@ -75,8 +62,7 @@ define(function () {
         this.$anchorScroll = undefined;
         this.dataStore = undefined;
     };
-
     ListController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ReadQueries', 'progression', 'view', 'dataStore', 'totalItems'];
-
     return ListController;
 });
+//# sourceMappingURL=ListController.js.map

@@ -1,0 +1,11 @@
+﻿<div class="widgets">
+  <ba-card title="物品列表">
+    <button type="button" class="btn btn-default" (click)="initDatabase()">初始化数据库</button>
+  </ba-card>
+</div>
+
+<div class="widgets">
+<ba-card title="物品列表">
+<alps-list-table [settings]="tableSettings" [source]="tableSource" ></alps-list-table>
+</ba-card>
+</div>

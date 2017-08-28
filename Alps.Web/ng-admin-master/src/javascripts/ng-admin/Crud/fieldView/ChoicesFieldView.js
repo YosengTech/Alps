@@ -1,6 +1,5 @@
-define(function(require) {
+define(function (require) {
     "use strict";
-
     function getReadWidget() {
         return '<ma-choices-column values="::entry.values[field.name()]"></ma-choices-column>';
     }
@@ -14,9 +13,10 @@ define(function(require) {
         return '<ma-choices-field field="::field" entry="::entry" value="entry.values[field.name()]"></ma-choices-field>';
     }
     return {
-        getReadWidget:   getReadWidget,
-        getLinkWidget:   getLinkWidget,
+        getReadWidget: getReadWidget,
+        getLinkWidget: getLinkWidget,
         getFilterWidget: getFilterWidget,
-        getWriteWidget:  getWriteWidget,
-    }
+        getWriteWidget: getWriteWidget,
+    };
 });
+//# sourceMappingURL=ChoicesFieldView.js.map

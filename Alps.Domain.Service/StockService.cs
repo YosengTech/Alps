@@ -60,7 +60,7 @@ namespace Alps.Domain.Service
                 //{
                     foreach (WarehouseVoucherItem item in voucher.Items)
                     {
-                        StockIn(voucher.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.Weight, item.PositionID, item.ProductNumber);
+                        StockIn(voucher.DepartmentID, item.ProductSkuInfo.SkuID, item.Quantity, item.AuxiliaryQuantity, item.PositionID, item.ProductNumber);
                     }
                 //}
             }

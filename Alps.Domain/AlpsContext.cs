@@ -9,17 +9,23 @@ using Alps.Domain.SaleMgr;
 using Alps.Domain.AccountingMgr;
 using System.Data.Entity.ModelConfiguration;
 using Alps.Domain.PurchaseMgr;
+using Alps.Domain.StockMgr;
 using Microsoft.AspNet.Identity.EntityFramework;
 namespace Alps.Domain
 {
     public class AlpsContext : IdentityDbContext<AlpsUser>//DbContext
     {
-        public AlpsContext()
-            : base("name=AlpsContext")
+        public AlpsContext(string connectionString)
+            : base(connectionString)
         {
         }
         #region DbSet属性
-
+        #region StockMgr
+        public DbSet<StockInVoucher> StockInVouchers { get; set; }
+        public DbSet<StockInVoucherItem> StockInVoucherItems { get; set; }
+        public DbSet<StockOutVoucher> StockOutVouchers { get; set; }
+        public DbSet<StockOutVoucherItem> StockOutVoucherItems { get; set; }
+        #endregion
 
         #region Common
         public DbSet<Unit> Units { get; set; }
@@ -64,9 +70,18 @@ namespace Alps.Domain
         #endregion
 
         #region 初始化相关
-        public static void Initial()
+        public enum InitialMode
         {
-            Database.SetInitializer<AlpsContext>(new AlpsContextInitializer());
+            DropAlways,
+            DropIfModelChanges
+        }
+    
+        public static void Initial(InitialMode mode)
+        {
+            if(mode==InitialMode.DropAlways)
+                Database.SetInitializer<AlpsContext>(new AlpsContextInitializerDropAlways());
+            else if(mode==InitialMode.DropIfModelChanges)
+                Database.SetInitializer<AlpsContext>(new AlpsContextInitializerDropIfModelChanges());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -75,9 +90,9 @@ namespace Alps.Domain
             //modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Destination).WithOptional().WillCascadeOnDelete(false);
             //modelBuilder.Entity<WarehouseVoucher>().HasRequired(p => p.Source).WithOptional().WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
-            foreach (System.Reflection.PropertyInfo pi in typeof(AlpsContext).GetProperties().Where(p=>p.Module.Name=="Alps.Domain.dll"))
+            foreach (System.Reflection.PropertyInfo pi in typeof(AlpsContext).GetProperties().Where(p => p.Module.Name == "Alps.Domain.dll"))
             {
-                
+
                 if (pi.PropertyType.IsGenericType)
                 {
                     Type t = typeof(AbstractEntityTypeConfiguration<>);
@@ -107,6 +122,10 @@ namespace Alps.Domain
             modelBuilder.Entity<MaterialRequisition>().HasRequired(p => p.Department).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<MaterialRequisition>().HasRequired(p => p.RequisitionDepartment).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<MaterialRequisitionItem>().HasKey(p => new { p.ID, p.MaterialRequisitionID });
+
+            modelBuilder.Entity<StockInVoucher>().HasRequired(p => p.Source).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<StockInVoucher>().HasRequired(p => p.Department).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<StockInVoucherItem>().HasKey(p => new { p.ID,p.StockInVoucherID});
             //modelBuilder.Entity<PurchaseOrderItem>().HasRequired(p => p.Unit).WithMany().WillCascadeOnDelete(false);
             //modelBuilder.Entity<WarehouseVoucherItem>().HasRequired(p => p.Unit).WithMany().WillCascadeOnDelete(false);
 
@@ -120,7 +139,23 @@ namespace Alps.Domain
 
             }
         }
-        public class AlpsContextInitializer : DropCreateDatabaseAlways<AlpsContext>
+        public class AlpsContextInitializerDropAlways : DropCreateDatabaseAlways<AlpsContext>
+        {
+            protected override void Seed(AlpsContext context)
+            {
+                base.Seed(context);
+                    new AlpsContextInitializer().Seed(context);
+            }
+        }
+        public class AlpsContextInitializerDropIfModelChanges : DropCreateDatabaseIfModelChanges<AlpsContext>
+        {
+            protected override void Seed(AlpsContext context)
+            {
+                base.Seed(context);
+                new AlpsContextInitializer().Seed(context);
+            }
+        }
+        public class AlpsContextInitializer //: DropCreateDatabaseAlways<AlpsContext>
         //DropCreateDatabaseIfModelChanges<AlpsContext>
         {
             Guid supplierID = Guid.Empty;
@@ -135,10 +170,10 @@ namespace Alps.Domain
             Guid gpSkuID = Guid.Empty;
             Guid caoCatagoryID = Guid.Empty;
             Guid jiaoCatagoryID = Guid.Empty;
-            protected override void Seed(AlpsContext context)
+            public void Seed(AlpsContext context)
             {
 
-                base.Seed(context);
+                //base.Seed(context);
                 CommonMgrSeed(context);
                 ProductMgrSeed(context);
                 PurchaseMgrSeed(context);
@@ -225,12 +260,17 @@ namespace Alps.Domain
                 context.Catagories.Add(newCatagory);
                 newCatagory = Catagory.Create("轧辊");
                 context.Catagories.Add(newCatagory);
+                newCatagory = Catagory.Create("镀锌板管");
+                context.Catagories.Add(newCatagory);
+                newCatagory.AddChildCatagory(Catagory.Create("方管"));
+                newCatagory.AddChildCatagory(Catagory.Create("矩形管"));
+                newCatagory.AddChildCatagory(Catagory.Create("圆管"));
                 context.SaveChanges();
                 #endregion
 
                 #region 初始化产品
                 Product product = null;
-                Catagory associatedCatagory=context.Catagories.Find(caoCatagoryID);
+                Catagory associatedCatagory = context.Catagories.Find(caoCatagoryID);
                 product = Product.Create("5#槽钢", "5#槽钢", "不想多说", PricingMethod.PricingByWeight, 2000, unitID);
                 product.SetCatagory(associatedCatagory);
                 context.Products.Add(product);
@@ -279,26 +319,31 @@ namespace Alps.Domain
 
                 #region 初始化SKU
                 ProductSku sku = null;
+                int tempKg = 20;
                 foreach (Product p in context.Products.Where(p => p.Name.Contains("槽钢")))
                 {
-                    sku = ProductSku.Create(p.ID, p.FullName + "100条包装", 0, PricingMethod.PricingByQuantity, 2000);
+                    for(var i=0;i<10;i++)
+                    { 
+                    sku = ProductSku.Create(p, (tempKg+i).ToString()+"公斤*6米*96条", 0, PricingMethod.PricingByQuantity, 2000);
                     context.ProductSkus.Add(sku);
-                    sku = ProductSku.Create(p.ID, p.FullName + "200条包装", 0, PricingMethod.PricingByWeight, 2000);
-                    context.ProductSkus.Add(sku);
+                    }
+                    tempKg = tempKg + 2;
+                    //sku = ProductSku.Create(p, "200条包装", 0, PricingMethod.PricingByWeight, 2000);
+                    //context.ProductSkus.Add(sku);
                 }
                 gcSkuID = sku.ID;
                 foreach (Product p in context.Products.Where(p => p.Name.Contains("角钢")))
                 {
-                    sku = ProductSku.Create(p.ID, p.FullName + "100条包装", 0, PricingMethod.PricingByQuantity, 2000);
+                    sku = ProductSku.Create(p, "100条包装", 0, PricingMethod.PricingByQuantity, 2000);
                     context.ProductSkus.Add(sku);
-                    sku = ProductSku.Create(p.ID, p.FullName + "200条包装", 0, PricingMethod.PricingByWeight, 2000);
+                    sku = ProductSku.Create(p, "200条包装", 0, PricingMethod.PricingByWeight, 2000);
                     context.ProductSkus.Add(sku);
                 }
                 foreach (Product p in context.Products.Where(p => p.Name.Contains("连铸坯")))
                 {
-                    sku = ProductSku.Create(p.ID, p.FullName + "150方", 0, PricingMethod.PricingByWeight, 2000);
+                    sku = ProductSku.Create(p, "150方", 0, PricingMethod.PricingByWeight, 2000);
                     context.ProductSkus.Add(sku);
-                    sku = ProductSku.Create(p.ID, p.FullName + "120方", 0, PricingMethod.PricingByQuantity, 2000);
+                    sku = ProductSku.Create(p, "120方", 0, PricingMethod.PricingByQuantity, 2000);
                     context.ProductSkus.Add(sku);
                 }
                 gpSkuID = sku.ID;
@@ -349,21 +394,21 @@ namespace Alps.Domain
                 ProductSku sku = context.ProductSkus.Find(gcSkuID);
                 WarehouseVoucher voucher = WarehouseVoucher.Create(supplierID, departmentID, "系统初始化");
                 ProductSkuInfo psi = sku.GetProductSkuInfo();
-                voucher.AddItem(psi, 1, 2.3m, 2100, "12345", positionID);
-                voucher.AddItem(psi, 1, 2.5m, 2100, "151515", positionID);
+                voucher.AddItem(psi, 2.3m, 1, 2100, "12345", positionID);
+                voucher.AddItem(psi, 2.5m, 1, 2100, "151515", positionID);
                 context.WarehouseVouchers.Add(voucher);
                 context.SaveChanges();
                 voucher = WarehouseVoucher.Create(supplierID, departmentID, "系统初始化2");
-                voucher.AddItem(psi, 1, 2.4m, 2000, "600001", positionID);
-                voucher.AddItem(psi, 1, 2.6m, 2000, "600002", positionID);
+                voucher.AddItem(psi, 2.4m, 1, 2000, "600001", positionID);
+                voucher.AddItem(psi, 2.6m, 1, 2000, "600002", positionID);
                 context.WarehouseVouchers.Add(voucher);
                 psi = context.ProductSkus.Find(gpSkuID).GetProductSkuInfo();
                 voucher = WarehouseVoucher.Create(supplierID, departmentID, "系统初始化3");
-                voucher.AddItem(psi, 1500, 1000m, 1800, "", positionID);
-                voucher.AddItem(psi, 3000, 2000m, 1700, "", positionID);
+                voucher.AddItem(psi, 1000m, 1500, 1800, "", positionID);
+                voucher.AddItem(psi, 2000m, 3000, 1700, "", positionID);
                 context.WarehouseVouchers.Add(voucher);
                 voucher = WarehouseVoucher.Create(supplierID, departmentID, "系统初始化3");
-                voucher.AddItem(psi, 750, 500m, 1700, "", positionID);
+                voucher.AddItem(psi, 500m, 750, 1700, "", positionID);
                 context.WarehouseVouchers.Add(voucher);
                 context.SaveChanges();
                 #endregion
@@ -376,7 +421,7 @@ namespace Alps.Domain
 
                 #region 初始化领料单
                 MaterialRequisition r = MaterialRequisition.Create(departmentID, productDepartmentID, "系统");
-                psi=context.ProductSkus.Find(gpSkuID).GetProductSkuInfo();
+                psi = context.ProductSkus.Find(gpSkuID).GetProductSkuInfo();
                 r.AddItem(psi, 1500, 1000, 1800, "", positionID);
                 context.MaterialRequisitions.Add(r);
                 context.SaveChanges();
@@ -385,13 +430,13 @@ namespace Alps.Domain
                 #region 初始化收料单
                 MaterialReceipt s = MaterialReceipt.Create(departmentID, productDepartmentID, "系统");
                 psi = context.ProductSkus.Find(gcSkuID).GetProductSkuInfo();
-                s.AddItem(psi,1, 2.33m, 1800, "556699", positionID);
+                s.AddItem(psi, 1, 2.33m, 1800, "556699", positionID);
                 context.MaterialReceipts.Add(s);
                 context.SaveChanges();
                 #endregion
 
                 #region 初始化出库单
-                psi=context.ProductSkus.Find(gcSkuID).GetProductSkuInfo();
+                psi = context.ProductSkus.Find(gcSkuID).GetProductSkuInfo();
                 DeliveryVoucher dv = DeliveryVoucher.Create(departmentID, customerID, "系统初始化");
                 dv.AddItem(psi, 1, 2.5m, 2000, "900001", positionID, "");
                 context.DeliveryVouchers.Add(dv);
@@ -400,6 +445,11 @@ namespace Alps.Domain
                 dv.AddItem(psi, 2, 2.5m, 2000, "900003", positionID, "");
                 context.DeliveryVouchers.Add(dv);
                 context.SaveChanges();
+                #endregion
+
+                #region 初始化入库单--StockInVoucher
+                
+                //StockInVoucher voucher = StockInVoucher.Create(ta);
                 #endregion
             }
             void SaleMgrSeed(AlpsContext context)

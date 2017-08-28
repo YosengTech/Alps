@@ -2,7 +2,7 @@
 <table class="table table-edit  table-bordered table-hover  " st-table="displalyList" st-safe-src="item.Items">
     <colgroup>
         <col />
-        <col width="50" /><col width="50" /><col width="50" />
+        <col width="80" /><col width="50" /><col width="50" />
         <col />
     </colgroup>
     <thead>
@@ -10,11 +10,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.ProductSkuInfo.SkuID)
             </th>
-            <th st-sort="Quantity" >
-                @Html.DisplayNameFor(model => model.Quantity)
+            <th st-sort="AuxiliaryQuantity" >
+                @Html.DisplayNameFor(model => model.AuxiliaryQuantity)
             </th>
-            <th st-sort="Weight"  >
-                @Html.DisplayNameFor(model => model.Weight)
+            <th st-sort="Quantity"  >
+                @Html.DisplayNameFor(model => model.Quantity)
             </th>
             @*<th>
                     @Html.DisplayNameFor(model => model.ProductSkuInfo.PricingMethod)
@@ -43,10 +43,10 @@
             @*<select name="ProductID" id="ProductID" class="form-control" ng-click="$event.preventDefault();modifySku(subItem)" ng-model="subItem.ProductSkuInfo.SkuID" ng-change="productSelectionChanged(subItem)" ng-options="selectList.SkuID as selectList.Name for selectList in ProductSkuIDSelectList"></select>*@
         </td>
         <td>
-            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Quantity", ng_change = "reCaluAmount(subItem)" } })
+            @Html.EditorFor(model => model.AuxiliaryQuantity, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.AuxiliaryQuantity", ng_change = "reCaluAmount(subItem)" } })
         </td>
         <td>
-            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Weight", ng_change = "reCaluAmount(subItem)" } })
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Quantity", ng_change = "reCaluAmount(subItem)" } })
         </td>
         @*<td>
                 <select name="PricingMethod" id="PricingMethod" class="form-control" ng-model="subItem.ProductSkuInfo.PricingMethod" ng-options="selectList.Value as selectList.Text for selectList in PricingMethodSelectList"></select>

@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     /**
      * Display loader on each route change
      *
@@ -14,18 +12,15 @@ define(function () {
         $rootScope.$on('$stateChangeStart', function () {
             progression.start();
         });
-
-        $rootScope.$on('$stateChangeSuccess', function() {
+        $rootScope.$on('$stateChangeSuccess', function () {
             progression.done();
             $window.scrollTo(0, 0);
         });
-
-        $rootScope.$on("$stateChangeError", function() {
+        $rootScope.$on("$stateChangeError", function () {
             progression.done();
         });
     }
-
     loader.$inject = ['$rootScope', '$window', 'progression'];
-
     return loader;
 });
+//# sourceMappingURL=Loader.js.map

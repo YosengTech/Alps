@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     function maNumberColumn() {
         return {
             restrict: 'E',
@@ -13,8 +11,7 @@ define(function (require) {
             template: '<span>{{ value() | numeraljs:field().format() }}</span>'
         };
     }
-
     maNumberColumn.$inject = [];
-
     return maNumberColumn;
 });
+//# sourceMappingURL=maNumberColumn.js.map

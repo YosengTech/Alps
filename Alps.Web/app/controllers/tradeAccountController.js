@@ -7,7 +7,7 @@ var Alps;
             function TradeAccount() {
             }
             return TradeAccount;
-        })();
+        }());
         Controllers.TradeAccount = TradeAccount;
         var TradeAccountListCtrl = (function () {
             function TradeAccountListCtrl(scope, http, toaster) {
@@ -23,9 +23,9 @@ var Alps;
                 scope.getTradeAccountList = getTradeAccountList;
                 getTradeAccountList();
             }
-            TradeAccountListCtrl.$inject = ["$scope", "$http", "toaster"];
             return TradeAccountListCtrl;
-        })();
+        }());
+        TradeAccountListCtrl.$inject = ["$scope", "$http", "toaster"];
         Controllers.TradeAccountListCtrl = TradeAccountListCtrl;
         var TradeAccountCreateCtrl = (function () {
             function TradeAccountCreateCtrl(scope, http, toaster, locationService) {
@@ -55,9 +55,9 @@ var Alps;
                 scope.createTradeAccount = createTradeAccount;
                 scope.goBack = goBack;
             }
-            TradeAccountCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
             return TradeAccountCreateCtrl;
-        })();
+        }());
+        TradeAccountCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
         Controllers.TradeAccountCreateCtrl = TradeAccountCreateCtrl;
         var TradeAccountEditCtrl = (function () {
             function TradeAccountEditCtrl(scope, http, toaster, locationService, routeParams, window) {
@@ -115,9 +115,9 @@ var Alps;
                     locationService.path("/TradeAccount");
                 }
             }
-            TradeAccountEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
             return TradeAccountEditCtrl;
-        })();
+        }());
+        TradeAccountEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
         Controllers.TradeAccountEditCtrl = TradeAccountEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

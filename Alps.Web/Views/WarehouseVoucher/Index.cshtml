@@ -17,10 +17,10 @@
 			<table class="table">
 				<tr>
 					<th>
-						@Html.DisplayNameFor(model => model.Department.Name)
+						部门@*Html.DisplayNameFor(model => model.Department.Name)*@
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.Supplier.Name)
+                        供应商@*@Html.DisplayNameFor(model => model.Supplier.Name)*@
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.Creater)
@@ -41,7 +41,7 @@
 						@Html.DisplayNameFor(model => model.TotalQuantity)
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.TotalWeight)
+						@Html.DisplayNameFor(model => model.TotalAuxiliaryQuantity)
 					</th>
 					<th>
 						@Html.DisplayNameFor(model => model.TotalAmount)
@@ -74,7 +74,7 @@
 						{{item.TotalQuantity}}
 					</td>
 					<td>
-						{{item.TotalWeight}}
+						{{item.TotalAuxiliaryQuantity}}
 					</td>
 					<td>
 						{{item.TotalAmount}}

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Alps.Domain.ProductMgr.Product>
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+
+
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/Product">Product</a></li>
+	</ol>
+	<div class="page-wrap">
+
+		<div class="row">
+			<p>
+				<a class="btn btn-default btn-sm" href="#/Product/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
+			</p>
+            
+
+			<table class="table">
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.BaseUnit.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Catagory.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.FullName)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.ShortDescription)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.FullDescription)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Deleted)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PricingMethod)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.ListPrice)
+					</th>
+					<th></th>
+				</tr>
+				<tr ng-repeat="item in items">
+					<td>
+						{{item.BaseUnit.Name}}
+					</td>
+					<td>
+						{{item.Catagory.Name}}
+					</td>
+					<td>
+						{{item.Name}}
+					</td>
+					<td>
+						{{item.FullName}}
+					</td>
+					<td>
+						{{item.ShortDescription}}
+					</td>
+					<td>
+						{{item.FullDescription}}
+					</td>
+					<td>
+						{{item.Deleted}}
+					</td>
+					<td>
+						{{item.PricingMethod}}
+					</td>
+					<td>
+						{{item.ListPrice}}
+					</td>
+					<td>
+						<a class="btn btn-default btn-sm" href="#/Product/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+</div>
+
+

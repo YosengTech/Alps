@@ -1,0 +1,106 @@
+﻿@model Alps.Domain.ProductMgr.ProductSku
+@{
+	Layout = null;
+}
+<div class="page page-form-validation clearfix">
+	<ol class="breadcrumb breadcrumb-small">
+		<li>Forms</li>
+		<li class="active"><a href="#/ProductSku">ProductSku</a></li>
+		<li class="active"><a href="#/ProductSku/Edit">Edit</a></li>
+	</ol>
+	<div class="page-wrap">
+		<div class="row">
+			<div class="panel panel-lined mb30">
+				<div class="panel-heading"><i>ProductSku</i></div>
+				<div class="panel-body">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						<div class="form-horizontal">
+							<h4>
+								ProductSku
+								<a class="btn btn-danger btn-sm right" ng-click="deleteProductSku()"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a></h4>
+							<hr />
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							@Html.HiddenFor(model => model.ID)
+							<div class="form-group">
+								@Html.LabelFor(model => model.ProductID, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									<select name="ProductID" id="ProductID" class="form-control" ng-model="item.ProductID" ng-options="selectList.ID as selectList.Name for selectList in ProductIDSelectList"></select>
+									@Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Description"} })
+									@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.StockQuantity, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.StockQuantity"} })
+									@Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.StockWeight, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.StockWeight, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.StockWeight"} })
+									@Html.ValidationMessageFor(model => model.StockWeight, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Price"} })
+									@Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Attributes, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.Attributes, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.Attributes"} })
+									@Html.ValidationMessageFor(model => model.Attributes, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.AttributeName, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									@Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control" , ng_model = "item.AttributeName"} })
+									@Html.ValidationMessageFor(model => model.AttributeName, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							@*<div class="form-group">
+								@Html.LabelFor(model => model.CreatedTime, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									<input name="CreatedTime" id="CreatedTime" type="text" class="form-control" ng-model="item.CreatedTime"  bs_datepicker  data_date_format = "yyyy-MM-dd">
+									@Html.ValidationMessageFor(model => model.CreatedTime, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.ModifiedTime, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									<input name="ModifiedTime" id="ModifiedTime" type="text" class="form-control" ng-model="item.ModifiedTime"  bs_datepicker  data_date_format = "yyyy-MM-dd">
+									@Html.ValidationMessageFor(model => model.ModifiedTime, "", new { @class = "text-danger" })
+								</div>
+							</div>*@
+							<div class="form-group">
+								@Html.LabelFor(model => model.PricingMethod, htmlAttributes: new { @class = "text-uppercase small text-bold control-label col-md-1" })
+								<div class="col-md-11">
+									<select class="form-control" ng-model="item.PricingMethod" ng-options="selectList.Value as selectList.Text for selectList in PricingMethodSelectList"></select>
+									@Html.ValidationMessageFor(model => model.PricingMethod, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group  text-center">
+								<a class="btn btn-default btn-sm" ng-click="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回</a>
+								<a class="btn btn-primary btn-sm" ng-click="saveProductSku()"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</a>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

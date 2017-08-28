@@ -1,0 +1,18 @@
+﻿<table class="table  table-hover">
+  <thead>
+    <tr>
+      <th *ngFor="let column of settings.columns">{{column.title}}</th>
+      <th class="alps-list-table-action"><a routerLink="{{settings.actions.baseUrl}}/edit/0" class="alps-list-table-action-add"><i class="ion-ios-plus-outline"></i></a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of source;let i=index">
+      <td *ngFor="let dataColumn of settings.columns">{{row[dataColumn.id]}}</td>
+
+      <td class="alps-list-table-action">
+        <a routerLink="{{settings.actions.baseUrl}}/edit/{{row.id}}" class="alps-list-table-action-edit"><i class="ion-edit"></i></a>
+        <a routerLink="{{settings.actions.baseUrl}}/delete/{{row.id}}" class="alps-list-table-action-delete"><i class="ion-trash-a"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>

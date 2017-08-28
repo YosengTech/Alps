@@ -1,0 +1,1 @@
+{"version":3,"file":"function.bind.shim.js","sourceRoot":"","sources":["function.bind.shim.js"],"names":[],"mappings":"AAAA,qCAAqC;AACrC,QAAQ,CAAC,SAAS,CAAC,IAAI,GAAG,QAAQ,CAAC,SAAS,CAAC,IAAI,IAAI,UAAU,KAAK;IAChE,IAAI,EAAE,GAAG,IAAI,CAAC;IACd,MAAM,CAAC;QACH,MAAM,CAAC,EAAE,CAAC,KAAK,CAAC,KAAK,EAAE,SAAS,CAAC,CAAC;IACtC,CAAC,CAAC;AACN,CAAC,CAAC"}

@@ -1,8 +1,6 @@
 /*global module*/
-
 module.exports = function (grunt) {
     'use strict';
-
     // Define the configuration for all the tasks
     grunt.initConfig({
         copy: {
@@ -14,7 +12,7 @@ module.exports = function (grunt) {
                 src: 'examples/blog/*',
                 dest: 'src/javascripts/test/fixtures/',
                 options: {
-                    process: function(content) {
+                    process: function (content) {
                         return content.replace(/http\:\/\/localhost\:8080\//g, '/');
                     }
                 }
@@ -74,7 +72,6 @@ module.exports = function (grunt) {
             webpack_watch: './node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors'
         }
     });
-
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
@@ -82,13 +79,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-json-server');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha-test');
-
     grunt.registerTask('test', ['mochaTest', 'karma', 'test:e2e']);
     grunt.registerTask('test:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
     grunt.registerTask('test:e2e:prepare', ['exec:webpack', 'copy:test_sample_app', 'copy:test_build']);
-
     grunt.registerTask('test:local', ['mochaTest', 'karma', 'test:local:e2e']);
     grunt.registerTask('test:local:e2e', ['test:e2e:prepare', 'json_server', 'connect:test', 'protractor']);
-
     grunt.registerTask('default', ['json_server', 'connect:dev', 'exec:webpack_watch']);
 };
+//# sourceMappingURL=Gruntfile.js.map

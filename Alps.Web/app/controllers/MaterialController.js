@@ -7,7 +7,7 @@ var Alps;
             function Material() {
             }
             return Material;
-        })();
+        }());
         Controllers.Material = Material;
         var MaterialListCtrl = (function () {
             function MaterialListCtrl(scope, http, toaster) {
@@ -23,9 +23,9 @@ var Alps;
                 scope.getMaterialList = getMaterialList;
                 getMaterialList();
             }
-            MaterialListCtrl.$inject = ["$scope", "$http", "toaster"];
             return MaterialListCtrl;
-        })();
+        }());
+        MaterialListCtrl.$inject = ["$scope", "$http", "toaster"];
         Controllers.MaterialListCtrl = MaterialListCtrl;
         var MaterialCreateCtrl = (function () {
             function MaterialCreateCtrl(scope, http, toaster, locationService) {
@@ -63,9 +63,9 @@ var Alps;
                 scope.goBack = goBack;
                 getCatagoryIDSelectList();
             }
-            MaterialCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
             return MaterialCreateCtrl;
-        })();
+        }());
+        MaterialCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
         Controllers.MaterialCreateCtrl = MaterialCreateCtrl;
         var MaterialEditCtrl = (function () {
             function MaterialEditCtrl(scope, http, toaster, locationService, routeParams, window) {
@@ -131,9 +131,9 @@ var Alps;
                     locationService.path("/Material");
                 }
             }
-            MaterialEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
             return MaterialEditCtrl;
-        })();
+        }());
+        MaterialEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
         Controllers.MaterialEditCtrl = MaterialEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

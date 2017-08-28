@@ -1,0 +1,43 @@
+﻿<div class="widgets">
+  <div class="row">
+    <ba-card title="Basic Example" baCardClass="with-scroll">
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (edit)= "edit($event)"></ng2-smart-table>
+    </ba-card>
+  </div>
+  <div class="row">
+    <ba-card title="Basic Example" baCardClass="with-scroll">
+      <alps-list-table [settings]="tableSettings" [source]="items" ></alps-list-table>
+    </ba-card>
+  </div>
+  <div class="row">
+    <ba-card title="Striped Rows" baCardClass="with-scroll table-panel">
+      <div class="vertical-scroll">
+        <table class="table  table-hover">
+          <thead>
+            <tr>
+              <th class="table-id">#</th>
+              <th>创建时间</th>
+              <th>供应商</th>
+              <th>总数量</th>
+              <th>确认时间</th>
+              <th>提交人</th>
+              <th class="alps-table-action"><a routerLink="/admin/purchaseorder/edit/0" class="alps-table-action-add"><i class="ion-ios-plus-outline"></i></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items;let i=index">
+              <td class="table-id">{{i}}</td>
+              <td>{{ item.createTime }}</td>
+              <td>{{ item.supplier }}</td>
+              <td>{{ item.totalQuantity }}</td>
+              <td>{{item.confirmTime}}</td>
+              <td>{{ item.confirmer }}</td>
+              <td class="alps-table-action"> <a routerLink="/admin/purchaseorder/edit/{{item.id}}" class="alps-table-action-edit"><i class="ion-edit"></i></a>
+                <a routerLink="/admin/purchaseorder/delete/{{item.id}}" class="alps-table-action-delete"><i class="ion-trash-a"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ba-card>
+  </div>
+</div>

@@ -1,89 +1,172 @@
 ﻿@model IEnumerable<Alps.Domain.ProductMgr.ProductSku>
 @{
-	Layout = null;
+    Layout = null;
 }
 <div class="page page-form-validation clearfix">
 
 
-	<ol class="breadcrumb breadcrumb-small">
-		<li>Forms</li>
-		<li class="active"><a href="#/ProductSku">ProductSku</a></li>
-	</ol>
-	<div class="page-wrap">
-		<div class="row">
-			<p>
-				<a class="btn btn-default btn-sm" href="#/ProductSku/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
-			</p>
-			<table class="table">
-				<tr>
-					<th>
-						@Html.DisplayNameFor(model => model.Product.Name)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Description)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.StockQuantity)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.StockWeight)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Price)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Attributes)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.AttributeName)
-					</th>
-					@*<th>
-						@Html.DisplayNameFor(model => model.CreatedTime)
-					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.ModifiedTime)
-					</th>*@
-					<th>
-						@Html.DisplayNameFor(model => model.PricingMethod)
-					</th>
-					<th></th>
-				</tr>
-				<tr ng-repeat="item in items">
-					<td>
-						{{item.Product.Name}}
-					</td>
-					<td>
-						{{item.Description}}
-					</td>
-					<td>
-						{{item.StockQuantity}}
-					</td>
-					<td>
-						{{item.StockWeight}}
-					</td>
-					<td>
-						{{item.Price}}
-					</td>
-					<td>
-						{{item.Attributes}}
-					</td>
-					<td>
-						{{item.AttributeName}}
-					</td>
-					@*<td>
-						{{item.CreatedTime}}
-					</td>
-					<td>
-						{{item.ModifiedTime}}
-					</td>*@
-					<td>
-						{{item.PricingMethod}}
-					</td>
-					<td>
-						<a class="btn btn-default btn-sm" href="#/ProductSku/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
-					</td>
-				</tr>
-			</table>
-		</div>
+    <ol class="breadcrumb breadcrumb-small">
+        <li>Forms</li>
+        <li class="active">
+            <a href="#/ProductSku">ProductSku</a>
+
+        </li>
+    </ol>
+    <div class="page-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-lined mb30">
+                    <div class="panel-heading">
+                        <i>
+                            筛选
+                        </i>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ui-select multiple ng-model="selectedItems" theme="bootstrap" sortable="true" close-on-select="false" style="width: 800px;">
+                                    <ui-select-match placeholder="Select person...">{{$item.Product.Name}} &lt;{{$item.Price}}&gt;</ui-select-match>
+                                    <ui-select-choices repeat="item in items ">
+                                        <div ng-bind-html="item.Product.Name | highlight: $select.search"></div>
+                                        <small>
+                                            Name: {{item.Product.Name}}
+                                            Price: <span ng-bind-html="''+item.Price | highlight: $select.search"></span>
+                                        </small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <div class="selector">
+                                    <div class="s-line">
+                                        <div class="sl-wrap">
+                                            <div class="sl-set-key">
+                                                <span>已选择：</span>
+                                            </div>
+                                            <div class="selector-set">
+                                                <a title="2400-3499 " class="ss-item" href="/list.html?cat=670,671,672&amp;ev=933%5F88787&amp;stock=0&amp;trans=1" data-id="100002">
+                                                    <b>价格：</b>
+                                                    <em>2400-3499</em>
+                                                    <i></i>
+                                                </a>
+                                                <a title="2400-3499 " class="ss-item" href="/list.html?cat=670,671,672&amp;ev=933%5F88787&amp;stock=0&amp;trans=1" data-id="100002">
+                                                    <b>价格：</b>
+                                                    <em>2400-3499</em>
+                                                    <i></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="selector">
+                                    <div class="s-line">
+                                        <div class="sl-wrap">
+                                            <div class="sl-key">
+                                                <span>类别：</span>
+                                            </div>
+                                            <div class="sl-value">XX</div>
+                                        </div>
+                                    </div>
+                                    <div class="s-line">
+                                        <div class="sl-wrap">
+                                            <div class="sl-key">
+                                                <span>类别：</span>
+                                            </div><div class="sl-value">XX</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Product.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StockQuantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StockWeight)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.AttributeName)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.CreatedTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ModifiedTime)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.PricingMethod)
+                    </th>
+                    <th><a class="btn btn-default btn-sm" href="#/ProductSku/Edit/0"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+                </tr>
+                <tr ng-repeat="item in items">
+                    <td>
+                        {{item.Product.Name}}
+                    </td>
+                    <td>
+                        {{item.Name}}
+                    </td>
+                    <td>
+                        {{item.FullName}}
+                    </td>
+                    <td>
+                        {{item.Description}}
+                    </td>
+                    <td>
+                        {{item.StockQuantity}}
+                    </td>
+                    <td>
+                        {{item.StockWeight}}
+                    </td>
+                    <td>
+                        {{item.Price}}
+                    </td>
+
+                    <td>
+                        {{item.AttributeName}}
+                    </td>
+                    @*<td>
+                            {{item.CreatedTime}}
+                        </td>
+                        <td>
+                            {{item.ModifiedTime}}
+                        </td>*@
+                    <td>
+                        {{item.PricingMethod}}
+                    </td>
+                    <td>
+                        <a class="btn btn-default btn-sm" href="#/ProductSku/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>
+                    </td>
+                </tr>
+            </table>
+            <uib-pagination total-items="totalCount" items-per-page="pageSize" ng-model="currentPage" ng-change="getProductSkuList(currentPage)" class="pagination-sm" boundary-link-numbers="true" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+
+        </div>
     </div>
 </div>

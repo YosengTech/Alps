@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     function maWysiwygColumn($filter) {
         return {
             restrict: 'E',
@@ -10,7 +8,7 @@ define(function (require) {
                 value: '&',
                 field: '&'
             },
-            link: function(scope) {
+            link: function (scope) {
                 var value = scope.value();
                 if (scope.field().stripTags()) {
                     value = $filter('stripTags')(value);
@@ -20,8 +18,7 @@ define(function (require) {
             template: '<span ng-bind-html="htmlValue"></span>'
         };
     }
-
     maWysiwygColumn.$inject = ['$filter'];
-
     return maWysiwygColumn;
 });
+//# sourceMappingURL=maWysiwygColumn.js.map

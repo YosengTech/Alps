@@ -28,8 +28,8 @@ namespace Alps.Web.Controllers
                     from po in db.Positions
                     from t in db.Departments
                     where p.ID==ps.SkuID && ps.DepartmentID==t.ID && ps.PositionID==po.ID
-                    orderby p.Attributes
-                    select new ProductStockListModel { ProductName = p.Attributes, ID = ps.ID, OwnerName = t.Name, PositionName = po.Name, ProductNumber = ps.ProductNumber, Quantity = ps.Quantity, Weight = ps.Weight };
+                    orderby p.Name
+                    select new ProductStockListModel { ProductName = p.Name, ID = ps.ID, OwnerName = t.Name, PositionName = po.Name, ProductNumber = ps.ProductNumber, Quantity = ps.Quantity, Weight = ps.Weight };
             var totalCount = q.Count();
             var result = q.Skip((pageIndex - 1) * pageSize).Take(pageSize);
             return Ok(new {data=result,totalcount=totalCount});

@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     /**
      * Toggle input
      *
@@ -25,19 +23,17 @@ define(function () {
                 for (var name in attributes) {
                     a[name] = attributes[name];
                 }
-                scope.toggle = function() {
+                scope.toggle = function () {
                     this.value = !this.value;
                 };
-                scope.isActive = function() {
+                scope.isActive = function () {
                     return !!this.value;
                 };
             },
-            template:
-            '<a class="btn btn-default" ng-click="toggle()" id="{{ name }}" ng-class="{active: isActive()}" >{{ label }}</a>'
+            template: '<a class="btn btn-default" ng-click="toggle()" id="{{ name }}" ng-class="{active: isActive()}" >{{ label }}</a>'
         };
     }
-
     maButtonField.$inject = [];
-
     return maButtonField;
 });
+//# sourceMappingURL=maButtonField.js.map

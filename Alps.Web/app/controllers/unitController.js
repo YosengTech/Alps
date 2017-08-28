@@ -7,7 +7,7 @@ var Alps;
             function Unit() {
             }
             return Unit;
-        })();
+        }());
         Controllers.Unit = Unit;
         var UnitListCtrl = (function () {
             function UnitListCtrl(scope, http, toaster) {
@@ -23,9 +23,9 @@ var Alps;
                 scope.getUnitList = getUnitList;
                 getUnitList();
             }
-            UnitListCtrl.$inject = ["$scope", "$http", "toaster"];
             return UnitListCtrl;
-        })();
+        }());
+        UnitListCtrl.$inject = ["$scope", "$http", "toaster"];
         Controllers.UnitListCtrl = UnitListCtrl;
         var UnitCreateCtrl = (function () {
             function UnitCreateCtrl(scope, http, toaster, locationService) {
@@ -44,9 +44,9 @@ var Alps;
                 scope.createUnit = createUnit;
                 scope.goBack = goBack;
             }
-            UnitCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
             return UnitCreateCtrl;
-        })();
+        }());
+        UnitCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
         Controllers.UnitCreateCtrl = UnitCreateCtrl;
         var UnitEditCtrl = (function () {
             function UnitEditCtrl(scope, http, toaster, locationService, routeParams, window) {
@@ -104,9 +104,9 @@ var Alps;
                     locationService.path("/Unit");
                 }
             }
-            UnitEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
             return UnitEditCtrl;
-        })();
+        }());
+        UnitEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window"];
         Controllers.UnitEditCtrl = UnitEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

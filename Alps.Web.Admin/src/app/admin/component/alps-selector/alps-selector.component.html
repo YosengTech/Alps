@@ -1,0 +1,34 @@
+﻿<button #selectorButton class="btn btn-selector btn-fullwidth" (click)="open(content)" type="button">{{displayValue?displayValue:'请选择'}}</button>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">请选择</h4>
+    <button class="close" (click)="d('取消')" type="button" data-dismiss="BeClosed" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td *ngFor="let node of nodes;let i=index" [ngClass]="{'tdparent':i>0,'td-nowrap':i<nodes.length-1}" >
+          <ul>
+            <li *ngFor="let option of node.selectSource" [ngClass]="{'li-h':!isParentNode(node)}">
+              <span class="selector-item" (click)="selectItem(option,i)" (dblclick)="dblclick(option,i)"
+                    [ngClass]="{'label label-success': node.selectedItem === option}">
+                {{option.displayValue}}
+              </span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <div style="clear:both">
+      <hr />
+      <p>
+        当前的选择为：{{selectedDisplayValue}}
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary confirm-btn" (click)="confirm()">确定</button>
+  </div>
+</ng-template>

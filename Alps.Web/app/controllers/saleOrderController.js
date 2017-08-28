@@ -7,7 +7,7 @@ var Alps;
             function SaleOrder() {
             }
             return SaleOrder;
-        })();
+        }());
         Controllers.SaleOrder = SaleOrder;
         var SaleOrderListCtrl = (function () {
             function SaleOrderListCtrl(scope, http, toaster) {
@@ -26,9 +26,9 @@ var Alps;
                 scope.getSaleOrderList = getSaleOrderList;
                 getSaleOrderList();
             }
-            SaleOrderListCtrl.$inject = ["$scope", "$http", "toaster"];
             return SaleOrderListCtrl;
-        })();
+        }());
+        SaleOrderListCtrl.$inject = ["$scope", "$http", "toaster"];
         Controllers.SaleOrderListCtrl = SaleOrderListCtrl;
         var SaleOrderCreateCtrl = (function () {
             function SaleOrderCreateCtrl(scope, http, toaster, locationService) {
@@ -55,9 +55,9 @@ var Alps;
                 scope.goBack = goBack;
                 getCustomerIDSelectList();
             }
-            SaleOrderCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
             return SaleOrderCreateCtrl;
-        })();
+        }());
+        SaleOrderCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location"];
         Controllers.SaleOrderCreateCtrl = SaleOrderCreateCtrl;
         var SaleOrderEditCtrl = (function () {
             function SaleOrderEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
@@ -156,9 +156,9 @@ var Alps;
                     locationService.path("/SaleOrder");
                 }
             }
-            SaleOrderEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
             return SaleOrderEditCtrl;
-        })();
+        }());
+        SaleOrderEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
         Controllers.SaleOrderEditCtrl = SaleOrderEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

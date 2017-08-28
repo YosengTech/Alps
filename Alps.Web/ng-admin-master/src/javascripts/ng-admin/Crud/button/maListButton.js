@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     /**
      * Link to list
      *
@@ -21,26 +19,20 @@ define(function () {
                 scope.label = scope.label || 'List';
                 var parentEntityName = scope.$parent.entity ? scope.$parent.entity.name() : null;
                 var entityName = scope.entity().name();
-
                 var params = {
                     entity: entityName
                 };
                 if (entityName === parentEntityName) {
                     angular.extend(params, $state.params);
                 }
-
                 scope.gotoList = function () {
                     $state.go($state.get('list'), params);
                 };
             },
-            template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoList()">
-    <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;{{ ::label }}
-</a>`
+            template: " <a class=\"btn btn-default\" ng-class=\"size ? 'btn-' + size : ''\" ng-click=\"gotoList()\">\n    <span class=\"glyphicon glyphicon-list\" aria-hidden=\"true\"></span>&nbsp;{{ ::label }}\n</a>"
         };
     }
-
     maListButtonDirective.$inject = ['$state'];
-
     return maListButtonDirective;
 });
+//# sourceMappingURL=maListButton.js.map

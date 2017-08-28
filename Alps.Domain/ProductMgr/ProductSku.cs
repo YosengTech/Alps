@@ -9,17 +9,21 @@ namespace Alps.Domain.ProductMgr
 {
     public class ProductSku : EntityBase
     {
+        //[Display(Name="SKU名")]
+        //public string Name { get; set; }
+        [Display(Name = "SKU全名")]
+        public string FullName { get; set; }
         public Guid ProductID { get; set; }
         [Display(Name="SKU描述")]
         public string Description { get; set; }
         [Display(Name = "库存数量")]
-        public int StockQuantity { get; set; }
+        public decimal StockQuantity { get; set; }
         [Display(Name = "库存重量")]
         public int StockWeight { get; set; }
         [Display(Name = "定价")]
         public decimal Price { get; set; }
         [Display(Name = "属性")]
-        public string Attributes { get; set; }
+        public string Name { get; set; }
         [Display(Name="显示名称")]
         public string AttributeName { get; set; }
         [Display(Name = "创建时间")]
@@ -39,7 +43,22 @@ namespace Alps.Domain.ProductMgr
         {
             ProductSku sku = new ProductSku();
             sku.ProductID = productID;
-            sku.Attributes = attributes;
+            sku.Name = attributes;
+            sku.FullName = attributes;
+            sku.Description = attributes;
+            sku.PricingMethod = pricingMethod;
+            sku.UpdatePrice(price);
+            sku.UpdateStockQuantity(stockQuantity, true);
+            sku.CreatedTime = DateTime.Now;
+            sku.ModifiedTime = sku.CreatedTime;
+            return sku;
+        }
+        public static ProductSku Create(Product product, string attributes, int stockQuantity, PricingMethod pricingMethod, decimal price)
+        {
+            ProductSku sku = new ProductSku();
+            sku.ProductID = product.ID;
+            sku.Name = attributes;
+            sku.FullName = product.Name + "-" + sku.Name;
             sku.Description = attributes;
             sku.PricingMethod = pricingMethod;
             sku.UpdatePrice(price);

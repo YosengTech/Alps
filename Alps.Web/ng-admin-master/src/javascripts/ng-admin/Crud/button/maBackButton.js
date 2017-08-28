@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function maBackButtonDirective($window) {
         return {
             restrict: 'E',
@@ -12,19 +10,14 @@ define(function () {
             },
             link: function ($scope) {
                 $scope.label = $scope.label || 'Back';
-
                 $scope.back = function () {
                     $window.history.back();
                 };
             },
-            template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="back()">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;{{ ::label }}
-</a>`
+            template: " <a class=\"btn btn-default\" ng-class=\"size ? 'btn-' + size : ''\" ng-click=\"back()\">\n    <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>&nbsp;{{ ::label }}\n</a>"
         };
     }
-
     maBackButtonDirective.$inject = ['$window'];
-
     return maBackButtonDirective;
 });
+//# sourceMappingURL=maBackButton.js.map

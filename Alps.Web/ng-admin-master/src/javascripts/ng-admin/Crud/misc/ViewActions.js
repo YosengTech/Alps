@@ -1,13 +1,9 @@
 /*global define*/
-
 define(function (require) {
     'use strict';
-
     var viewActionsTemplate = require('./view-actions.html');
-
     function ViewActionsDirective($injector) {
         var $compile = $injector.get('$compile');
-
         return {
             restrict: 'E',
             transclude: true,
@@ -24,11 +20,11 @@ define(function (require) {
                 enableFilter: '&'
             },
             template: viewActionsTemplate,
-            link: function($scope, element, attrs, controller, transcludeFn) {
+            link: function ($scope, element, attrs, controller, transcludeFn) {
                 var override = $scope.override();
                 if (!override) {
                     // use the default tag content
-                    transcludeFn($scope, function(clone) {
+                    transcludeFn($scope, function (clone) {
                         element.append(clone);
                     });
                     return;
@@ -44,8 +40,7 @@ define(function (require) {
             }
         };
     }
-
     ViewActionsDirective.$inject = ['$injector'];
-
     return ViewActionsDirective;
 });
+//# sourceMappingURL=ViewActions.js.map

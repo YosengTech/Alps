@@ -10,6 +10,7 @@
 		<li class="active"><a href="#/Catagory">Catagory</a></li>
 	</ol>
 	<div class="page-wrap">
+
 		<div class="row">
 			<p>
 				<a class="btn btn-default btn-sm" href="#/Catagory/Create"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a>
@@ -38,10 +39,27 @@
 						{{item.FullName}}
 					</td>
 					<td>
+                        <a class="btn btn-default btn-sm" ng-if="item.Children.length>0" ng-click="GetCatagoriesByParentID(item.ID)"><span class="glyphicon glyphicon-pencil"></span>&nbsp;查看</a>   
 						<a class="btn btn-default btn-sm" href="#/Catagory/Edit/{{item.ID}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;编辑</a>   
 					</td>
 				</tr>
 			</table>
+            <div class="text-center">
+                <button ng-if="currentParentID" ng-click="GetCatagoriesByParentID(item.ParentID)">返回</button>
+            </div>
 		</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2">
+        <div id="tree" ui-tree>
+            <ol ui-tree-nodes ng-model="items">
+                <li ui-tree-node ng-repeat="item in items" ng-include="'nodes_renderer.html'">
+
+
+                </li>
+            </ol>
+        </div>
     </div>
 </div>

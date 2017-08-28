@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function maDeleteButtonDirective($state) {
         return {
             restrict: 'E',
@@ -14,7 +12,6 @@ define(function () {
             },
             link: function (scope) {
                 scope.label = scope.label || 'Delete';
-
                 scope.gotoDelete = function () {
                     $state.go($state.get('delete'), angular.extend({
                         entity: scope.entity().name(),
@@ -22,15 +19,10 @@ define(function () {
                     }, $state.params));
                 };
             },
-            template:
-` <a class="btn btn-default" ng-class="size ? \'btn-\' + size : \'\'" ng-click="gotoDelete()">
-    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;{{ ::label }}
-</a>`
-
+            template: " <a class=\"btn btn-default\" ng-class=\"size ? 'btn-' + size : ''\" ng-click=\"gotoDelete()\">\n    <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>&nbsp;{{ ::label }}\n</a>"
         };
     }
-
     maDeleteButtonDirective.$inject = ['$state'];
-
     return maDeleteButtonDirective;
 });
+//# sourceMappingURL=maDeleteButton.js.map

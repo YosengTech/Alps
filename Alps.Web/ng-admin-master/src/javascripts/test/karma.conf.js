@@ -1,12 +1,10 @@
 module.exports = function (config) {
     'use strict';
-
     // Retrieve a Webpack config specialized in tests
     var webpackConfig = require('../../../webpack.config');
     webpackConfig.context = __dirname + '/../../..';
     delete webpackConfig.entry;
     delete webpackConfig.output;
-
     config.set({
         basePath: '../',
         browsers: [process.env.CI ? 'PhantomJS' : 'Chrome'],
@@ -19,7 +17,6 @@ module.exports = function (config) {
             '../../node_modules/angular-numeraljs/dist/angular-numeraljs.min.js',
             '../../node_modules/numeral/numeral.js',
             '../../node_modules/ui-select/dist/select.js',
-
             'ng-admin.js',
             'test/function.bind.shim.js',
             'test/unit/**/*.js'
@@ -36,3 +33,4 @@ module.exports = function (config) {
         webpack: webpackConfig
     });
 };
+//# sourceMappingURL=karma.conf.js.map

@@ -5,25 +5,22 @@ function maDashboardPanel($state) {
             collection: '&',
             entries: '&'
         },
-        link: function(scope) {
+        link: function (scope) {
             scope.gotoList = function () {
                 $state.go($state.get('list'), { entity: scope.collection().entity.name() });
             };
         },
-        template: 
-        '<div class="panel-heading">' +
+        template: '<div class="panel-heading">' +
             '<a ng-click="gotoList()">{{ collection().title() || collection().entity.label() }}</a>' +
-        '</div>' +
-        '<ma-datagrid name="{{ collection().name() }}"' +
-        '    entries="entries()"' +
-        '    fields="::collection().fields()"' +
-        '    entity="::collection().entity"' +
-        '    list-actions="::collection().listActions()">' +
-        '</ma-datagrid>'
+            '</div>' +
+            '<ma-datagrid name="{{ collection().name() }}"' +
+            '    entries="entries()"' +
+            '    fields="::collection().fields()"' +
+            '    entity="::collection().entity"' +
+            '    list-actions="::collection().listActions()">' +
+            '</ma-datagrid>'
     };
 }
-
 maDashboardPanel.$inject = ['$state'];
-
 module.exports = maDashboardPanel;
-
+//# sourceMappingURL=maDashboardPanel.js.map

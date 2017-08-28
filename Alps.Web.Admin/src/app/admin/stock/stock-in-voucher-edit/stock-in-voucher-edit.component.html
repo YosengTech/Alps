@@ -1,0 +1,62 @@
+﻿<div class="widgets">
+  <form [formGroup]="stockInForm" autofocus>
+    <ba-card title="基本资料">
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label>采购部门</label>
+          <alps-selector [options]="departmentOptions" formControlName="departmentID"></alps-selector>
+          
+        </div>
+        <div class="form-group col-sm-3">
+          <label>来源</label>
+          <alps-selector [options]="supllierOptions" formControlName="sourceID"></alps-selector>
+        </div>
+      </div>
+    </ba-card>
+    <ba-card title="物品明细">
+      <table class="table  table-hover" formArrayName="items">
+        <tr>
+          <th class="" width="10%">品名</th>
+          <th width="10%">辅助数量</th>
+          <th width="10%">数量</th>
+          <th width="10%">单价</th>
+          <th width="10%">金额</th>
+          <th width="10%">仓位</th>
+          <th width="10%">序列号</th>
+          <th style="max-width:50px;padding-left:8px;" width="3%"><button class="btn btn-default btn-xs" (click)="addItem()" type="button"><i class="ion-plus"></i></button></th>
+        </tr>
+        <tr *ngFor="let item of stockInForm.controls.items.controls;let i=index" [formGroupName]="i">
+          <td>
+            <alps-selector [options]="productSkuOptions" formControlName="productSkuID"></alps-selector>
+          </td>
+          <td>
+            <alps-inline-edit formControlName="auxiliaryQuantity"></alps-inline-edit>
+          </td>
+          <td>
+            <alps-inline-edit formControlName="quantity"></alps-inline-edit>
+          </td>
+          <td>
+            <alps-inline-edit formControlName="price"></alps-inline-edit>
+          </td>
+          <td>
+            {{item.controls.quantity.value*item.controls.price.value}}
+          </td>
+          <td>
+            <alps-selector [options]="positionOptions" formControlName="positionID"></alps-selector>
+          </td>
+          <td>
+            <alps-inline-edit formControlName="serialNumber"></alps-inline-edit>
+          </td>
+          <td><button class="btn btn-default  btn-xs" (click)="removeItem(i)" type="button"><i class="ion-trash-a"></i></button></td>
+        </tr>
+      </table>
+    </ba-card>
+    <ba-card  class="form-action-group">
+      <button class="btn btn-default" type="button" (click)="save()">保存</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-default" type="button" (click)="submit()" [disabled]="!hasID()">提交</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-default" type="button" (click)="del()"  [disabled]="!hasID()">删除</button>&nbsp;&nbsp;&nbsp;
+      <button class="btn btn-default" type="button" (click)="back()">返回</button>
+    </ba-card>
+  </form>
+  {{stockInForm.value|json}}
+</div>

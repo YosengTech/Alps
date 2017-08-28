@@ -13,6 +13,285 @@ select,
 textarea {
     max-width: 280px;
 }*/
+em,i,u{
+    font-style:normal;
+    padding:0px;
+    margin:0px;
+}
+.crumbs-bar {
+    position: relative;
+    margin-bottom: 10px;
+    z-index: 5;
+}
+
+.crumbs-nav {
+    height: 24px;
+    line-height: 24px;
+}
+
+.crumbs-nav-item {
+    float: left;
+    margin-right: 8px;
+}
+
+    .crumbs-link, .crumbs-nav-item .menu-drop, .crumbs-nav-item .selector-set {
+        float: left;
+        margin-right: 5px;
+    }
+
+    .crumbs-nav-item .selector-set {
+        margin-right: 0;
+    }
+
+.clear-selected {
+    position: relative;
+    left: -5px;
+}
+
+    .clear-selected a {
+        color: #666;
+    }
+
+        .clear-selected a:hover {
+            color: #e4393c;
+        }
+
+.menu-drop .ss-item b {
+    font-weight: 400;
+}
+
+.menu-drop .menu-drop-title {
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.menu-drop .ss-item em {
+    color: #e4393c;
+}
+
+.crumbs-arrow {
+    font-family: simsun;
+    font-style: normal;
+}
+
+.one-level .crumbs-link {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "microsoft yahei";
+}
+
+.cb-gift {
+    width: 121px;
+    height: 23px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 20;
+    border: 1px solid #ddd;
+}
+
+.cb-gift-trigger {
+    height: 23px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+    .cb-gift-trigger .ico-gift {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 2px;
+        vertical-align: middle;
+        background: url(//misc.360buyimg.com/product/list/1.0.4/css/i/search.icons.png) no-repeat;
+    }
+
+    .cb-gift-trigger .txt {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 23px;
+    }
+
+.cb-gift-main {
+    display: none;
+    width: 392px;
+    position: absolute;
+    right: -1px;
+    _right: -2px;
+    top: 23px;
+    padding: 18px 20px;
+    border: 1px solid #999;
+    background-color: #fff;
+}
+
+    .cb-gift-main .gift-btnbox {
+        padding-top: 8px;
+    }
+
+.cb-gift-filter .title {
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #333;
+}
+
+.cb-gift-filter-list {
+    width: 402px;
+    padding-bottom: 5px;
+    margin-right: -10px;
+}
+
+    .cb-gift-filter-list li {
+        width: 70px;
+        height: 29px;
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+        .cb-gift-filter-list li a {
+            display: block;
+            height: 27px;
+            line-height: 27px;
+            position: relative;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #005aa0;
+        }
+
+            .cb-gift-filter-list li a .check {
+                display: inline-block;
+                visibility: hidden;
+                width: 10px;
+                height: 10px;
+                overflow: hidden;
+                position: absolute;
+                right: -2px;
+                bottom: -2px;
+                background: url(//misc.360buyimg.com/product/list/1.0.4/css/i/search.ele.png) no-repeat -1px -183px;
+            }
+
+            .cb-gift-filter-list li a.checked, .cb-gift-filter-list li a:hover {
+                height: 25px;
+                line-height: 25px;
+                color: #e4393c;
+                border: 2px solid #e4393c;
+                text-decoration: none;
+            }
+
+                .cb-gift-filter-list li a.checked .check, .cb-gift-filter-list li a:hover .check {
+                    visibility: visible;
+                }
+
+.z-cb-gift-main-show {
+    border-color: #999;
+}
+
+    .z-cb-gift-main-show .cb-gift-trigger {
+        height: 24px;
+        position: relative;
+        z-index: 21;
+    }
+
+    .z-cb-gift-main-show .cb-gift-main {
+        display: block;
+    }
+
+.selector-result {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+    .selector-result .form-group .fg-line-key {
+        width: 60px;
+        color: #999;
+    }
+
+    .selector-result .form-group .fg-line-value {
+        margin-left: 60px;
+    }
+        .selector .sl-wrap {
+        position: relative;
+        _zoom: 1;
+        line-height: 34px;
+        border-bottom: 1px solid #DDD;
+        font-size:12px;
+    }
+    .selector .s-line:after {
+        content: ' ';
+        display: block;
+        clear: both;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .selector .sl-key {
+        float: left;
+        width: 100px;
+        padding-left: 10px;
+    }
+        .selector .sl-set-key {
+        float: left;
+        width: 100px;
+        padding-left: 10px;
+    }
+    
+        .selector .sl-value {
+        margin-left: 110px;
+        padding-right: 130px;
+        padding-left: 10px;
+        overflow: hidden;
+        zoom: 1;
+    }
+.selector-set {
+    font-size: 0;
+}
+
+    .selector-set .ss-item {
+        position: relative;
+        display: inline-block;
+        height: 22px;
+        line-height: 22px;
+        border: 1px solid #DDD;
+        font-size: 12px;
+        vertical-align: top;
+        margin: 0 5px 5px 0;
+        padding: 0 26px 0 4px;
+        cursor: pointer;
+        box-sizing:content-box;
+        margin-top:5px;
+    }
+
+        .selector-set .ss-item b {
+            font-weight: 400;
+        }
+
+        .selector-set .ss-item em {
+            color: #e4393c;
+        }
+
+        .selector-set .ss-item i {
+            display: block;
+            position: absolute;
+            width: 25px;
+            height: 22px;
+            right: 0;
+            top: 0;
+            background: url(//misc.360buyimg.com/product/list/1.0.4/css/i/search.ele.png) no-repeat 7px -140px;
+        }
+
+        .selector-set .ss-item:hover {
+            border-color: #e4393c;
+            text-decoration: none;
+        }
+
+            .selector-set .ss-item:hover i {
+                background-color: #e4393c;
+                background-position: 7px -158px;
+            }
+
+
 
 .input-mini {   /* 设置小的输入框input*/
    height: 30px;

@@ -1,23 +1,22 @@
 var menuBarView = require('../../view/menuBar.html');
 var angular = require('angular');
-
 function maMenuBar($location, $rootScope, $compile) {
     return {
         restrict: 'E',
         scope: {
             'menu': '&'
         },
-        link: function(scope, element) {
+        link: function (scope, element) {
             scope.menu = scope.menu();
             scope.path = $location.path();
             var openMenus = [];
             // manually render on change to avoid checking menu.isActive at each dirty check
-            var listener = $rootScope.$on('$locationChangeSuccess', function() {
+            var listener = $rootScope.$on('$locationChangeSuccess', function () {
                 scope.path = $location.path();
                 render();
             });
             $rootScope.$on('$destroy', listener);
-            scope.toggleMenu = function(menu) {
+            scope.toggleMenu = function (menu) {
                 // handle click on parent menu manually
                 // because we chose bindOnce in the template for performance reasons
                 if (openMenus.indexOf(menu) !== -1) {
@@ -28,14 +27,15 @@ function maMenuBar($location, $rootScope, $compile) {
                     }
                     openMenus.splice(openMenus.indexOf(menu), 1);
                     closeMenu(menu);
-                } else {
+                }
+                else {
                     // menu is closed, the click opens it
                     openMenus.push(menu);
                     openMenu(menu);
                 }
                 // we don't render() in that case because it would cut the animation
                 return;
-            }
+            };
             scope.gotoLink = function (menu) {
                 if (!menu.link()) {
                     return;
@@ -48,11 +48,10 @@ function maMenuBar($location, $rootScope, $compile) {
                 $location.search({});
                 $location.path(menu.link());
             };
-            scope.isOpen = function(menu) {
+            scope.isOpen = function (menu) {
                 return menu.isChildActive(scope.path) || openMenus.indexOf(menu) !== -1;
             };
             render();
-
             function render() {
                 element.html(menuBarView);
                 $compile(element.contents())(scope);
@@ -71,7 +70,7 @@ function maMenuBar($location, $rootScope, $compile) {
             }
             function getElementsForMenu(menu) {
                 var parentLi;
-                angular.forEach(element.find('li'), function(li) {
+                angular.forEach(element.find('li'), function (li) {
                     var liElement = angular.element(li);
                     if (liElement.attr('data-menu-id') == menu.uuid) {
                         parentLi = liElement;
@@ -85,7 +84,6 @@ function maMenuBar($location, $rootScope, $compile) {
         }
     };
 }
-
 maMenuBar.$inject = ['$location', '$rootScope', '$compile'];
-
 module.exports = maMenuBar;
+//# sourceMappingURL=maMenuBar.js.map

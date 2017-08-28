@@ -1,0 +1,164 @@
+var Alps;
+(function (Alps) {
+    var Controllers;
+    (function (Controllers) {
+        'use strict';
+        var PurchaseOrder = (function () {
+            function PurchaseOrder() {
+            }
+            return PurchaseOrder;
+        }());
+        Controllers.PurchaseOrder = PurchaseOrder;
+        var PurchaseOrderListCtrl = (function () {
+            function PurchaseOrderListCtrl(scope, http, toaster) {
+                function getPurchaseOrderList() {
+                    http.get("/api/PurchaseOrder").success(function (data) {
+                        scope.items = data;
+                        for (var i = 0; i < scope.items.length; i++) {
+                            scope.items[i].OrderTime = new Date(data[i].OrderTime);
+                        }
+                        toaster.success("提示", "载入成功");
+                    }).error(function (err) {
+                        toaster.error("错误", Alps.phaseErr(err));
+                    });
+                }
+                ;
+                scope.getPurchaseOrderList = getPurchaseOrderList;
+                getPurchaseOrderList();
+            }
+            return PurchaseOrderListCtrl;
+        }());
+        PurchaseOrderListCtrl.$inject = ["$scope", "$http", "toaster"];
+        Controllers.PurchaseOrderListCtrl = PurchaseOrderListCtrl;
+        var PurchaseOrderEditCtrl = (function () {
+            function PurchaseOrderEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
+                function getPurchaseOrder(id) {
+                    http.get("/api/PurchaseOrder/" + id).success(function (data) {
+                        scope.item = data;
+                        scope.item.OrderTime = new Date(data.OrderTime);
+                        toaster.success("提示", "载入成功");
+                    }).error(function (data) {
+                        toaster.error("错误", data.Message);
+                    });
+                }
+                ;
+                function savePurchaseOrder() {
+                    var promise = null;
+                    if (id == "0")
+                        promise = http.post("/api/PurchaseOrder/", scope.item);
+                    else
+                        promise = http.put("/api/PurchaseOrder/" + id, scope.item);
+                    promise.success(function (data) {
+                        toaster.success("提示", "保存成功");
+                        locationService.path("/PurchaseOrder");
+                    }).error(function (err) {
+                        toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
+                    });
+                }
+                function submitPurchaseOrder() {
+                    if (scope.form.$dirty) {
+                        alert("更改未保存");
+                        return;
+                    }
+                    http.post("/api/PurchaseOrder/" + id + "/submit", {}).success(function (data) {
+                        toaster.success("提示", "保存成功");
+                        locationService.path("/PurchaseOrder");
+                    }).error(function (err) {
+                        toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
+                    });
+                }
+                function deletePurchaseOrder() {
+                    if (confirm("确认要删除?")) {
+                        http.delete("/api/PurchaseOrder/" + id).success(function (data) {
+                            toaster.success("提示", "删除成功");
+                            locationService.path("/PurchaseOrder");
+                        }).error(function (err) {
+                            toaster.error("错误", Alps.phaseErr(err));
+                        });
+                    }
+                }
+                function goBack() {
+                    window.history.back();
+                }
+                function addSubItem() {
+                    if (scope.item.Items == undefined)
+                        scope.item.Items = [];
+                    scope.item.Items.push({ "PurchaseOrderID": scope.item.ID });
+                }
+                function deleteSubItem($index) {
+                    scope.item.Items.splice($index, 1);
+                }
+                function confirmPurchaseOrder() {
+                    http.post("/action/PurchaseOrder/ConfirmPurchaseOrder/" + id, {}).success(function (data) {
+                        toaster.success("提示", "订单确认成功");
+                        locationService.path("/PurchaseOrder");
+                    }).error(function (err) {
+                        toaster.pop("error", "错误", Alps.phaseErr(err), 3000, "trustedHtml");
+                    });
+                }
+                function getPricingMethodSelectList() {
+                    http.get("/product/getPricingMethodSelectList").success(function (data) {
+                        scope.PricingMethodSelectList = data;
+                    }).error(function (data) {
+                        toaster.error("错误", data.Message);
+                    });
+                }
+                function productSelectionChanged(item) {
+                    var value = item.ProductSkuInfo;
+                    for (var i = 0; i < scope.ProductSkuIDSelectList.length; i++) {
+                        if (scope.ProductSkuIDSelectList[i].SkuID === value.SkuID) {
+                            value.Name = scope.ProductSkuIDSelectList[i].Name;
+                            value.PricingMethod = scope.ProductSkuIDSelectList[i].PricingMethod;
+                            reCaluAmount(item);
+                            break;
+                        }
+                    }
+                }
+                function reCaluAmount(item) {
+                    if (item.ProductSkuInfo.PricingMethod === 0)
+                        item.Amount = item.Quantity * item.Price;
+                    else
+                        item.Amount = item.Weight * item.Price;
+                }
+                scope.addSubItem = addSubItem;
+                scope.deleteSubItem = deleteSubItem;
+                scope.getPurchaseOrder = getPurchaseOrder;
+                scope.savePurchaseOrder = savePurchaseOrder;
+                scope.deletePurchaseOrder = deletePurchaseOrder;
+                scope.submitPurchaseOrder = submitPurchaseOrder;
+                scope.productSelectionChanged = productSelectionChanged;
+                scope.reCaluAmount = reCaluAmount;
+                scope.goBack = goBack;
+                selectListService.GetSelection("TradeAccount").success(function (data) {
+                    scope.SupplierIDSelectList = data;
+                });
+                selectListService.GetSelection("Unit").success(function (data) {
+                    scope.UnitIDSelectList = data;
+                });
+                selectListService.GetSelection("Product").success(function (data) {
+                    scope.ProductIDSelectList = data;
+                });
+                selectListService.GetSelection("ProductSku").success(function (data) {
+                    scope.ProductSkuIDSelectList = data;
+                });
+                getPricingMethodSelectList();
+                var id = "";
+                if (routeParams["id"]) {
+                    id = routeParams["id"];
+                    if (id != '0') {
+                        getPurchaseOrder(id);
+                    }
+                    else
+                        scope.item = new PurchaseOrder();
+                }
+                else {
+                    locationService.path("/PurchaseOrder");
+                }
+            }
+            return PurchaseOrderEditCtrl;
+        }());
+        PurchaseOrderEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
+        Controllers.PurchaseOrderEditCtrl = PurchaseOrderEditCtrl;
+    })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
+})(Alps || (Alps = {}));
+//# sourceMappingURL=purchaseOrderController.js.map

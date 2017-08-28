@@ -1,0 +1,23 @@
+﻿<div class="widgets">
+  <form>
+    <ba-card title="基本资料">
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label for="name">名称:</label>
+          <input type="text" id="name" placeholder="请输入供应商名称" class="form-control" name="name" [(ngModel)]="supplier.name"/>
+          <!--<alps-selector id="FF" [(value)]="selectedItem" [selectSource]="selectSource"></alps-selector>-->
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="zone">所属区域:</label>
+          <input type="text" id="zone" placeholder="请输入所属区域" class="form-control" name="zone" [(ngModel)]="supplier.zone" />
+          <!--<alps-selector id="FF" [(value)]="selectedItem" [selectSource]="selectSource"></alps-selector>-->
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="shortname">简称:</label>
+          <input type="text" id="shortname" placeholder="请输入供应商简称" class="form-control" name="shortname" [(ngModel)]="supplier.shortname" />
+          <!--<alps-selector id="FF" [(value)]="selectedItem" [selectSource]="selectSource"></alps-selector>-->
+        </div>
+      </div>
+    </ba-card>
+   </form>
+</div>

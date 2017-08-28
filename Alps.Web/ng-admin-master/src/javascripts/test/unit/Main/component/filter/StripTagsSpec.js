@@ -1,9 +1,7 @@
 /*global jasmine,angular,describe,it,expect*/
 var stripTags = require('../../../../../ng-admin/Main/component/filter/StripTags')();
-
 describe("Filter: StripTags", function () {
     'use strict';
-
     it('should remove all HTML tags', function () {
         expect(stripTags('With no tags')).toEqual('With no tags');
         expect(stripTags('With <strong>a single tag</strong>')).toEqual('With a single tag');
@@ -11,3 +9,4 @@ describe("Filter: StripTags", function () {
         expect(stripTags('With <span class="my-class" style="color: red;">some attributes</em>.')).toEqual('With some attributes.');
     });
 });
+//# sourceMappingURL=StripTagsSpec.js.map

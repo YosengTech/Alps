@@ -21,7 +21,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -124,14 +125,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="TypeLite, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TypeLite.Net4, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8cd4b9c9ac23d744, processorArchitecture=MSIL">
-      <HintPath>..\packages\TypeLite.1.6.0\lib\net4\TypeLite.Net4.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -254,6 +247,7 @@
     <Compile Include="Controllers\UnitApiController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WarehouseVoucherApiController.cs" />
+    <Compile Include="Extensions\AlpsHttpResponseException.cs" />
     <Compile Include="Extensions\CustomHandleErrorAttribute.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Global.asax.cs">
@@ -318,6 +312,9 @@
     <Content Include="app\loading-bar.min.js" />
     <Content Include="app\plugins.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\angular-ui-tree-config.css" />
+    <Content Include="Content\angular-ui-tree.css" />
+    <Content Include="Content\angular-ui-tree.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\font-awesome.css" />
@@ -328,6 +325,8 @@
     <Content Include="Content\loading-bar.css" />
     <Content Include="Content\loading-bar.min.css" />
     <Content Include="Content\main.min.css" />
+    <Content Include="Content\select.css" />
+    <Content Include="Content\select.min.css" />
     <Content Include="Content\toaster.css" />
     <Content Include="Content\toaster.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
@@ -521,6 +520,8 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.js" />
+    <Content Include="Scripts\angular-ui-tree\angular-ui-tree.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
@@ -734,6 +735,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\select.min.css.map" />
     <None Include="Properties\PublishProfiles\alps.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -1492,6 +1494,8 @@
     <Content Include="Scripts\plugins.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select.js" />
+    <Content Include="Scripts\select.min.js" />
     <Content Include="Scripts\smart-table.js" />
     <Content Include="Scripts\smart-table.min.js" />
     <Content Include="Scripts\toaster.js" />
@@ -1582,6 +1586,7 @@
     <Content Include="Views\Position\Index.cshtml" />
     <Content Include="Views\Position\Edit.cshtml" />
     <Content Include="Views\Home\ChangedLog.cshtml" />
+    <Content Include="Scripts\select.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

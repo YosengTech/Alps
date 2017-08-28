@@ -1,0 +1,30 @@
+﻿<table class="table  table-hover">
+  <thead>
+    <tr>
+      <th *ngFor="let column of settings.columns">{{column.title}}</th>
+      <th class="alps-list-table-action" *ngIf="hasAction">
+        <a *ngFor="let action of settings.headerActions" routerLink="{{action.link}}" class="{{action.aclass}}"><i class="{{action.iclass}}"></i></a>
+        </th>
+      <!--<a routerLink="{{settings.actions.baseUrl}}/edit" class="alps-list-table-action-add"><i class="alps-list-table-action-add"></i></a></th>-->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of source;let i=index">
+      <td *ngFor="let dataColumn of settings.columns" [ngSwitch]="dataColumn.pipe">
+        <span *ngSwitchCase="'date'">{{row[dataColumn.id]|date:'yyyy-MM-dd'}}</span>
+        <span *ngSwitchCase="'datetime'">{{row[dataColumn.id]|date:'MM-dd hh:mm'}}</span>
+        <span *ngSwitchDefault>{{row[dataColumn.id]}}</span>
+      
+      </td>
+
+      <td class="alps-list-table-action"   *ngIf="hasAction">
+          <a *ngFor="let action of settings.rowActions" routerLink="{{action.link}}/{{row.id}}" class="{{action.aclass}}"><i *ngIf="action.isShow(row)" class="{{action.iclass}}"></i></a>
+        <!--<a routerLink="{{settings.actions.baseUrl}}/edit/{{row.id}}" class="alps-list-table-action-edit"><i class="ion-edit"></i></a>
+        <a routerLink="{{settings.actions.baseUrl}}/delete/{{row.id}}" class="alps-list-table-action-delete"><i class="ion-trash-a"></i></a>-->
+      </td>
+    </tr>
+
+
+  </tbody>
+  <tfoot class="alps-list-table-foot">    <tr *ngIf="!source || source.length===0"><td [attr.colspan]="settings.columns.length+1">无数据</td></tr></tfoot>
+</table>

@@ -1,0 +1,26 @@
+﻿.alps-list-table-action {
+  text-align: center;
+  width:10%;
+}
+
+.alps-list-table-action-add {
+  font-size: 18px !important;
+  color: #ffffff;
+}
+
+.alps-list-table-action-edit {
+  font-size: 14px !important;
+  color: #ffffff;
+  padding: 0 5px;
+  display: inline-block;
+}
+
+.alps-list-table-action-delete {
+  font-size: 14px !important;
+  color: #ffffff;
+  padding: 0 5px;
+  display: inline-block;
+}
+.alps-list-table-foot{
+text-align:center;
+}

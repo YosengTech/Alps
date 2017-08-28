@@ -1,0 +1,62 @@
+﻿@model Alps.Domain.ProductMgr.MaterialRequisitionItem
+<table class="table table-edit table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.ProductSkuInfo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Quantity)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Weight)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Price)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ProductNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PositionID)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Remark)
+			</th>
+			<th><a class="btn btn-default btn-sm" ng-click="addSubItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;新建</a></th>
+		</tr>
+	</thead>
+	<tr ng-repeat="subItem in item.Items">
+		<td>
+            <div productskuselector ng-model="subItem.ProductSkuInfo.SkuID" selectlist="ProductSkuWithCatagorySelectList" ng-change="productSelectionChanged(subItem)"></div>
+            @*<select name="SkuID" id="SkuID" class="form-control input-mini" ng-model="subItem.ProductSkuInfo.SkuID" ng-change="productSelectionChanged(subItem)" ng-options="selectList.SkuID as selectList.Name for selectList in ProductSkuIDSelectList"></select>*@
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Quantity" } })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Weight" } })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Price" } })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Amount" } })
+		</td>
+		<td>
+			@Html.EditorFor(model => model.ProductNumber, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.ProductNumber" } })
+		</td>
+		<td>
+            <select name="PositionID" id="PositionID" class="form-control input-mini" ng-model="subItem.PositionID" ng-options="selectList.ID as selectList.Name for selectList in PositionIDSelectList"></select>
+		</td>
+		<td>
+			@Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control input-mini", ng_model = "subItem.Remark" } })
+		</td>
+		<td>
+			<a class="btn btn-default btn-sm" ng-click="deleteSubItem($index)"><span class="glyphicon glyphicon-trash"></span>&nbsp;删除</a>   
+		</td>
+	</tr>
+</table>

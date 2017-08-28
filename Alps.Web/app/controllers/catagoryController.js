@@ -7,10 +7,10 @@ var Alps;
             function Catagory() {
             }
             return Catagory;
-        })();
+        }());
         Controllers.Catagory = Catagory;
         var CatagoryListCtrl = (function () {
-            function CatagoryListCtrl(scope, http, toaster) {
+            function CatagoryListCtrl(scope, http, toaster, routeParams) {
                 function getCatagoryList() {
                     http.get("/api/Catagory").success(function (data) {
                         scope.items = data;
@@ -20,12 +20,38 @@ var Alps;
                     });
                 }
                 ;
-                scope.getCatagoryList = getCatagoryList;
-                getCatagoryList();
+                function GetCatagoriesByParentID(id) {
+                    http.get("/action/catagory/GetCatagoriesByParentID/" + id).success(function (data) {
+                        scope.items = data;
+                        scope.currentParentID = id;
+                        toaster.success("提示", "载入成功");
+                    }).error(function (errData) {
+                        toaster.error("错误", Alps.phaseErr(errData));
+                    });
+                }
+                //scope.getCatagoryList = getCatagoryList;
+                GetCatagoriesByParentID(null);
+                scope.GetCatagoriesByParentID = GetCatagoriesByParentID;
+                scope.remove = function (scope) {
+                    scope.remove();
+                };
+                scope.toggle = function (scope) {
+                    scope.toggle();
+                };
+                scope.newSubItem = function (scope) {
+                    var nodeData = scope.$modelValue;
+                    if (nodeData.nodes == undefined)
+                        nodeData.nodes = [];
+                    nodeData.nodes.push({
+                        id: nodeData.id * 10 + nodeData.nodes.length,
+                        title: nodeData.title + '.' + (nodeData.nodes.length + 1),
+                        nodes: []
+                    });
+                };
             }
-            CatagoryListCtrl.$inject = ["$scope", "$http", "toaster"];
             return CatagoryListCtrl;
-        })();
+        }());
+        CatagoryListCtrl.$inject = ["$scope", "$http", "toaster", "$routeParams"];
         Controllers.CatagoryListCtrl = CatagoryListCtrl;
         var CatagoryCreateCtrl = (function () {
             function CatagoryCreateCtrl(scope, http, toaster, locationService, selectListService) {
@@ -50,9 +76,9 @@ var Alps;
                 scope.goBack = goBack;
                 getParentIDSelectList();
             }
-            CatagoryCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location", "SelectListService"];
             return CatagoryCreateCtrl;
-        })();
+        }());
+        CatagoryCreateCtrl.$inject = ["$scope", "$http", "toaster", "$location", "SelectListService"];
         Controllers.CatagoryCreateCtrl = CatagoryCreateCtrl;
         var CatagoryEditCtrl = (function () {
             function CatagoryEditCtrl(scope, http, toaster, locationService, routeParams, window, selectListService) {
@@ -107,9 +133,9 @@ var Alps;
                     locationService.path("/Catagory");
                 }
             }
-            CatagoryEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
             return CatagoryEditCtrl;
-        })();
+        }());
+        CatagoryEditCtrl.$inject = ["$scope", "$http", "toaster", "$location", "$routeParams", "$window", "SelectListService"];
         Controllers.CatagoryEditCtrl = CatagoryEditCtrl;
     })(Controllers = Alps.Controllers || (Alps.Controllers = {}));
 })(Alps || (Alps = {}));

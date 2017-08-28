@@ -1,0 +1,29 @@
+﻿<div class="widgets">
+  <!--<ba-card title="类别选择">
+    <alps-selector [options]="productOptions" [(ngModel)]="selectedProductID" (ngModelChange)="onProductIDChanged()"></alps-selector>
+  </ba-card>-->
+  <ba-card>
+      <a  routerLink="/admin/product/catagorylist/" style="color:#fff;">所有</a>&gt;&gt;
+    <span *ngFor="let path of catagoryPath">
+      <a routerLink="/admin/product/catagorylist/{{path.id}}" style="color:#fff;">{{path.name}}</a>&gt;&gt;
+    </span>
+  </ba-card>
+  <ba-card title="物品列表">
+  <table class="table  table-hover">
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th><a routerLink="/admin/product/catagoryedit" class="table-action-add" ><i class="ion ion-plus"></i></a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableSource">
+      <td>{{row.name}}</td>
+      <td><a routerLink="/admin/product/catagorylist/{{row.id}}" [queryParams]="{parentID:{{row.id}}}" class="table-action-edit"><i class="ion ion-navicon"></i></a></td>
+    </tr>
+  </tbody>
+  </table>
+
+    <!--<alps-list-table [settings]="tableSettings" [source]="tableSource"></alps-list-table>-->
+  </ba-card>
+</div>

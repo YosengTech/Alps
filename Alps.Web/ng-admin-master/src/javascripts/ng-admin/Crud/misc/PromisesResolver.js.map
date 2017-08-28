@@ -1,0 +1,1 @@
+{"version":3,"file":"PromisesResolver.js","sourceRoot":"","sources":["PromisesResolver.js"],"names":[],"mappings":"AAAA,iBAAiB;AACjB,MAAM,CAAC;IACH,YAAY,CAAC;IAEb,0BAA0B,gBAAgB;QACtC,MAAM,CAAC,gBAAgB,CAAC,mBAAmB,EAAE,CAAC;IAClD,CAAC;IAED,gBAAgB,CAAC,OAAO,GAAG,CAAC,kBAAkB,CAAC,CAAC;IAEhD,MAAM,CAAC,gBAAgB,CAAC;AAC5B,CAAC,CAAC,CAAC"}

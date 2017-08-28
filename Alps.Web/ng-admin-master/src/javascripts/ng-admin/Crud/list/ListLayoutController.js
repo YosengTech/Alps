@@ -1,4 +1,5 @@
 var ListLayoutController = function ($scope, $stateParams, $location, $timeout, view, dataStore) {
+    var _this = this;
     this.$scope = $scope;
     this.$stateParams = $stateParams;
     this.$location = $location;
@@ -10,35 +11,33 @@ var ListLayoutController = function ($scope, $stateParams, $location, $timeout, 
     this.loadingPage = false;
     this.search = $location.search().search ? JSON.parse($location.search().search) : {};
     this.filters = view.filters();
-    this.enabledFilters = this.filters.filter(filter => {
-        if (filter.pinned()) return true;
-        return this.search && (filter.name() in this.search)
+    this.enabledFilters = this.filters.filter(function (filter) {
+        if (filter.pinned())
+            return true;
+        return _this.search && (filter.name() in _this.search);
     });
     this.hasFilters = Object.keys(this.filters).length > 0;
     this.focusedFilterId = null;
     // required to pass enableFilter down 2 directives to the filterButton
     var self = this;
-    this.enableFilter = function(filter) {
+    this.enableFilter = function (filter) {
         self.enabledFilters.push(filter);
         self.focusedFilterId = filter.name();
-        $timeout(() => window.document.getElementById(self.focusedFilterId).focus(), 200);
-    }
+        $timeout(function () { return window.document.getElementById(self.focusedFilterId).focus(); }, 200);
+    };
     if (this.batchActions.length) {
         // required in scope to communicate with listView
-        $scope.selectionUpdater = selection => $scope.selection = selection;
+        $scope.selectionUpdater = function (selection) { return $scope.selection = selection; };
         $scope.selection = [];
     }
-
     $scope.$on('$destroy', this.destroy.bind(this));
 };
-
 ListLayoutController.prototype.destroy = function () {
     this.$scope = undefined;
     this.$stateParams = undefined;
     this.$location = undefined;
     this.dataStore = undefined;
 };
-
 ListLayoutController.$inject = ['$scope', '$stateParams', '$location', '$timeout', 'view', 'dataStore'];
-
 module.exports = ListLayoutController;
+//# sourceMappingURL=ListLayoutController.js.map

@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     function maDateColumn() {
         return {
             restrict: 'E',
@@ -10,7 +8,7 @@ define(function () {
                 value: '&',
                 field: '&'
             },
-            link: function(scope) {
+            link: function (scope) {
                 var field = scope.field();
                 scope.format = field.format();
                 if (!scope.format) {
@@ -20,8 +18,7 @@ define(function () {
             template: '<span>{{ value() | date:format }}</span>'
         };
     }
-
     maDateColumn.$inject = [];
-
     return maDateColumn;
 });
+//# sourceMappingURL=maDateColumn.js.map

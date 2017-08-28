@@ -1,8 +1,6 @@
 /*global define*/
-
 define(function () {
     'use strict';
-
     /**
      *
      * @param {$scope}               $scope
@@ -17,20 +15,16 @@ define(function () {
         this.menu = application.menu();
         this.applicationName = application.title();
         this.header = application.header();
-
         $scope.$on('$destroy', this.destroy.bind(this));
     };
-
     AppController.prototype.displayHome = function () {
         this.$state.go(this.$state.get('dashboard'));
     };
-
     AppController.prototype.destroy = function () {
         this.$scope = undefined;
         this.$state = undefined;
     };
-
     AppController.$inject = ['$scope', '$state', 'NgAdminConfiguration'];
-
     return AppController;
 });
+//# sourceMappingURL=AppController.js.map
